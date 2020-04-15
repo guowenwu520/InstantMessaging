@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MyLuntan</string>
+    <string name="home">首页</string>
+    <string name="learn">学习</string>
+    <string name="dynamic">动态</string>
+    <string name="information">消息</string>
+    <string name="mine">我的</string>
+</resources>
