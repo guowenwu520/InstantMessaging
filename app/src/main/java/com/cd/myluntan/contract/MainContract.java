@@ -4,6 +4,8 @@ public interface MainContract {
     interface Model{
 
     }
+
+    
     interface View{
         void bottomBarShow(int dy);
     }
