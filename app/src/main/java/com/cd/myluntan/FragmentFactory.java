@@ -14,7 +14,7 @@ public class FragmentFactory {
     private DynamicFragment dynamicFragment=null;
     private InformationFragment informationFragment=null;
     private MineFragment mineFragment=null;
-    
+
 
     private static final FragmentFactory instance=new FragmentFactory();
     private FragmentFactory(){}

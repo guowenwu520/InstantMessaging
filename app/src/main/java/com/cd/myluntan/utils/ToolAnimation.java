@@ -4,9 +4,15 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+
+import com.cd.myluntan.R;
 
 public class ToolAnimation {
     private static final String TAG = ToolAnimation.class.getCanonicalName();
@@ -320,5 +326,22 @@ public class ToolAnimation {
         });
         animatorSet.start();
     }
+
+    /**
+     * 旋转
+     */
+    public static void MyRotateAnimation(View view, int index, Context context) {
+        Animation animation=null;
+        if(index==0){
+            animation= AnimationUtils.loadAnimation(context, R.anim.cheang_dt);
+        }else {
+            animation= AnimationUtils.loadAnimation(context, R.anim.cheang_dtt);
+        }
+        animation.setFillAfter(true);
+        LinearInterpolator linearInterpolator=new LinearInterpolator();
+        animation.setInterpolator(linearInterpolator);
+        view.startAnimation(animation);
+    }
+
 
 }
