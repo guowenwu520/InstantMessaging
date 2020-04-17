@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -6,7 +6,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:fitsSystemWindows">true</item>
     </style>
 
     <style name="style_card_view" parent="CardView">
@@ -32,4 +31,7 @@
         <item name="android:textIsSelectable">true</item><!--可复制-->
     </style>
 
+    <style name="TabLayoutTextStyle">
+        <item name="android:textSize">18dp</item>
+    </style>
 </resources>

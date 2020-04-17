@@ -26,6 +26,7 @@ import com.cd.myluntan.R;
 import com.cd.myluntan.utils.ToolAnimation;
 import com.cd.myluntan.interfaceo.InterfaceCall;
 import com.cd.myluntan.ui.fragment.HomeTabFragment;
+import com.cd.myluntan.utils.WindowUitls;
 import com.jaeger.library.StatusBarUtil;
 
 public class MainActivity extends AppCompatActivity {

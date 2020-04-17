@@ -13,6 +13,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.cd.myluntan.adapter.HomeTabFragmentAdapter;
 import com.cd.myluntan.R;
+import com.cd.myluntan.utils.WindowUitls;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -30,6 +31,8 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        WindowUitls.setColorTopBar(getActivity(),R.color.colorPrimary);
+        WindowUitls.setColorTextTopBarWriter(getActivity());
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         initView(view);
         tabList.clear();

@@ -10,11 +10,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.cd.myluntan.R;
+import com.cd.myluntan.utils.WindowUitls;
 
 public class LearnFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        WindowUitls.setColorTopBar(getActivity(),R.color.colorPrimary);
+        WindowUitls.setColorTextTopBarWriter(getActivity());
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 

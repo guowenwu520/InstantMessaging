@@ -61,6 +61,7 @@
                 app:tabBackground="@android:color/white"
                 app:tabIndicatorColor="@color/colorPrimary"
                 app:tabIndicatorHeight="4dp"
+                app:tabIndicator="@drawable/tablayout_indicator"
                 app:tabMinWidth="40dp"
                 app:tabMode="scrollable"
                 app:tabPaddingEnd="5dp"
