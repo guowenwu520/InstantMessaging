@@ -24,8 +24,8 @@ public class ToolAnimation {
      *
      * @param view 添加动画的视图
      */
-    public void translationHideViewY(View view) {
-        translationHideViewY(view, 400L);
+    public static ObjectAnimator translationHideViewY(View view) {
+        return translationHideViewY(view, 400L);
     }
 
     /**
@@ -34,8 +34,8 @@ public class ToolAnimation {
      * @param view     添加动画的视图
      * @param duration 设置动画运行的时长
      */
-    public void translationHideViewY(View view, Long duration) {
-        translationHideViewY(view, duration, 0L);
+    public static ObjectAnimator translationHideViewY(View view, Long duration) {
+        return translationHideViewY(view, duration, 0L);
     }
 
     /**
@@ -45,26 +45,11 @@ public class ToolAnimation {
      * @param duration   设置动画运行的时长
      * @param startDelay 设置动画延迟播放时间
      */
-    public void translationHideViewY(View view, Long duration, Long startDelay) {
+    public static ObjectAnimator translationHideViewY(View view, Long duration, Long startDelay) {
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(view, "translationY", 0f, view.getHeight());
         objectAnimator.setDuration(duration);
         objectAnimator.setStartDelay(startDelay);
-        objectAnimator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                super.onAnimationStart(animation);
-                isTranslationShowAnimation = false;
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                isTranslationShowAnimation = true;
-                Log.d(TAG, "动画结束");
-            }
-        });
-
-        objectAnimator.start();
+        return objectAnimator;
     }
 
     /**
@@ -72,8 +57,8 @@ public class ToolAnimation {
      *
      * @param viewGroup 添加动画的视图
      */
-    public void translationHideViewY(ViewGroup viewGroup) {
-        translationHideViewY(viewGroup, 400L);
+    public static ObjectAnimator translationHideViewY(ViewGroup viewGroup) {
+        return translationHideViewY(viewGroup, 400L);
     }
 
     /**
@@ -82,8 +67,8 @@ public class ToolAnimation {
      * @param viewGroup 添加动画的视图
      * @param duration  设置动画运行的时长
      */
-    public void translationHideViewY(ViewGroup viewGroup, Long duration) {
-        translationHideViewY(viewGroup, duration, 0L);
+    public static ObjectAnimator translationHideViewY(ViewGroup viewGroup, Long duration) {
+        return translationHideViewY(viewGroup, duration, 0L);
     }
 
     /**
@@ -93,26 +78,11 @@ public class ToolAnimation {
      * @param duration   设置动画运行的时长
      * @param startDelay 设置动画延迟播放时间
      */
-    public void translationHideViewY(ViewGroup viewGroup, Long duration, Long startDelay) {
+    public static ObjectAnimator translationHideViewY(ViewGroup viewGroup, Long duration, Long startDelay) {
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(viewGroup, "translationY", 0f, viewGroup.getHeight());
         objectAnimator.setDuration(duration);
         objectAnimator.setStartDelay(startDelay);
-        objectAnimator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                super.onAnimationStart(animation);
-                isTranslationShowAnimation = false;
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                isTranslationShowAnimation = true;
-                Log.d(TAG, "动画结束");
-            }
-        });
-
-        objectAnimator.start();
+        return objectAnimator;
     }
 
     /**
@@ -120,8 +90,8 @@ public class ToolAnimation {
      *
      * @param view 添加动画的视图
      */
-    public void translationShowViewY(View view) {
-        translationShowViewY(view, 400L);
+    public static ObjectAnimator translationShowViewY(View view) {
+        return translationShowViewY(view, 400L);
     }
 
     /**
@@ -130,36 +100,21 @@ public class ToolAnimation {
      * @param view     添加动画的视图
      * @param duration 设置动画运行的时长
      */
-    public void translationShowViewY(View view, Long duration) {
-        translationShowViewY(view, duration, 0L);
+    public static ObjectAnimator translationShowViewY(View view, Long duration) {
+        return translationShowViewY(view, duration, 0L);
     }
 
     /**
      * Y平移动画
-     *
-     * @param view       添加动画的视图
+     *  @param view       添加动画的视图
      * @param duration   设置动画运行的时长
      * @param startDelay 设置动画延迟播放时间
      */
-    public void translationShowViewY(View view, Long duration, Long startDelay) {
+    public static ObjectAnimator translationShowViewY(View view, Long duration, Long startDelay) {
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(view, "translationY", (long) view.getHeight(), 0L);
         objectAnimator.setDuration(duration);
         objectAnimator.setStartDelay(startDelay);
-        objectAnimator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                super.onAnimationStart(animation);
-                isTranslationShowAnimation = false;
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                isTranslationShowAnimation = true;
-                Log.d(TAG, "动画结束");
-            }
-        });
-        objectAnimator.start();
+        return objectAnimator;
     }
 
     /**
@@ -167,8 +122,8 @@ public class ToolAnimation {
      *
      * @param viewGroup 添加动画的视图
      */
-    public void translationShowViewY(ViewGroup viewGroup) {
-        translationShowViewY(viewGroup, 400L);
+    public static ObjectAnimator translationShowViewY(ViewGroup viewGroup) {
+        return translationShowViewY(viewGroup, 400L);
     }
 
     /**
@@ -177,8 +132,8 @@ public class ToolAnimation {
      * @param viewGroup 添加动画的视图
      * @param duration  设置动画运行的时长
      */
-    public void translationShowViewY(ViewGroup viewGroup, Long duration) {
-        translationShowViewY(viewGroup, duration, 0L);
+    public static ObjectAnimator translationShowViewY(ViewGroup viewGroup, Long duration) {
+        return translationShowViewY(viewGroup, duration, 0L);
     }
 
     /**
@@ -188,143 +143,11 @@ public class ToolAnimation {
      * @param duration   设置动画运行的时长
      * @param startDelay 设置动画延迟播放时间
      */
-    public void translationShowViewY(ViewGroup viewGroup, Long duration, Long startDelay) {
+    public static ObjectAnimator translationShowViewY(ViewGroup viewGroup, Long duration, Long startDelay) {
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(viewGroup, "translationY", (long) viewGroup.getHeight(), 0L);
         objectAnimator.setDuration(duration);
         objectAnimator.setStartDelay(startDelay);
-        objectAnimator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                super.onAnimationStart(animation);
-                isTranslationShowAnimation = false;
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                isTranslationShowAnimation = true;
-                Log.d(TAG, "动画结束");
-            }
-        });
-        objectAnimator.start();
-    }
-
-    /**
-     * 缩小组件
-     *
-     * @param view
-     */
-    public void scaleNarrowView(View view) {
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 0f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 0f);
-        //组合动画
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(scaleX, scaleY);
-        animatorSet.setDuration(400);
-        animatorSet.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                super.onAnimationStart(animation);
-                isTranslationShowAnimation = false;
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                isTranslationShowAnimation = true;
-                Log.d(TAG, "scaleViewView== 动画结束");
-            }
-        });
-        animatorSet.start();
-    }
-
-    /**
-     * 缩小组件
-     *
-     * @param viewGroup
-     */
-    public void scaleNarrowView(final ViewGroup viewGroup) {
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(viewGroup, "scaleX", 1f, 0f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(viewGroup, "scaleY", 1f, 0f);
-        //组合动画
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(scaleX, scaleY);
-        animatorSet.setDuration(400);
-        animatorSet.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                super.onAnimationStart(animation);
-                isTranslationShowAnimation = false;
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                viewGroup.setVisibility(View.GONE);
-                isTranslationShowAnimation = true;
-                Log.d(TAG, "scaleViewView== 动画结束");
-            }
-        });
-        animatorSet.start();
-    }
-
-    /**
-     * 扩大
-     *
-     * @param view
-     */
-    public void scaleEnlargeView(View view) {
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 0f, 1f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 0f, 1f);
-        //组合动画
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(scaleX, scaleY);
-        animatorSet.setDuration(400);
-        animatorSet.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                super.onAnimationStart(animation);
-                isTranslationShowAnimation = false;
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                isTranslationShowAnimation = true;
-                Log.d(TAG, "scaleViewView== 动画结束");
-            }
-        });
-        animatorSet.start();
-    }
-
-    /**
-     * 扩大
-     *
-     * @param viewGroup
-     */
-    public void scaleEnlargeView(final ViewGroup viewGroup) {
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(viewGroup, "scaleX", 0f, 1f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(viewGroup, "scaleY", 0f, 1f);
-        //组合动画
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(scaleX, scaleY);
-        animatorSet.setDuration(400);
-        animatorSet.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                super.onAnimationStart(animation);
-                viewGroup.setVisibility(View.VISIBLE);
-                isTranslationShowAnimation = false;
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                isTranslationShowAnimation = true;
-                Log.d(TAG, "scaleViewView== 动画结束");
-            }
-        });
-        animatorSet.start();
+        return objectAnimator;
     }
 
     /**
@@ -342,6 +165,62 @@ public class ToolAnimation {
         animation.setInterpolator(linearInterpolator);
         view.startAnimation(animation);
     }
+    /**
+     * 扩大
+     *
+     * @param view
+     */
+    public static AnimatorSet scaleEnlargeView(View view) {
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 0f, 1f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 0f, 1f);
+        //组合动画
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(scaleX, scaleY);
+        animatorSet.setDuration(400);
+        return animatorSet;
+    }
 
+    /**
+     * 扩大
+     */
+    public static AnimatorSet scaleEnlargeView(ViewGroup viewGroup) {
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(viewGroup, "scaleX", 0f, 1f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(viewGroup, "scaleY", 0f, 1f);
+        //组合动画
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(scaleX, scaleY);
+        animatorSet.setDuration(400);
+        return animatorSet;
+    }
+
+    /**
+     * 缩小组件
+     *
+     * @param view
+     */
+    public static AnimatorSet scaleNarrowView(View view) {
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 0f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 0f);
+        //组合动画
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(scaleX, scaleY);
+        animatorSet.setDuration(400);
+        return animatorSet;
+    }
+
+    /**
+     * 缩小
+     * @param viewGroup
+     * @return
+     */
+    public static AnimatorSet scaleNarrowView(ViewGroup viewGroup) {
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(viewGroup, "scaleX", 1f, 0f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(viewGroup, "scaleY", 1f, 0f);
+        //组合动画
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(scaleX, scaleY);
+        animatorSet.setDuration(400);
+        return animatorSet;
+    }
 
 }

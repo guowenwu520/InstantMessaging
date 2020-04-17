@@ -1,5 +1,8 @@
 package com.cd.myluntan.ui.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,10 +32,10 @@ public class DynamicFragment extends BaseFragment {
     private ImageView release;
 
     private DynamicListAdapter dynamicListAdapter;
-    private ToolAnimation toolAnimation=new ToolAnimation();
 
-    private boolean isReleaseShow=true;
-    private ArrayList<String> tests=new ArrayList<>();
+    private boolean isReleaseShow = true;
+    private boolean isAnimationEnd = true;
+    private ArrayList<String> tests = new ArrayList<>();
 
     @Nullable
     @Override
@@ -48,14 +51,14 @@ public class DynamicFragment extends BaseFragment {
         release.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG,"点击===");
+                Log.d(TAG, "点击===");
             }
         });
     }
 
     private void initRecyclerView() {
         for (int i = 0; i < 10; i++) {
-            tests.add("teshi"+i);
+            tests.add("teshi" + i);
         }
         dynamicListAdapter = new DynamicListAdapter(view.getContext());
         dynamicListAdapter.setData(tests);
@@ -68,7 +71,7 @@ public class DynamicFragment extends BaseFragment {
                 loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING);
                 if (tests.size() < 100) {
                     dynamicListAdapter.setData(tests);
-                    Log.d(TAG,"onLoadMore===="+tests.size());
+                    Log.d(TAG, "onLoadMore====" + tests.size());
                     loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_COMPLETE);
                 } else {
                     // 显示加载到底的提示
@@ -79,11 +82,44 @@ public class DynamicFragment extends BaseFragment {
             @Override
             public void onScroll(RecyclerView recyclerView, int dx, int dy) {
                 interfaceCall.bottomBarShow(dy);
-                if (isReleaseShow &&dy>5&&toolAnimation.isTranslationShowAnimation){
-                    toolAnimation.scaleNarrowView(releaseCardView);
+                releaseCardViewAnimation(dy);
+            }
+
+            private void releaseCardViewAnimation(int dy) {
+                AnimatorSet animatorSet;
+                if (isReleaseShow && dy > 10 && isAnimationEnd) {
+                    animatorSet = ToolAnimation.scaleNarrowView(releaseCardView);
+                    animatorSet.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            super.onAnimationStart(animation);
+                            isAnimationEnd = false;
+                        }
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            isAnimationEnd = true;
+                            releaseCardView.setVisibility(View.GONE);
+                        }
+                    });
+                    animatorSet.start();
                     isReleaseShow = false;
-                }else if (!isReleaseShow &&dy<-5&&toolAnimation.isTranslationShowAnimation){
-                    toolAnimation.scaleEnlargeView(releaseCardView);
+                } else if (!isReleaseShow && dy < -10 && isAnimationEnd) {
+                    animatorSet = ToolAnimation.scaleEnlargeView(releaseCardView);
+                    animatorSet.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            super.onAnimationStart(animation);
+                            releaseCardView.setVisibility(View.VISIBLE);
+                            isAnimationEnd = false;
+                        }
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            isAnimationEnd = true;
+                        }
+                    });
+                    animatorSet.start();
                     isReleaseShow = true;
                 }
             }
@@ -91,7 +127,7 @@ public class DynamicFragment extends BaseFragment {
     }
 
     private void initView() {
-        recyclerView=view.findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.recyclerView);
         releaseCardView = view.findViewById(R.id.releaseCardView);
         release = view.findViewById(R.id.release);
     }

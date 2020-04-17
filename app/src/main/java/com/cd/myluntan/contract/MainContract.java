@@ -5,7 +5,7 @@ public interface MainContract {
 
     }
 
-    
+
     interface View{
         void bottomBarShow(int dy);
     }

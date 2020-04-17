@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public abstract class RecyclerViewOnScrollListenerAdapter extends RecyclerView.OnScrollListener {
     //用来标记是否正在向上滑动
     private boolean isSlidingUpward = false;
+
     @Override
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
@@ -28,7 +29,7 @@ public abstract class RecyclerViewOnScrollListenerAdapter extends RecyclerView.O
         super.onScrolled(recyclerView, dx, dy);
         // 大于0表示正在向上滑动，小于等于0表示停止或向下滑动
         isSlidingUpward = dy > 0;
-        onScroll(recyclerView,dx,dy);
+        onScroll(recyclerView, dx, dy);
     }
 
     /**
@@ -37,7 +38,6 @@ public abstract class RecyclerViewOnScrollListenerAdapter extends RecyclerView.O
     public abstract void onLoadMore();
 
     /**
-     *
      * @param recyclerView
      * @param dx
      * @param dy

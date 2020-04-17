@@ -31,4 +31,5 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textIsSelectable">true</item><!--可复制-->
     </style>
+
 </resources>

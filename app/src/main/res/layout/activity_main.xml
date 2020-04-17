@@ -11,101 +11,105 @@
         android:background="@color/bg_fragment">
 
     </FrameLayout>
+
     <RelativeLayout
-        android:id="@+id/bottom_relay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <androidx.cardview.widget.CardView
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:paddingTop="10dp"
-        app:cardCornerRadius="5dp"
-        app:cardElevation="5dp">
+        android:layout_height="wrap_content">
 
-        <RadioGroup
-            android:id="@+id/radioGroup"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/bottomRadioGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:paddingTop="10dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="5dp">
 
-            <RadioButton
-                android:id="@+id/radioButton1"
-                android:layout_width="0dp"
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:button="@null"
-                android:drawableTop="@drawable/bg_select_radio_home_button"
+                android:background="@android:color/white"
                 android:gravity="center"
-                android:text="@string/home"
-                android:textColor="@drawable/bg_select_radio_color_button" />
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioButton1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableTop="@drawable/bg_select_radio_home_button"
+                    android:gravity="center"
+                    android:text="@string/home"
+                    android:textColor="@drawable/bg_select_radio_color_button" />
 
 
-            <RadioButton
-                android:id="@+id/radioButton2"
-                android:textColor="@drawable/bg_select_radio_color_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:button="@null"
-                android:drawableTop="@drawable/bg_select_radio_leral_button"
-                android:gravity="center"
-                android:text="@string/learn" />
+                <RadioButton
+                    android:id="@+id/radioButton2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableTop="@drawable/bg_select_radio_leral_button"
+                    android:gravity="center"
+                    android:text="@string/learn"
+                    android:textColor="@drawable/bg_select_radio_color_button" />
 
-            <RadioButton
-                android:id="@+id/radioButton3"
-                android:layout_width="0dp"
-                android:textColor="@drawable/bg_select_radio_color_button"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:button="@null"
-                android:layout_gravity="bottom"
-                android:gravity="center"
-                android:text="@string/dynamic" />
+                <RadioButton
+                    android:id="@+id/radioButton3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/dynamic"
+                    android:textColor="@drawable/bg_select_radio_color_button" />
 
-            <RadioButton
-                android:id="@+id/radioButton4"
-                android:layout_width="0dp"
-                android:textColor="@drawable/bg_select_radio_color_button"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:button="@null"
-                android:drawableTop="@drawable/bg_select_radio_information_button"
-                android:gravity="center"
-                android:text="@string/information" />
+                <RadioButton
+                    android:id="@+id/radioButton4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableTop="@drawable/bg_select_radio_information_button"
+                    android:gravity="center"
+                    android:text="@string/information"
+                    android:textColor="@drawable/bg_select_radio_color_button" />
 
-            <RadioButton
-                android:id="@+id/radioButton5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textColor="@drawable/bg_select_radio_color_button"
-                android:layout_weight="1"
-                android:button="@null"
-                android:drawableTop="@drawable/bg_select_radio_my_button"
-                android:gravity="center"
-                android:text="@string/mine" />
-        </RadioGroup>
-    </androidx.cardview.widget.CardView>
-    <androidx.cardview.widget.CardView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignBottom="@id/bottomBar"
-        android:layout_marginBottom="16dp"
-        app:cardCornerRadius="30dp"
-        app:cardElevation="5dp">
-         <ImageView
-             android:src="@drawable/dynamic"
-             android:scaleType="fitXY"
-             android:layout_gravity="center"
-             android:id="@+id/dynamiv_img"
-             android:layout_width="40dp"
-             android:layout_height="40dp" />
-    </androidx.cardview.widget.CardView>
+                <RadioButton
+                    android:id="@+id/radioButton5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableTop="@drawable/bg_select_radio_my_button"
+                    android:gravity="center"
+                    android:text="@string/mine"
+                    android:textColor="@drawable/bg_select_radio_color_button" />
+            </RadioGroup>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignBottom="@id/bottomRadioGroup"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="5dp">
+
+            <ImageView
+                android:id="@+id/dynamiv_img"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
+                android:src="@drawable/dynamic" />
+        </androidx.cardview.widget.CardView>
     </RelativeLayout>
 </RelativeLayout>
