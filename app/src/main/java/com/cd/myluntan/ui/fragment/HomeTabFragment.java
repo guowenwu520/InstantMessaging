@@ -49,8 +49,8 @@ public class HomeTabFragment extends BaseFragment{
 
         return view;
     }
-//    public static void setInterfaceCall(InterfaceCall interfaceCall2) {
-//        interfaceCall = interfaceCall2;
+//    public static void setBottomUpdateCallback(BottomUpdateCallback interfaceCall2) {
+//        bottomUpdateCallback = interfaceCall2;
 //    }
 
     private void initRecyclerView(final View view) {
@@ -79,7 +79,7 @@ public class HomeTabFragment extends BaseFragment{
 
             @Override
             public void onScroll(RecyclerView recyclerView, int dx, int dy) {
-                interfaceCall.bottomBarShow(dy);
+                bottomUpdateCallback.bottomBarShow(dy);
             }
         });
 

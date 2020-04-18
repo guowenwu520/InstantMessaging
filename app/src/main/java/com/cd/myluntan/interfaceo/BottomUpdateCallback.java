@@ -1,5 +1,5 @@
 package com.cd.myluntan.interfaceo;
 
-public interface InterfaceCall {
+public interface BottomUpdateCallback {
     void bottomBarShow(int dy);
 }
