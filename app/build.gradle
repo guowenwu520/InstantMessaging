@@ -17,6 +17,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    //对Android 6.0使用旧版
+    useLibrary 'org.apache.http.legacy'
+
+    //自3.6.0开始需要java8的支持
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -34,4 +42,10 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'com.jaeger.statusbarutil:library:1.5.1'
     implementation 'com.android.support:design:28.0.0-alpha3'
+
+    // ====环信依赖配置 start===
+    implementation 'com.google.android.gms:play-services-base:11.4.0'
+    implementation 'com.google.firebase:firebase-messaging:11.4.0'
+    api 'com.hyphenate:hyphenate-sdk:3.6.1'
+    //=====环信依赖配置 end=====
 }

@@ -32,6 +32,8 @@ public class MyApplication extends Application {
         options.setAutoTransferMessageAttachments(true);
         // 是否自动下载附件类消息的缩略图等，默认为 true 这里和上边这个参数相关联
         options.setAutoDownloadThumbnail(true);
+        //不需要自动登录
+        options.setAutoLogin(false);
 
         //初始化
         EMClient.getInstance().init(app, options);

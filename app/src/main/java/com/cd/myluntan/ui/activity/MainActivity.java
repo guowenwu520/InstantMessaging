@@ -27,6 +27,8 @@ import com.cd.myluntan.utils.ToolAnimation;
 import com.cd.myluntan.interfaceo.InterfaceCall;
 import com.cd.myluntan.ui.fragment.HomeTabFragment;
 import com.cd.myluntan.utils.WindowUitls;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.jaeger.library.StatusBarUtil;
 
 public class MainActivity extends AppCompatActivity {
@@ -193,4 +195,21 @@ public class MainActivity extends AppCompatActivity {
         v.setCompoundDrawables(null, drawable, null, null);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EMClient.getInstance().logout(true, new EMCallBack() {
+            @Override
+            public void onSuccess() {
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+
+            }
+            @Override
+            public void onError(int code, String message) {
+            }
+        });
+    }
 }
