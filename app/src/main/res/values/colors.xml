@@ -37,6 +37,7 @@
     
     <!--蓝色-->
     <color name="blue_100">#c5cae9</color>
+    <color name="blue_200">#2B85D3</color>
     <color name="blue_500">#3f51b5</color>
     <color name="blue_700">#303f9f</color>
 
