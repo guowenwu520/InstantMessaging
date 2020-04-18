@@ -8,7 +8,7 @@ import com.cd.myluntan.adapter.EMCallBackAdapter;
 import com.cd.myluntan.contract.LoginContract;
 import com.hyphenate.chat.EMClient;
 
-public class LoginPresenter implements LoginContract.Presenter {
+public class LoginPresenter extends BasePresenter implements LoginContract.Presenter {
     private static final String TAG = LoginPresenter.class.getCanonicalName();
     private Context context;
     private LoginContract.View view;
@@ -44,15 +44,5 @@ public class LoginPresenter implements LoginContract.Presenter {
                 view.onLoginFailed(error(code));
             }
         });
-    }
-
-    private int error(int code) {
-        if (code == 304) {//304==无法访问服务器
-            return R.string.can_not_get_server;
-        } else if (code == 204) {//204== 用户不存在
-            return R.string.user_not_exist;
-        } else if (code == 202) {//202 用户名或密码错误
-            return R.string.username_or_password_is_wrong;
-        } else return R.string.username_or_password_is_null;
     }
 }

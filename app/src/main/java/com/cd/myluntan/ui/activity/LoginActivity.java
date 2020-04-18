@@ -81,8 +81,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 loginPresenter.login(username.getText().toString(), password.getText().toString());
                 break;
             case R.id.recoverPassword:
+                hidSoftKeyboard();
                 break;
             case R.id.register:
+                hidSoftKeyboard();
                 Intent intent=new Intent(LoginActivity.this,RegisterActivity.class);
                 startActivity(intent);
                 break;
@@ -104,7 +106,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void onLoginFailed(int error) {
         runOnUiThread(() -> {
             //登录失败
-            Toast.makeText(LoginActivity.this, getText(error), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getText(error), Toast.LENGTH_SHORT).show();
             login.setText(R.string.login);
             login.setEnabled(true);
         });
