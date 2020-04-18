@@ -75,6 +75,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login:
+                hidSoftKeyboard();
                 login.setText(R.string.logging_in);
                 login.setEnabled(false);
                 loginPresenter.login(username.getText().toString(), password.getText().toString());
@@ -82,6 +83,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case R.id.recoverPassword:
                 break;
             case R.id.register:
+                Intent intent=new Intent(LoginActivity.this,RegisterActivity.class);
+                startActivity(intent);
                 break;
         }
     }
