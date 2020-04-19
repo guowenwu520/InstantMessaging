@@ -198,18 +198,5 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EMClient.getInstance().logout(true, new EMCallBack() {
-            @Override
-            public void onSuccess() {
-            }
-
-            @Override
-            public void onProgress(int progress, String status) {
-
-            }
-            @Override
-            public void onError(int code, String message) {
-            }
-        });
     }
 }

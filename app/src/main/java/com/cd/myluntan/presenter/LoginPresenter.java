@@ -3,7 +3,6 @@ package com.cd.myluntan.presenter;
 import android.content.Context;
 import android.util.Log;
 
-import com.cd.myluntan.R;
 import com.cd.myluntan.adapter.EMCallBackAdapter;
 import com.cd.myluntan.contract.LoginContract;
 import com.hyphenate.chat.EMClient;
