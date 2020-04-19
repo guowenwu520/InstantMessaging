@@ -1,5 +1,9 @@
 package com.cd.myluntan.ui.fragment;
 
+/**
+ * 消息fragment
+ */
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +18,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cd.myluntan.R;
 import com.cd.myluntan.adapter.InformationListAdapter;
 import com.cd.myluntan.adapter.LoadMoreWrapper;
+import com.cd.myluntan.contract.InformationContract;
+import com.cd.myluntan.presenter.InformationPresenter;
 import com.cd.myluntan.utils.WindowUitls;
 
 import java.util.ArrayList;
 
-public class InformationFragment extends Fragment {
+public class InformationFragment extends Fragment implements InformationContract.View {
     private View view;
     private RecyclerView recyclerView;
 
+    private InformationPresenter informationPresenter;
     private InformationListAdapter informationListAdapter;
     private LoadMoreWrapper loadMoreWrapper;
     private ArrayList<String> tests=new ArrayList<>();
@@ -32,20 +39,28 @@ public class InformationFragment extends Fragment {
         WindowUitls.setColorTopBar(getActivity(), R.color.colorPrimary);
         WindowUitls.setColorTextTopBarWriter(getActivity());
         view = inflater.inflate(R.layout.fragment_information, container, false);
+        informationPresenter = new InformationPresenter(this);
         initView();
+        informationPresenter.loadConversations();
         return view;
     }
 
     private void initView() {
         recyclerView = view.findViewById(R.id.recyclerView);
-
-        for (int i = 0; i < 10; i++) {
-            tests.add("数据"+i);
-        }
         informationListAdapter = new InformationListAdapter(view.getContext());
-        informationListAdapter.setData(tests);
+        informationListAdapter.setData(informationPresenter.conversations);
         loadMoreWrapper = new LoadMoreWrapper(informationListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(loadMoreWrapper);
+    }
+
+    @Override
+    public void loadConversationSuccess() {
+        informationListAdapter.setData(informationPresenter.conversations);
+    }
+
+    @Override
+    public void loadConversationFailed() {
+
     }
 }

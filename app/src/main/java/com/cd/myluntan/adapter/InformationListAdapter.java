@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cd.myluntan.R;
+import com.hyphenate.chat.EMConversation;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ public class InformationListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private static final int TYPE_INFORMATION_CHAT = 1;
 
     private Context context;
-    private ArrayList<String> tests=new ArrayList<>();
+    private ArrayList<EMConversation> tests=new ArrayList<>();
 
     public InformationListAdapter(Context context) {
         this.context = context;
@@ -52,7 +53,7 @@ public class InformationListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         return null;
     }
 
-    public void setData(ArrayList<String> tests){
+    public void setData(ArrayList<EMConversation> tests){
         this.tests.addAll(tests);
         notifyDataSetChanged();
     }
@@ -64,7 +65,7 @@ public class InformationListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemCount() {
-        return tests.size();
+        return 10;
     }
 
     class InformationFunctionViewHolder extends RecyclerView.ViewHolder {
