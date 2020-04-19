@@ -8,26 +8,44 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.cd.myluntan.R;
+import com.cd.myluntan.adapter.InformationListAdapter;
+import com.cd.myluntan.adapter.LoadMoreWrapper;
 import com.cd.myluntan.utils.WindowUitls;
 
+import java.util.ArrayList;
+
 public class InformationFragment extends Fragment {
+    private View view;
+    private RecyclerView recyclerView;
+
+    private InformationListAdapter informationListAdapter;
+    private LoadMoreWrapper loadMoreWrapper;
+    private ArrayList<String> tests=new ArrayList<>();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        WindowUitls.setColorTopBar(getActivity(),R.color.colorPrimary);
+        WindowUitls.setColorTopBar(getActivity(), R.color.colorPrimary);
         WindowUitls.setColorTextTopBarWriter(getActivity());
-        return inflater.inflate(R.layout.fragment_home, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        view = inflater.inflate(R.layout.fragment_information, container, false);
         initView();
+        return view;
     }
 
     private void initView() {
+        recyclerView = view.findViewById(R.id.recyclerView);
 
+        for (int i = 0; i < 10; i++) {
+            tests.add("数据"+i);
+        }
+        informationListAdapter = new InformationListAdapter(view.getContext());
+        informationListAdapter.setData(tests);
+        loadMoreWrapper = new LoadMoreWrapper(informationListAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setAdapter(loadMoreWrapper);
     }
 }

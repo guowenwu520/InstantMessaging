@@ -2,7 +2,6 @@ package com.cd.myluntan.app;
 
 import android.app.Application;
 
-import com.cd.myluntan.data.db.MySQLiteHelper;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 
@@ -18,7 +17,6 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         app = this;
-        new MySQLiteHelper(this,"monitor.db",null,1);
         initEMOptions();
     }
 

@@ -17,7 +17,7 @@ public class LoadMoreWrapper extends RecyclerView.Adapter<RecyclerView.ViewHolde
     // 普通布局
     private final int TYPE_ITEM = 1;
     // 脚布局
-    private final int TYPE_FOOTER = 2;
+    private final int TYPE_FOOTER = -1;
     // 当前加载状态，默认为加载完成
     private int loadState = 2;
     // 正在加载
@@ -37,7 +37,7 @@ public class LoadMoreWrapper extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (position + 1 == getItemCount()) {
             return TYPE_FOOTER;
         } else {
-            return TYPE_ITEM;
+            return adapter.getItemViewType(position);
         }
     }
 

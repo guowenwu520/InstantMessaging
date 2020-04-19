@@ -3,7 +3,7 @@ package com.cd.myluntan.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -13,6 +13,7 @@ import com.cd.myluntan.contract.SplashContract;
 import com.cd.myluntan.presenter.SplashPresenter;
 
 public class SplashActivity extends BaseActivity implements SplashContract.View {
+    private static final String TAG =SplashActivity.class.getCanonicalName();
     private TextView jumpOver;
 
     private SplashPresenter splashPresenter;
@@ -44,11 +45,13 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
 
     @Override
     public void onNotLogin() {
+        Log.d(TAG,"onNotLogin");
         handler.postDelayed(runnable, 3000);//3秒后执行Runnable中的run方法
     }
 
     @Override
     public void onLogin() {
+        Log.d(TAG,"onLogin");
         Intent intent=new Intent(SplashActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
