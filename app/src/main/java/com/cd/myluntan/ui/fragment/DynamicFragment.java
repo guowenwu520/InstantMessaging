@@ -21,6 +21,7 @@ import com.cd.myluntan.adapter.LoadMoreWrapper;
 import com.cd.myluntan.R;
 import com.cd.myluntan.adapter.DynamicListAdapter;
 import com.cd.myluntan.adapter.RecyclerViewOnScrollListenerAdapter;
+import com.cd.myluntan.utils.Singletion;
 import com.cd.myluntan.utils.ToolAnimation;
 import com.cd.myluntan.utils.WindowUitls;
 import com.google.android.material.tabs.TabLayout;
@@ -53,7 +54,7 @@ public class DynamicFragment extends BaseFragment {
     private void initRelease() {
         viewPager.setAdapter(dynamic_top_fragmentAdapter);
         toolbar.setupWithViewPager(viewPager);
-        viewPager.setCurrentItem(0);
+        viewPager.setCurrentItem(Singletion.getInstance().getIndex());
     }
 
 

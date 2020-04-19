@@ -25,6 +25,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ui.activity.MainActivity"></activity>
+        <activity android:name=".ui.activity.Publish_Dynamic_Activity"/>
+        <activity android:name=".ui.activity.Dynamic_Details_Activity"/>
         <activity android:name=".ui.activity.LoginActivity">
 
         </activity>

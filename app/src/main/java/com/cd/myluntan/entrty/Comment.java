@@ -1,5 +1,7 @@
 package com.cd.myluntan.entrty;
 
+import java.util.ArrayList;
+
 /**
  * Created by 18179 on 2020/2/4.
  */
@@ -15,6 +17,16 @@ public class Comment {
     User usered;
    //回复或者评论
    String type;
+   //评论的回复
+    ArrayList<Comment> comments;
+
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
+    }
 
     public String getId() {
         return id;

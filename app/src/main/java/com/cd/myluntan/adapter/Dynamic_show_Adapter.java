@@ -1,6 +1,7 @@
 package com.cd.myluntan.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,31 +16,28 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.cd.myluntan.R;
 import com.cd.myluntan.entrty.Dynamic;
 import com.cd.myluntan.entrty.Praise;
 import com.cd.myluntan.entrty.User;
+import com.cd.myluntan.ui.activity.Dynamic_Details_Activity;
 import com.cd.myluntan.utils.Singletion;
 
 import java.util.ArrayList;
 
 public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-   boolean[] fing;
-    boolean[] fign;
     Context context;
-    private String NOKJIAN="0";
+    private int index=0;
     ArrayList<Dynamic> dynamics=new ArrayList<>();
     User myUser;
 
-    public Dynamic_show_Adapter(Context context, ArrayList<Dynamic> dynamics) {
+    public Dynamic_show_Adapter(Context context, ArrayList<Dynamic> dynamics, int i) {
         this.dynamics=dynamics;
         this.context=context;
         myUser= Singletion.getInstance().getUser();
-        fign=new boolean[dynamics.size()+1];
-        fing=new boolean[dynamics.size()+1];
+        index=i;
     }
 
     @Override
@@ -53,7 +51,7 @@ public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final Dynamic dynamic=dynamics.get(position);
         final myViewHolderClass myViewHolderClass= (Dynamic_show_Adapter.myViewHolderClass) holder;
-        updateList(myViewHolderClass,dynamic);
+        updateList(myViewHolderClass,dynamic,position);
     }
 
     @Override
@@ -86,7 +84,7 @@ public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    private void updateList(final myViewHolderClass myViewHolderClass, final Dynamic dynamic) {
+    private void updateList(final myViewHolderClass myViewHolderClass, final Dynamic dynamic, int position) {
         //用户消息
         User user=dynamic.getUser();
         myViewHolderClass.name.setText(user.getName());
@@ -122,8 +120,10 @@ public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.View
             @Override
             public void onClick(View v) {
                 if(isPraise(dynamic.getPraises())) {
+                    rmPraise(dynamic);
                     myViewHolderClass.praise.setImageResource(R.drawable.praise_normal);
                 }else {
+                    addPraise(dynamic);
                     myViewHolderClass.praise.setImageResource(R.drawable.praise_checked);
                 }
             }
@@ -132,7 +132,8 @@ public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.View
         myViewHolderClass.rl_commit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"点击了评论",Toast.LENGTH_LONG).show();
+                Singletion.getInstance().setDynamic(dynamic);
+                context.startActivity(new Intent(context, Dynamic_Details_Activity.class).putExtra("index",index).putExtra("postion",position));
             }
         });
         //点击更多
@@ -153,7 +154,8 @@ public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.View
         myViewHolderClass.content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"点击了内容",Toast.LENGTH_LONG).show();
+                Singletion.getInstance().setDynamic(dynamic);
+                context.startActivity(new Intent(context, Dynamic_Details_Activity.class).putExtra("index",index).putExtra("postion",position));
             }
         });
         //点击头像
@@ -173,6 +175,29 @@ public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.View
 //        myViewHolderClass.label_recycle.setLayoutManager(new GridLayoutManager(context,3));
     }
 
+    private void rmPraise(Dynamic dynamic) {
+        ArrayList<Praise> praises=dynamic.getPraises();
+        for (int i=0;i<praises.size();i++){
+            if(myUser.getId().equals(praises.get(i).getUser().getId())){
+                praises.remove(i);
+                break;
+            }
+        }
+        dynamic.setPraises(praises);
+        Singletion.getInstance().setDynamic(dynamic);
+        notifyDataSetChanged();
+    }
+
+    private void addPraise(Dynamic dynamic) {
+        Praise praise=new Praise();
+        praise.setUser(myUser);
+        praise.setDynamic_id(dynamic.getId());
+        praise.setId("1231231");
+        dynamic.getPraises().add(0,praise);
+        Singletion.getInstance().setDynamic(dynamic);
+        notifyDataSetChanged();
+    }
+
     private boolean isFollow(User user) {
         //关注逻辑
         return false;
@@ -180,7 +205,7 @@ public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.View
 
     private boolean isPraise(ArrayList<Praise> praises) {
         for (int i=0;i<praises.size();i++){
-            if(praises.get(i).getId().equals(myUser.getId())){
+            if(praises.get(i).getUser().getId().equals(myUser.getId())){
                 return true;
             }
         }

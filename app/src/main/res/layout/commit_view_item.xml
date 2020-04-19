@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:paddingBottom="20dp"
+    android:layout_height="wrap_content">
+     <include layout="@layout/praise_item_view"/>
+    <TextView
+        android:id="@+id/conternt"
+        android:paddingLeft="70dp"
+        android:textColor="@color/black"
+        android:paddingRight="20dp"
+        android:text="好好爱的fgbrftgbr市场上的人我说的成为十二调查 成为十二调查成为十二的错误而的"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:id="@+id/back_commit_rl"
+        android:background="@color/grey_200"
+        android:layout_marginLeft="70dp"
+        android:padding="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textColor="@color/blue_700"
+            android:id="@+id/commit_name"
+            android:text="名字:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/commit_nr"
+            android:textColor="@color/black"
+            android:layout_marginLeft="6dp"
+            android:text="后iuwsedfbhwseuicferf 日番谷vedrfvfved
+而非verfgfergf 而非个俄rt而非二
+"
+            android:layout_toRightOf="@id/commit_name"
+            android:layout_width="wrap_content"
+            android:paddingBottom="15dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="查看3条评论"
+            android:textColor="@color/blue_700"
+            android:layout_below="@id/commit_nr"
+            android:id="@+id/commit_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</LinearLayout>

@@ -32,11 +32,15 @@ import com.cd.myluntan.entrty.Label;
 import com.cd.myluntan.entrty.Praise;
 import com.cd.myluntan.entrty.User;
 import com.cd.myluntan.ui.activity.Publish_Dynamic_Activity;
+import com.cd.myluntan.utils.Singletion;
 import com.cd.myluntan.utils.ToolAnimation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.ISCOMMIT;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.NOCOMMIT;
 
 public class Dynsmic_Hot_Fragment extends BaseFragment {
     private final static String TAG = Dynsmic_Hot_Fragment.class.getCanonicalName();
@@ -64,7 +68,11 @@ public class Dynsmic_Hot_Fragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-
+        if(Singletion.getInstance().getDynamic()!=null) {
+            dynamics.set(Singletion.getInstance().getPostion(), Singletion.getInstance().getDynamic());
+            setDataDynamic(dynamics);
+            Singletion.getInstance().setDynamic(null);
+        }
     }
 
     private void initRelease() {
@@ -98,58 +106,63 @@ public class Dynsmic_Hot_Fragment extends BaseFragment {
     private void showLiuList(boolean isRefresh) {
         isLoading = true;
         dynamics=new ArrayList<>();
-        Dynamic dynamic=new Dynamic();
-        dynamic.setId("1111");
-        dynamic.setTime("12:12");
-        dynamic.setType("we");
-        dynamic.setMag("的输入法的乳房v堵塞封测人非常v二等分测温人非完人法国");
-        User user=new User();
-        user.setAge("23");
-        user.setHead_url("https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3675415932,4054970339&fm=26&gp=0.jpg");
-        user.setId("122332312");
-        user.setName("拉是的黑吧");
-        dynamic.setUser(user);
-        ArrayList<Comment> comments=new ArrayList<>();
-        Comment comment=new Comment();
-        comment.setId("23423");
-        comment.setCommit_mag("kykyky可以");
-        comment.setDynamic_id("1111");
-        comment.setCommit_time("12:23");
-        comment.setType("we");
-        comment.setUser(user);
-        comment.setUsered(user);
-        comments.add(comment);
-        comments.add(comment);
-        dynamic.setComments(comments);
-        ArrayList<Label> labels=new ArrayList<>();
-        Label label=new Label();
-        label.setId("123213");
-        label.setDynamic_id("1111");
-        label.setLabel_mag("科技");
-        labels.add(label);
-        labels.add(label);
-        dynamic.setLabels(labels);
-        ArrayList<Praise> praises=new ArrayList<>();
-        Praise praise=new Praise();
-        praise.setId("23234");
-        praise.setDynamic_id("1111");
-        praise.setUser(user);
-        praises.add(praise);
-        praises.add(praise);
-        dynamic.setPraises(praises);
-        ArrayList<Imgs> imgs=new ArrayList<>();
-        imgs.add(new Imgs("1111","https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3675415932,4054970339&fm=26&gp=0.jpg"));
-        dynamic.setImgs(imgs);
-        dynamics.add(dynamic);
-        dynamics.add(dynamic);
-        dynamics.add(dynamic);
-        dynamics.add(dynamic);
-        dynamics.add(dynamic);
-        dynamics.add(dynamic);
-        dynamics.add(dynamic);
-        dynamics.add(dynamic);
-        dynamics.add(dynamic);
-        dynamics.add(dynamic);
+        for (int i=0;i<20;i++){
+            Dynamic dynamic=new Dynamic();
+            dynamic.setId("1111"+i);
+            dynamic.setTime("12:12");
+            dynamic.setType("we");
+            dynamic.setMag("的输入法堵塞封测人非常v二等分测温人非完人法国"+i);
+            User user=new User();
+            user.setAge("23");
+            user.setSignaturnre("天天向上");
+            user.setHead_url("https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3675415932,4054970339&fm=26&gp=0.jpg");
+            user.setId("122332312"+i);
+            user.setName("拉是的黑吧");
+            dynamic.setUser(user);
+            ArrayList<Comment> comments=new ArrayList<>();
+            Comment comment=new Comment();
+            comment.setId("23423"+i);
+            comment.setCommit_mag("kykyky可以");
+            comment.setDynamic_id("1111"+i);
+            comment.setCommit_time("12:23");
+            comment.setType(NOCOMMIT);
+            comment.setUser(user);
+            comment.setUsered(user);
+            if (i==2){
+                comment.setType(ISCOMMIT);
+                ArrayList<Comment> comments1=new ArrayList<>();
+                comments1.add(comment);
+                comment.setComments(comments1);
+            }
+            if (i==3){
+                comment.setType(ISCOMMIT);
+                ArrayList<Comment> comments1=new ArrayList<>();
+                comments1.add(comment);
+                comments1.add(comment);
+                comment.setComments(comments1);
+            }
+            comments.add(comment);
+            comments.add(comment);
+            dynamic.setComments(comments);
+            ArrayList<Label> labels=new ArrayList<>();
+            Label label=new Label();
+            label.setId("123213");
+            label.setDynamic_id("1111"+i);
+            label.setLabel_mag("科技");
+            labels.add(label);
+            dynamic.setLabels(labels);
+            ArrayList<Praise> praises=new ArrayList<>();
+            Praise praise=new Praise();
+            praise.setId("23234"+i);
+            praise.setDynamic_id("1111"+i);
+            praise.setUser(user);
+            praises.add(praise);
+            dynamic.setPraises(praises);
+            ArrayList<Imgs> imgs=new ArrayList<>();
+            imgs.add(new Imgs("1111","https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3675415932,4054970339&fm=26&gp=0.jpg"));
+            dynamic.setImgs(imgs);
+            dynamics.add(dynamic);
+        }
         setDataDynamic(dynamics);
 
         if(isRefresh){
@@ -196,7 +209,7 @@ public class Dynsmic_Hot_Fragment extends BaseFragment {
     }
 
     private void setDataDynamic(ArrayList<Dynamic> dynamics) {
-        Dynamic_show_Adapter myRecycleViewClassAdapter=new Dynamic_show_Adapter(getContext(),dynamics);
+        Dynamic_show_Adapter myRecycleViewClassAdapter=new Dynamic_show_Adapter(getContext(),dynamics,0);
         recyclerView.setAdapter(myRecycleViewClassAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addOnScrollListener(new RecyclerViewOnScrollListenerAdapter() {
