@@ -54,6 +54,7 @@ dependencies {
     // ====环信依赖配置 start===
     implementation 'com.google.android.gms:play-services-base:11.4.0'
     implementation 'com.google.firebase:firebase-messaging:11.4.0'
-    api 'com.hyphenate:hyphenate-sdk:3.6.1'
+    compileOnly files('libs/hyphenatechat_3.6.3.jar')
+    implementation project(path: ':easeuis')
     //=====环信依赖配置 end=====
 }
