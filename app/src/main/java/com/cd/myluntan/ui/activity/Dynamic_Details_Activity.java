@@ -30,6 +30,7 @@ import com.cd.myluntan.entrty.Comment;
 import com.cd.myluntan.entrty.Dynamic;
 import com.cd.myluntan.entrty.Praise;
 import com.cd.myluntan.entrty.User;
+import com.cd.myluntan.interfaceo.OnClicktitem;
 import com.cd.myluntan.ui.customui.Picker;
 import com.cd.myluntan.ui.fragment.Commit_Fragment;
 import com.cd.myluntan.ui.fragment.Dynamic_New_Fragment;
@@ -312,6 +313,17 @@ public class Dynamic_Details_Activity extends AppCompatActivity {
         Photograph_Adapater photograph_adapater=new Photograph_Adapater(dynamic.getImgs(),Dynamic_Details_Activity.this);
         img_recycleview.setAdapter(photograph_adapater);
         img_recycleview.setLayoutManager(new GridLayoutManager(Dynamic_Details_Activity.this,3));
+        photograph_adapater.setOnClicktitem(new OnClicktitem() {
+            @Override
+            public void OnClick(View.OnClickListener onClickListener, int k) {
+
+            }
+
+            @Override
+            public void OnLongClick(View.OnLongClickListener onLongClickListener, int k) {
+
+            }
+        });
         //标签布局
 //        Label_Adapter label_adapter=new Label_Adapter(dynamic.getLabels(),Dynamic_Details_Activity.this);
 //        label_recycle.setAdapter(photograph_adapater);
