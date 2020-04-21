@@ -8,15 +8,15 @@ public class User {
      //密码
      String pass;
      //性别
-     String sex;
+     String sex="男";
      //年纪
-     String age;
+     String age="18";
      //头像
-     String head_url;
+     String head_url="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1245886665,169279313&fm=26&gp=0.jpg";
      //昵称
-     String nick;
+     String nick="diandian";
      //签名
-    String signaturnre;
+    String signaturnre="天天开心";
 
     public String getSignaturnre() {
         return signaturnre;

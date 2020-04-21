@@ -11,6 +11,8 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.cd.myluntan.R;
 import com.cd.myluntan.entrty.Imgs;
 import com.cd.myluntan.interfaceo.OnClicktitem;
@@ -45,9 +47,10 @@ public class Photograph_Adapater extends RecyclerView.Adapter<RecyclerView.ViewH
         Imgs devices=imgs.get(position);
       myViewHolderClassImg myViewHolderClass= (myViewHolderClassImg) holder;
       if(devices.getIMGS_COLUMN_NAME_IMGURL().equals("0")){
-          Glide.with(context).load(R.drawable.addimg).into(myViewHolderClass.imgss);
+          Glide.with(context).load(R.drawable.addimg).apply(RequestOptions.bitmapTransform(new RoundedCorners(20))).into(myViewHolderClass.imgss);
       }else {
-          Glide.with(context).load(devices.getIMGS_COLUMN_NAME_IMGURL()).into(myViewHolderClass.imgss);
+          //显示缩略图
+          Glide.with(context).load(devices.getIMGS_COLUMN_NAME_IMGURL()).apply(RequestOptions.bitmapTransform(new RoundedCorners(20))).thumbnail(0.1f).into(myViewHolderClass.imgss);
       }
     }
 
@@ -74,6 +77,7 @@ public class Photograph_Adapater extends RecyclerView.Adapter<RecyclerView.ViewH
 
         public myViewHolderClassImg(View itemView, OnClicktitem onClicktitem) {
             super(itemView);
+            this.onClicktitem=onClicktitem;
             imgss=itemView.findViewById(R.id.imgsing);
             itemView.setOnLongClickListener(this);
             itemView.setOnClickListener(this);

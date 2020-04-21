@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -58,6 +58,22 @@
     <style name="PopupAnimation" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/push_buttom_in</item>
         <item name="android:windowExitAnimation">@anim/push_buttom_out</item>
+    </style>
+<!--activity切换动画-->
+    <style name="Anim_fade" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="android:windowAnimationStyle">@style/fade</item>
+</style>
+
+    <style name="fade" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/fade_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/fade_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/fade_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/fade_out</item>
+    </style>
+
+    <style name="FixSystemWindowTheme" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
 </resources>

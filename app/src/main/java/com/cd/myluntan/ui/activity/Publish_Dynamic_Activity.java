@@ -1,6 +1,7 @@
 package com.cd.myluntan.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,12 +18,16 @@ import android.widget.Toast;
 
 import com.cd.myluntan.R;
 import com.cd.myluntan.adapter.Photograph_Adapater;
+import com.cd.myluntan.entrty.Dynamic;
 import com.cd.myluntan.entrty.Imgs;
 import com.cd.myluntan.interfaceo.OnClicktitem;
+import com.cd.myluntan.utils.Singletion;
+import com.cd.myluntan.utils.TimeUitl;
 import com.cd.myluntan.utils.WindowUitls;
 import com.donkingliang.imageselector.utils.ImageSelector;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Publish_Dynamic_Activity extends AppCompatActivity {
     private static final int REQUEST_CODE = 12;
@@ -44,12 +49,40 @@ public class Publish_Dynamic_Activity extends AppCompatActivity {
     }
 
     private void initEvent() {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        topTitle.setText("发布动态");
         sendDynamic.setVisibility(View.VISIBLE);
         //发布动态
         sendDynamic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String msg=Dyamic_msg_twxt.getText().toString().trim();
+                if(!msg.equals("")) {
+                    imgs.remove(imgs.size()-1);
+                    ArrayList<Dynamic> dynamics = Singletion.getInstance().getDynamics();
+                    Dynamic dynamic = new Dynamic();
+                    dynamic.setImgs(imgs);
+                    dynamic.setUser(Singletion.getInstance().getUser());
+                    dynamic.setPraises(new ArrayList<>());
+                    dynamic.setComments(new ArrayList<>());
+                    dynamic.setLabels(new ArrayList<>());
+                    dynamic.setMag(msg);
+                    dynamic.setId(System.currentTimeMillis()+"");
+                    dynamic.setTime(TimeUitl.DataToString(new Date()));
+                    dynamic.setType("232");
+                    dynamics.add(0,dynamic);
+                    Singletion.getInstance().setDynamics(dynamics);
+                    Toast.makeText(Publish_Dynamic_Activity.this,"发布成功",Toast.LENGTH_LONG).show();
+                    finish();
+                }else {
+                    Toast.makeText(Publish_Dynamic_Activity.this,"请输入",Toast.LENGTH_LONG).show();
 
+                }
             }
         });
         Dyamic_msg_twxt.addTextChangedListener(new TextWatcher() {
@@ -87,7 +120,7 @@ public class Publish_Dynamic_Activity extends AppCompatActivity {
         imgs.add(imgss);
         photograph_adapater=new Photograph_Adapater(imgs,Publish_Dynamic_Activity.this);
         recycle_img.setAdapter(photograph_adapater);
-        recycle_img.setLayoutManager(new LinearLayoutManager(Publish_Dynamic_Activity.this));
+        recycle_img.setLayoutManager(new GridLayoutManager(Publish_Dynamic_Activity.this,3));
         photograph_adapater.setOnClicktitem(new OnClicktitem() {
             @Override
             public void OnClick(View.OnClickListener onClickListener, int k) {
@@ -101,7 +134,8 @@ public class Publish_Dynamic_Activity extends AppCompatActivity {
                             .canPreview(true) //是否可以预览图片，默认为true
                             .start(Publish_Dynamic_Activity.this, REQUEST_CODE); // 打开相册
                 }else {
-
+                    Singletion.getInstance().setImgs(imgs);
+                    startActivity(new Intent(Publish_Dynamic_Activity.this, Show_Sing_images_Activity.class));
                 }
             }
 

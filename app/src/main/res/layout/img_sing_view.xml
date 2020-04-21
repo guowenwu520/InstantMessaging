@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">ing
   <ImageView
       android:id="@+id/imgsing"
-      android:scaleType="fitXY"
+      android:scaleType="center"
       android:layout_width="100dp"
       android:layout_height="100dp" />
 </RelativeLayout>

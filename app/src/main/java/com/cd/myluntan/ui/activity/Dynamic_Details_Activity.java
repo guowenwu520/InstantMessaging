@@ -69,7 +69,7 @@ public class Dynamic_Details_Activity extends AppCompatActivity {
     private TabLayout toolbar;
    private  Praise_Fragment praise_fragment;
    private  Commit_Fragment commit_fragment;
-
+  private  ArrayList<Photograph_Adapater> photograph_adapaters;
     private LinearLayout sendmsg_linearlayout;
     private EditText text_mssg;
     private  TextView send;
@@ -316,7 +316,8 @@ public class Dynamic_Details_Activity extends AppCompatActivity {
         photograph_adapater.setOnClicktitem(new OnClicktitem() {
             @Override
             public void OnClick(View.OnClickListener onClickListener, int k) {
-
+                Singletion.getInstance().setImgs(dynamic.getImgs());
+                startActivity(new Intent(Dynamic_Details_Activity.this, Show_Sing_images_Activity.class));
             }
 
             @Override
@@ -324,7 +325,7 @@ public class Dynamic_Details_Activity extends AppCompatActivity {
 
             }
         });
-        //标签布局
+         //标签布局
 //        Label_Adapter label_adapter=new Label_Adapter(dynamic.getLabels(),Dynamic_Details_Activity.this);
 //        label_recycle.setAdapter(photograph_adapater);
 //        label_recycle.setLayoutManager(new GridLayoutManager(Dynamic_Details_Activity.this,3));

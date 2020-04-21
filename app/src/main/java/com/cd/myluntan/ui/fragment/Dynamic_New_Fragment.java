@@ -108,63 +108,7 @@ public class Dynamic_New_Fragment extends BaseFragment{
     private void showLiuList(boolean isRefresh) {
         isLoading = true;
         dynamics=new ArrayList<>();
-        for (int i=0;i<20;i++){
-            Dynamic dynamic=new Dynamic();
-            dynamic.setId("1111"+i);
-            dynamic.setTime("12:12");
-            dynamic.setType("we");
-            dynamic.setMag("的输入法堵塞封测人非常v二等分测温人非完人法国"+i);
-            User user=new User();
-            user.setAge("23");
-            user.setHead_url("https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3675415932,4054970339&fm=26&gp=0.jpg");
-            user.setId("122332312"+i);
-            user.setSignaturnre("天天向上");
-            user.setName("拉是的黑吧");
-            dynamic.setUser(user);
-            ArrayList<Comment> comments=new ArrayList<>();
-            Comment comment=new Comment();
-            comment.setId("23423"+i);
-            comment.setCommit_mag("kykyky可以");
-            comment.setDynamic_id("1111"+i);
-            comment.setCommit_time("12:23");
-            comment.setType(NOCOMMIT);
-            comment.setUser(user);
-            comment.setUsered(user);
-            comments.add(comment);
-            comments.add(comment);
-            if (i==2){
-                comment.setType(ISCOMMIT);
-                ArrayList<Comment> comments1=new ArrayList<>();
-                comments1.add(comment);
-                comment.setComments(comments1);
-            }
-            if (i==3){
-                comment.setType(ISCOMMIT);
-                ArrayList<Comment> comments1=new ArrayList<>();
-                comments1.add(comment);
-                comments1.add(comment);
-                comment.setComments(comments1);
-            }
-            dynamic.setComments(comments);
-            ArrayList<Label> labels=new ArrayList<>();
-            Label label=new Label();
-            label.setId("123213");
-            label.setDynamic_id("1111"+i);
-            label.setLabel_mag("科技");
-            labels.add(label);
-             dynamic.setLabels(labels);
-            ArrayList<Praise> praises=new ArrayList<>();
-            Praise praise=new Praise();
-            praise.setId("23234"+i);
-            praise.setDynamic_id("1111"+i);
-            praise.setUser(user);
-            praises.add(praise);
-             dynamic.setPraises(praises);
-            ArrayList<Imgs> imgs=new ArrayList<>();
-            imgs.add(new Imgs("1111","https://dss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3675415932,4054970339&fm=26&gp=0.jpg"));
-            dynamic.setImgs(imgs);
-            dynamics.add(dynamic);
-        }
+        dynamics=Singletion.getInstance().getDynamics();
         setDataDynamic(dynamics);
 
         if(isRefresh){

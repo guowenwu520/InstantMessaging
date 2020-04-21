@@ -20,17 +20,17 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
 
     Handler handler = new Handler();
     Runnable runnable = () -> {
-        Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
-        startActivity(intent);
-        finish();
+//        Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
+//        startActivity(intent);
+        splashPresenter=new SplashPresenter(this,SplashActivity.this);
+        splashPresenter.checkLoginStatus();
     };
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        splashPresenter=new SplashPresenter(this);
-        splashPresenter.checkLoginStatus();
         setContentView(R.layout.activity_splash);
         jumpOver = findViewById(R.id.jumpOver);
+        handler.postDelayed(runnable, 100);//3秒后执行Runnable中的run方法
         initJumpOver();
     }
 
@@ -45,15 +45,28 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
 
     @Override
     public void onNotLogin() {
-        Log.d(TAG,"onNotLogin");
-        handler.postDelayed(runnable, 3000);//3秒后执行Runnable中的run方法
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG,"onNotLogin");
+                Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 
     @Override
     public void onLogin() {
         Log.d(TAG,"onLogin");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
         Intent intent=new Intent(SplashActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
+            }
+        });
     }
 }

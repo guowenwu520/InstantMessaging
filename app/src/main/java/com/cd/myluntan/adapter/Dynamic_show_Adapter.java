@@ -24,7 +24,9 @@ import com.cd.myluntan.R;
 import com.cd.myluntan.entrty.Dynamic;
 import com.cd.myluntan.entrty.Praise;
 import com.cd.myluntan.entrty.User;
+import com.cd.myluntan.interfaceo.OnClicktitem;
 import com.cd.myluntan.ui.activity.Dynamic_Details_Activity;
+import com.cd.myluntan.ui.activity.Show_Sing_images_Activity;
 import com.cd.myluntan.ui.customui.Picker;
 import com.cd.myluntan.utils.Singletion;
 import com.cd.myluntan.utils.WindowUitls;
@@ -183,6 +185,18 @@ public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.View
         Photograph_Adapater photograph_adapater=new Photograph_Adapater(dynamic.getImgs(),context);
         myViewHolderClass.img_recycleview.setAdapter(photograph_adapater);
         myViewHolderClass.img_recycleview.setLayoutManager(new GridLayoutManager(context,3));
+        photograph_adapater.setOnClicktitem(new OnClicktitem() {
+            @Override
+            public void OnClick(View.OnClickListener onClickListener, int k) {
+                  Singletion.getInstance().setImgs(dynamic.getImgs());
+                  context.startActivity(new Intent(context, Show_Sing_images_Activity.class));
+            }
+
+            @Override
+            public void OnLongClick(View.OnLongClickListener onLongClickListener, int k) {
+
+            }
+        });
         //标签布局
 //        Label_Adapter label_adapter=new Label_Adapter(dynamic.getLabels(),context);
 //        myViewHolderClass.label_recycle.setAdapter(photograph_adapater);

@@ -1,7 +1,10 @@
 package com.cd.myluntan.utils;
 
 import com.cd.myluntan.entrty.Dynamic;
+import com.cd.myluntan.entrty.Imgs;
 import com.cd.myluntan.entrty.User;
+
+import java.util.ArrayList;
 
 public class Singletion {
      private   User user=new User();
@@ -10,20 +13,36 @@ public class Singletion {
     private int index=0;
     //数据位置
     private  int postion=0;
+    private  ArrayList<Imgs> imgs;
     private  static   Singletion singletion;
-
+  //虚拟动态
+    private ArrayList<Dynamic> dynamics=new ArrayList<>();
     private Singletion() {
-        user.setId("23232");
-        user.setName("232323");
-        user.setHead_url("https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1245886665,169279313&fm=26&gp=0.jpg");
-        user.setSignaturnre("天天开心");
     }
+
+    public ArrayList<Imgs> getImgs() {
+        return imgs;
+    }
+
+    public void setImgs(ArrayList<Imgs> imgs) {
+        this.imgs = imgs;
+    }
+
     public  static  Singletion getInstance(){
         if(singletion==null){
             singletion=new Singletion();
         }
         return  singletion;
     }
+
+    public ArrayList<Dynamic> getDynamics() {
+        return dynamics;
+    }
+
+    public void setDynamics(ArrayList<Dynamic> dynamics) {
+        this.dynamics = dynamics;
+    }
+
     public User getUser() {
         return user;
     }
