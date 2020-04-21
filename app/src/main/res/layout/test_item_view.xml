@@ -21,17 +21,18 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/dividing_line" />
+            android:background="@color/grey_200" />
         <TextView
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/content_text_style"
             android:text="sdfsdfsdf失控奔驰几乎都是发送接口编程实践活动VS就会变成收到v吧收到红包吧v删除v检查v" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/dividing_line" />
+            android:background="@color/grey_200" />
         <LinearLayout
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
@@ -42,7 +43,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:background="@mipmap/ic_launcher_round" />
+                android:background="@drawable/my_checked" />
 
             <TextView
                 android:layout_marginLeft="5dp"
@@ -60,7 +61,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:background="@mipmap/ic_launcher_round" />
+                android:background="@drawable/praise_checked" />
 
             <TextView
                 android:layout_marginLeft="5dp"
@@ -73,7 +74,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:background="@mipmap/ic_launcher_round" />
+                android:background="@drawable/commit" />
             <TextView
                 android:layout_marginLeft="5dp"
                 android:layout_width="wrap_content"
