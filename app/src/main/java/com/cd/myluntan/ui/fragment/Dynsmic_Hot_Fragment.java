@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,10 +42,12 @@ import java.util.Map;
 
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.ISCOMMIT;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.NOCOMMIT;
+import static com.cd.myluntan.ui.customui.Picker.menuWindow;
 
 public class Dynsmic_Hot_Fragment extends BaseFragment {
     private final static String TAG = Dynsmic_Hot_Fragment.class.getCanonicalName();
     private RecyclerView recyclerView;
+    private RelativeLayout mian_lay;
     private CardView releaseCardView;
     private ImageView release;
     private View view;
@@ -94,12 +97,23 @@ public class Dynsmic_Hot_Fragment extends BaseFragment {
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (menuWindow != null && menuWindow.isShowing()) {
+            menuWindow.dismiss();
+            menuWindow = null;
+        }
+
+    }
+
     private void initView(View view) {
         release = view.findViewById(R.id.release);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
         releaseCardView = view.findViewById(R.id.releaseCardView);
         recyclerView=view.findViewById(R.id.recyclerView);
         loadmorePB = (ProgressBar) view.findViewById(R.id.pb_load_more);
+        mian_lay=view.findViewById(R.id.mian_lay);
         showLiuList(true);
     }
 
@@ -209,7 +223,7 @@ public class Dynsmic_Hot_Fragment extends BaseFragment {
     }
 
     private void setDataDynamic(ArrayList<Dynamic> dynamics) {
-        Dynamic_show_Adapter myRecycleViewClassAdapter=new Dynamic_show_Adapter(getContext(),dynamics,0);
+        Dynamic_show_Adapter myRecycleViewClassAdapter=new Dynamic_show_Adapter(getActivity(),dynamics,0,mian_lay);
         recyclerView.setAdapter(myRecycleViewClassAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addOnScrollListener(new RecyclerViewOnScrollListenerAdapter() {

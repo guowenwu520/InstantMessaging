@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,6 +47,7 @@ public class Dynamic_New_Fragment extends BaseFragment{
     private CardView releaseCardView;
     private ImageView release;
     private View view;
+    private RelativeLayout mian_lay;
     private int pageSize = 10;
     private int pageNum = 1;
     private boolean isLoading;
@@ -99,6 +101,7 @@ public class Dynamic_New_Fragment extends BaseFragment{
         releaseCardView = view.findViewById(R.id.releaseCardView);
         recyclerView=view.findViewById(R.id.recyclerView);
         loadmorePB = (ProgressBar) view.findViewById(R.id.pb_load_more);
+        mian_lay=view.findViewById(R.id.mian_lay);
         showLiuList(true);
     }
 
@@ -208,7 +211,7 @@ public class Dynamic_New_Fragment extends BaseFragment{
     }
 
     private void setDataDynamic(ArrayList<Dynamic> dynamics) {
-        Dynamic_show_Adapter myRecycleViewClassAdapter=new Dynamic_show_Adapter(getContext(),dynamics, 1);
+        Dynamic_show_Adapter myRecycleViewClassAdapter=new Dynamic_show_Adapter(getActivity(),dynamics, 1, mian_lay);
         recyclerView.setAdapter(myRecycleViewClassAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addOnScrollListener(new RecyclerViewOnScrollListenerAdapter() {

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:layout_alignParentBottom="true"
+    android:background="@color/toumingwhite">
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/picker_listview"
+        android:background="@drawable/button_bg"
+        android:choiceMode="singleChoice"
+        android:layout_marginBottom="10dp"
+        android:listSelector="#00000000" />
+    <Button
+        android:layout_below="@id/picker_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/picker_cancel"
+        android:id="@+id/picker_cancel"
+        android:background="@drawable/button_bg"
+        android:textColor="@color/blue_700" />
+</RelativeLayout>

@@ -1,5 +1,6 @@
 package com.cd.myluntan.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,19 +25,23 @@ import com.cd.myluntan.entrty.Dynamic;
 import com.cd.myluntan.entrty.Praise;
 import com.cd.myluntan.entrty.User;
 import com.cd.myluntan.ui.activity.Dynamic_Details_Activity;
+import com.cd.myluntan.ui.customui.Picker;
 import com.cd.myluntan.utils.Singletion;
+import com.cd.myluntan.utils.WindowUitls;
 
 import java.util.ArrayList;
 
 public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    Context context;
+    Activity context;
     private int index=0;
     ArrayList<Dynamic> dynamics=new ArrayList<>();
     User myUser;
+    View view;
 
-    public Dynamic_show_Adapter(Context context, ArrayList<Dynamic> dynamics, int i) {
+    public Dynamic_show_Adapter(Activity context, ArrayList<Dynamic> dynamics, int i, View activity) {
         this.dynamics=dynamics;
         this.context=context;
+        view=activity;
         myUser= Singletion.getInstance().getUser();
         index=i;
     }
@@ -140,14 +146,22 @@ public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.View
         myViewHolderClass.more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"点击了更多",Toast.LENGTH_LONG).show();
+                final String []wuran_headers ;
+                if(dynamic.getUser().getId().equals(myUser.getId())){
+                    wuran_headers=  context.getResources().getStringArray(R.array.my_more_string);;
+                }else {
+                    wuran_headers=  context.getResources().getStringArray(R.array.out_more_string);;
+                }
+
+                WindowUitls.ShowBottomBarSelect(context,wuran_headers,myViewHolderClass.rl_share);
             }
         });
         //点击分享
         myViewHolderClass.rl_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"点击了分享",Toast.LENGTH_LONG).show();
+                final String []wuran_headers =context.getResources().getStringArray(R.array.share_string);
+                WindowUitls.ShowBottomBarSelect(context,wuran_headers,myViewHolderClass.rl_share);
             }
         });
         //点击内容

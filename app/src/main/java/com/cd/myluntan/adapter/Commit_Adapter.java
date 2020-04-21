@@ -65,6 +65,11 @@ public class Commit_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.onClisterItem = onClisterItem;
     }
 
+    public void setDataAndFinal(ArrayList<Comment> comments) {
+        this.comments=comments;
+        notifyDataSetChanged();
+    }
+
     class  myViewHolderClass extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener{
         OnClicktitem onClisterItem;
         ImageView imghead;
@@ -86,6 +91,7 @@ public class Commit_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             super(itemView);
             this.onClisterItem=onClisterItem;
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
             follow=itemView.findViewById(R.id.follow);
             conternt=itemView.findViewById(R.id.conternt);
             back_commit_rl=itemView.findViewById(R.id.back_commit_rl);

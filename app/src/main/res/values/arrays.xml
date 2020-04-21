@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="my_more_string">
+        <item>收藏</item>
+        <item>删除</item>
+    </array>
+    <array name="out_more_string">
+        <item>收藏</item>
+        <item>举报</item>
+    </array>
+    <array name="share_string">
+        <item>转发</item>
+        <item>分享图片</item>
+    </array>
+</resources>

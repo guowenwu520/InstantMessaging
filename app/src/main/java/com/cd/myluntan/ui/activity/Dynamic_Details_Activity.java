@@ -26,9 +26,11 @@ import com.cd.myluntan.R;
 import com.cd.myluntan.adapter.Dynamic_Top_FragmentAdapter;
 import com.cd.myluntan.adapter.Dynamic_show_Adapter;
 import com.cd.myluntan.adapter.Photograph_Adapater;
+import com.cd.myluntan.entrty.Comment;
 import com.cd.myluntan.entrty.Dynamic;
 import com.cd.myluntan.entrty.Praise;
 import com.cd.myluntan.entrty.User;
+import com.cd.myluntan.ui.customui.Picker;
 import com.cd.myluntan.ui.fragment.Commit_Fragment;
 import com.cd.myluntan.ui.fragment.Dynamic_New_Fragment;
 import com.cd.myluntan.ui.fragment.Dynsmic_Hot_Fragment;
@@ -39,6 +41,12 @@ import com.cd.myluntan.utils.WindowUitls;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.ISCOMMIT;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.NOCOMMIT;
+import static com.cd.myluntan.ui.fragment.Commit_Fragment.ISCOMMITBACK;
+import static com.cd.myluntan.ui.fragment.Commit_Fragment.publiccomment;
+import static com.cd.myluntan.ui.fragment.Commit_Fragment.publick;
 
 public class Dynamic_Details_Activity extends AppCompatActivity {
     //top指示
@@ -94,41 +102,77 @@ public class Dynamic_Details_Activity extends AppCompatActivity {
         updateCommit_Praise();
         //评论发送
       //  Expand_input();
-        Contract_input();
-//        text_mssg.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if(hasFocus){
-//                    Expand_input();
-//                }else {
-//                    Contract_input();
-//                }
-//            }
-//        });
+        //Contract_input();
       send.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-
+              String inputtext=text_mssg.getText().toString().trim();
+              if(!inputtext.equals("")){
+                  if(!ISCOMMITBACK) {
+                      sendCommit(inputtext);
+                  }else {
+                      sendCommit(inputtext,publiccomment,publick);
+                  }
+              }else {
+                  Toast.makeText(Dynamic_Details_Activity.this,"输入",Toast.LENGTH_LONG).show();
+              }
           }
       });
     }
 
+    private void sendCommit(String inputtext) {
+        Comment comment=new Comment();
+        comment.setUsered(myUser);
+        comment.setUser(dynamic.getUser());
+        comment.setType(NOCOMMIT);
+        comment.setCommit_time("2323:34");
+        comment.setDynamic_id(dynamic.getId());
+        comment.setCommit_mag(inputtext);
+        comment.setId("23232");
+        dynamic.getComments().add(0,comment);
+         commit_fragment.setDataAndFinal(dynamic.getComments());
+        text_mssg.setText("");
+        updateList();
+        // Contract_input();
+    }
+
+    private void sendCommit(String inputtext, Comment comments2, int k) {
+        Comment comment=new Comment();
+        comment.setUsered(Singletion.getInstance().getUser());
+        comment.setUser(comments2.getUsered());
+        comment.setType(ISCOMMIT);
+        comment.setCommit_time("2323:34");
+        comment.setDynamic_id(comments2.getDynamic_id());
+        comment.setCommit_mag(inputtext);
+        comment.setId("23232");
+        comments2.setType(ISCOMMIT);
+        //如果还没有回复则直接添加
+        if(comments2.getComments()==null){
+            ArrayList<Comment> comments=new ArrayList<>();
+            comments.add(comment);
+            comments2.setComments(comments);
+        }else {
+            comments2.getComments().add(0, comment);
+        }
+        dynamic.getComments().set(k,comments2);
+        commit_fragment.setDataAndFinal(dynamic.getComments());
+        text_mssg.setText("");
+         //  updateList();
+        // Contract_input();
+    }
+
+
     private void Expand_input() {
         RelativeLayout.LayoutParams layoutParams= (RelativeLayout.LayoutParams) sendmsg_linearlayout.getLayoutParams();
-        layoutParams.height=DisplayUtils.dp2px(this,140);
+        layoutParams.height=DisplayUtils.dp2px(this,80);
         LinearLayout.LayoutParams layoutParams2= (LinearLayout.LayoutParams) text_mssg.getLayoutParams();
-        layoutParams2.height=DisplayUtils.dp2px(this,100);
+        layoutParams2.height=DisplayUtils.dp2px(this,40);
         sendmsg_linearlayout.setLayoutParams(layoutParams);
         text_mssg.setLayoutParams(layoutParams2);
         send.setVisibility(View.VISIBLE);
-        //打开软件盘
-//       text_mssg.setFocusable(true);
-//        text_mssg.setFocusableInTouchMode(true);
-//        text_mssg.requestFocus();
-        InputMethodManager imm = (InputMethodManager)text_mssg.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(text_mssg, 0);
-       // imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-
+        ISCOMMITBACK=false;
+        text_mssg.setHint("评论..");
+        WindowUitls.setOpenInput(text_mssg,this);
     }
 
     private void Contract_input() {
@@ -144,7 +188,7 @@ public class Dynamic_Details_Activity extends AppCompatActivity {
     private void updateCommit_Praise() {
         ArrayList<Fragment> list=new ArrayList<>();
         praise_fragment=new Praise_Fragment(dynamic.getPraises());
-        commit_fragment=new Commit_Fragment(dynamic.getComments());
+        commit_fragment=new Commit_Fragment(dynamic.getComments(),text_mssg);
         list.add(praise_fragment);
         list.add(commit_fragment);
         ArrayList<String> names=new ArrayList<>();
@@ -239,14 +283,22 @@ public class Dynamic_Details_Activity extends AppCompatActivity {
         more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(Dynamic_Details_Activity.this,"点击了更多",Toast.LENGTH_LONG).show();
+                final String []wuran_headers ;
+                if(dynamic.getUser().getId().equals(myUser.getId())){
+                    wuran_headers= getResources().getStringArray(R.array.my_more_string);;
+                }else {
+                    wuran_headers= getResources().getStringArray(R.array.out_more_string);;
+                }
+
+                WindowUitls.ShowBottomBarSelect(Dynamic_Details_Activity.this,wuran_headers,rl_share);
             }
         });
         //点击分享
         rl_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(Dynamic_Details_Activity.this,"点击了分享",Toast.LENGTH_LONG).show();
+                final String []wuran_headers = getResources().getStringArray(R.array.share_string);
+                WindowUitls.ShowBottomBarSelect(Dynamic_Details_Activity.this,wuran_headers,rl_share);
             }
         });
         //点击头像

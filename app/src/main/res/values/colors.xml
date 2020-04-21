@@ -45,4 +45,10 @@
     <color name="pink_100">#ff80ab</color>
     <color name="pink_200">#ff4081</color>
     <color name="pink_400">#f50057</color>
+    <!--绿色-->
+    <color name="greeg_100">#51FF08</color>
+    <color name="greeg_200">#07DF1D</color>
+    <color name="greeg_300">#05A00B</color>
+    <!--透明-->
+    <color name="toumingwhite">#00FFFFFF</color>
 </resources>
