@@ -27,6 +27,7 @@
     <string name="like_and_favorite">赞和收藏</string>
     <string name="add_attention">新增关注</string>
     <string name="comment_">评论和@</string>
+    <string name="not_see_message">【消息】</string>
     <string name="picker_cancel">取消</string>
     <string name="picker_done">完成</string>
 </resources>

@@ -18,13 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cd.myluntan.R;
 import com.cd.myluntan.adapter.InformationListAdapter;
 import com.cd.myluntan.adapter.LoadMoreWrapper;
+import com.cd.myluntan.adapter.RecyclerViewOnScrollListenerAdapter;
 import com.cd.myluntan.contract.InformationContract;
 import com.cd.myluntan.presenter.InformationPresenter;
 import com.cd.myluntan.utils.WindowUitls;
 
 import java.util.ArrayList;
 
-public class InformationFragment extends Fragment implements InformationContract.View {
+public class InformationFragment extends BaseFragment implements InformationContract.View {
     private View view;
     private RecyclerView recyclerView;
 
@@ -41,22 +42,38 @@ public class InformationFragment extends Fragment implements InformationContract
         view = inflater.inflate(R.layout.fragment_information, container, false);
         informationPresenter = new InformationPresenter(this);
         initView();
+        initRecyclerView();
         informationPresenter.loadConversations();
         return view;
     }
 
     private void initView() {
         recyclerView = view.findViewById(R.id.recyclerView);
+    }
+
+    private void initRecyclerView() {
         informationListAdapter = new InformationListAdapter(view.getContext());
         informationListAdapter.setData(informationPresenter.conversations);
         loadMoreWrapper = new LoadMoreWrapper(informationListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(loadMoreWrapper);
+        recyclerView.addOnScrollListener(new RecyclerViewOnScrollListenerAdapter() {
+            @Override
+            public void onLoadMore() {
+
+            }
+
+            @Override
+            public void onScroll(RecyclerView recyclerView, int dx, int dy) {
+                bottomUpdateCallback.bottomBarShow(dy);
+            }
+        });
     }
 
     @Override
     public void loadConversationSuccess() {
         informationListAdapter.setData(informationPresenter.conversations);
+        loadMoreWrapper.notifyDataSetChanged();
     }
 
     @Override
