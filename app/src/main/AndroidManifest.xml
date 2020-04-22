@@ -32,6 +32,7 @@
         <activity android:name=".ui.activity.LoginActivity"></activity>
         <activity android:name=".ui.activity.AttentionActivity"/>
         <activity android:name=".ui.activity.ChatActivity"/>
+        <activity android:name=".ui.activity.ContextMenuActivity"/>
         <activity
             android:name=".ui.activity.RegisterActivity"
             android:parentActivityName=".ui.activity.LoginActivity" />
@@ -80,7 +81,7 @@
         <!-- Android 7.0 文件共享配置，1.7.0之前必须配置，1.7.0后不需要 -->
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.fileprovider"
+            android:authorities="${applicationId}.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

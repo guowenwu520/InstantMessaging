@@ -125,10 +125,10 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     static final int ITEM_PICTURE = 2;
     static final int ITEM_LOCATION = 3;
     
-    protected int[] itemStrings = { R.string.attach_take_pic, R.string.attach_picture, R.string.attach_location };
-    protected int[] itemdrawables = { R.drawable.ease_chat_takepic_selector, R.drawable.ease_chat_image_selector,
-            R.drawable.ease_chat_location_selector };
-    protected int[] itemIds = { ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_LOCATION };
+    protected int[] itemStrings = {  R.string.attach_picture, R.string.attach_file };
+    protected int[] itemdrawables = { R.drawable.ease_chat_image_selector,
+            R.drawable.ease_chat_item_file };
+    protected int[] itemIds = { ITEM_PICTURE, ITEM_LOCATION };
     private boolean isMessageListInited;
     protected MyItemClickListener extendMenuItemClickListener;
     protected boolean isRoaming = false;
@@ -137,6 +137,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     private Handler typingHandler = null;
     // "正在输入"功能的开关，打开后本设备发送消息将持续发送cmd类型消息通知对方"正在输入"
     private boolean turnOnTyping;
+    private int REQUEST_CODE_SELECT_FILE=23;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -564,10 +565,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) { 
-            if (requestCode == REQUEST_CODE_CAMERA) { // capture new image
-                if (cameraFile != null && cameraFile.exists())
-                    sendImageMessage(cameraFile.getAbsolutePath());
-            } else if (requestCode == REQUEST_CODE_LOCAL) { // send local image
+           if (requestCode == REQUEST_CODE_LOCAL) { // send local image
                 if (data != null) {
                     Uri selectedImage = data.getData();
                     if (selectedImage != null) {
@@ -575,15 +573,12 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                     }
                 }
             } else if (requestCode == REQUEST_CODE_MAP) { // location
-                double latitude = data.getDoubleExtra("latitude", 0);
-                double longitude = data.getDoubleExtra("longitude", 0);
-                String locationAddress = data.getStringExtra("address");
-                if (locationAddress != null && !locationAddress.equals("")) {
-                    sendLocationMessage(latitude, longitude, locationAddress);
-                } else {
-                    Toast.makeText(getActivity(), R.string.unable_to_get_loaction, Toast.LENGTH_SHORT).show();
-                }
-                
+               if (data != null) {
+                   Uri uri = data.getData();
+                   if (uri != null) {
+                       sendFileByUri(uri);
+                   }
+               }
             } else if (requestCode == REQUEST_CODE_DING_MSG) { // To send the ding-type msg.
                 String msgContent = data.getStringExtra("msg");
                 EMLog.i(TAG, "To send the ding-type msg, content: " + msgContent);
@@ -789,14 +784,11 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 }
             }
             switch (itemId) {
-            case ITEM_TAKE_PICTURE:
-                selectPicFromCamera();
-                break;
             case ITEM_PICTURE:
                 selectPicFromLocal();
                 break;
             case ITEM_LOCATION:
-                startActivityForResult(new Intent(getActivity(), EaseBaiduMapActivity.class), REQUEST_CODE_MAP);
+                selectFileFromLocal();
                 break;
 
             default:
@@ -805,7 +797,15 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         }
 
     }
-    
+
+    protected void selectFileFromLocal() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+
+        startActivityForResult(intent, REQUEST_CODE_MAP);
+    }
+
     /**
      * input @
      * @param username

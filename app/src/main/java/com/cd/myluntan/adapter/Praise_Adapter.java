@@ -23,6 +23,7 @@ import com.cd.myluntan.entrty.Dynamic;
 import com.cd.myluntan.entrty.Praise;
 import com.cd.myluntan.entrty.User;
 import com.cd.myluntan.ui.activity.Dynamic_Details_Activity;
+import com.cd.myluntan.ui.activity.PersonalActivity;
 import com.cd.myluntan.utils.Singletion;
 
 import java.util.ArrayList;
@@ -113,7 +114,8 @@ public class Praise_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         myViewHolderClass. imghead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"点击了头像",Toast.LENGTH_LONG).show();
+                Singletion.getInstance().setOtherUser(user);
+                context.startActivity(new Intent(context, PersonalActivity.class));
             }
         });
     }

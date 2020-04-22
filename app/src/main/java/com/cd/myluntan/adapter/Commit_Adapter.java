@@ -1,6 +1,7 @@
 package com.cd.myluntan.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,8 @@ import com.cd.myluntan.entrty.Comment;
 import com.cd.myluntan.entrty.Praise;
 import com.cd.myluntan.entrty.User;
 import com.cd.myluntan.interfaceo.OnClicktitem;
+import com.cd.myluntan.ui.activity.Dynamic_Details_Activity;
+import com.cd.myluntan.ui.activity.PersonalActivity;
 import com.cd.myluntan.utils.Singletion;
 
 import java.util.ArrayList;
@@ -140,7 +143,8 @@ public class Commit_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         myViewHolderClass. imghead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"点击了头像",Toast.LENGTH_LONG).show();
+                Singletion.getInstance().setOtherUser(user);
+                context.startActivity(new Intent(context, PersonalActivity.class));
             }
         });
         //评论内容
@@ -156,7 +160,8 @@ public class Commit_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             myViewHolderClass.commit_name.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context,"点击栏码字",Toast.LENGTH_LONG).show();
+                    Singletion.getInstance().setOtherUser(comments.get(comments.size()-1).getUsered());
+                    context.startActivity(new Intent(context, PersonalActivity.class));
                 }
             });
             if(comments.size()<=1){

@@ -24,6 +24,7 @@ public class Show_Sing_images_Activity extends AppCompatActivity {
  ViewPager viewPager;
  TextView showpage;
  int maxnumber=0;
+ int index=0;
  ArrayList<Imgs> imgs=new ArrayList<>();
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -31,6 +32,7 @@ public class Show_Sing_images_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show__sing_images);
         imgs= Singletion.getInstance().getImgs();
+        index=getIntent().getIntExtra("index",0);
         initView();
         initShow();
     }
@@ -50,6 +52,7 @@ public class Show_Sing_images_Activity extends AppCompatActivity {
             showpage.setVisibility(View.GONE);
         }else {
             showpage.setVisibility(View.VISIBLE);
+            showpage.setText((index+1)+"/"+maxnumber);
             viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

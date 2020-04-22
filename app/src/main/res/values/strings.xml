@@ -30,4 +30,8 @@
     <string name="not_see_message">【消息】</string>
     <string name="picker_cancel">取消</string>
     <string name="picker_done">完成</string>
+    <string name="recall">撤回</string>
+    <string name="msg_recall_by_self">您撤回了一条消息</string>
+    <string name="msg_recall_by_user">%1$s 撤回了一条消息</string>
+
 </resources>

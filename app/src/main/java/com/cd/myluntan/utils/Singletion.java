@@ -7,7 +7,10 @@ import com.cd.myluntan.entrty.User;
 import java.util.ArrayList;
 
 public class Singletion {
+    //自己
      private   User user=new User();
+     //英语跳转
+    private  User otherUser;
     private Dynamic dynamic;
     //top指示
     private int index=0;
@@ -33,6 +36,14 @@ public class Singletion {
             singletion=new Singletion();
         }
         return  singletion;
+    }
+
+    public User getOtherUser() {
+        return otherUser;
+    }
+
+    public void setOtherUser(User otherUser) {
+        this.otherUser = otherUser;
     }
 
     public ArrayList<Dynamic> getDynamics() {

@@ -306,7 +306,8 @@ public class Dynamic_Details_Activity extends AppCompatActivity {
         imghead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(Dynamic_Details_Activity.this,"点击了头像",Toast.LENGTH_LONG).show();
+                Singletion.getInstance().setOtherUser(dynamic.getUser());
+               startActivity(new Intent(Dynamic_Details_Activity.this,PersonalActivity.class));
             }
         });
         //图片布局
@@ -317,7 +318,7 @@ public class Dynamic_Details_Activity extends AppCompatActivity {
             @Override
             public void OnClick(View.OnClickListener onClickListener, int k) {
                 Singletion.getInstance().setImgs(dynamic.getImgs());
-                startActivity(new Intent(Dynamic_Details_Activity.this, Show_Sing_images_Activity.class));
+                startActivity(new Intent(Dynamic_Details_Activity.this, Show_Sing_images_Activity.class).putExtra("index",k));
             }
 
             @Override

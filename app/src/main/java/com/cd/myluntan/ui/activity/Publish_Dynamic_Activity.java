@@ -135,7 +135,7 @@ public class Publish_Dynamic_Activity extends AppCompatActivity {
                             .start(Publish_Dynamic_Activity.this, REQUEST_CODE); // 打开相册
                 }else {
                     Singletion.getInstance().setImgs(imgs);
-                    startActivity(new Intent(Publish_Dynamic_Activity.this, Show_Sing_images_Activity.class));
+                    startActivity(new Intent(Publish_Dynamic_Activity.this, Show_Sing_images_Activity.class).putExtra("index",k));
                 }
             }
 

@@ -26,6 +26,7 @@ import com.cd.myluntan.entrty.Praise;
 import com.cd.myluntan.entrty.User;
 import com.cd.myluntan.interfaceo.OnClicktitem;
 import com.cd.myluntan.ui.activity.Dynamic_Details_Activity;
+import com.cd.myluntan.ui.activity.PersonalActivity;
 import com.cd.myluntan.ui.activity.Show_Sing_images_Activity;
 import com.cd.myluntan.ui.customui.Picker;
 import com.cd.myluntan.utils.Singletion;
@@ -178,7 +179,8 @@ public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.View
         myViewHolderClass.imghead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"点击了头像",Toast.LENGTH_LONG).show();
+                Singletion.getInstance().setOtherUser(dynamic.getUser());
+               context.startActivity(new Intent(context, PersonalActivity.class));
             }
         });
         //图片布局
@@ -189,7 +191,7 @@ public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.View
             @Override
             public void OnClick(View.OnClickListener onClickListener, int k) {
                   Singletion.getInstance().setImgs(dynamic.getImgs());
-                  context.startActivity(new Intent(context, Show_Sing_images_Activity.class));
+                  context.startActivity(new Intent(context, Show_Sing_images_Activity.class).putExtra("index",k));
             }
 
             @Override
