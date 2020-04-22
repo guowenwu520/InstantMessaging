@@ -49,9 +49,6 @@ public class HomeTabFragment extends BaseFragment{
 
         return view;
     }
-//    public static void setBottomUpdateCallback(BottomUpdateCallback interfaceCall2) {
-//        bottomUpdateCallback = interfaceCall2;
-//    }
 
     private void initRecyclerView(final View view) {
         for (int i = 0; i < 10; i++) {

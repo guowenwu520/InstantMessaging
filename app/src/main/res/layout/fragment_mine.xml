@@ -33,6 +33,7 @@
                 app:cardBackgroundColor="@color/orange_500">
 
                 <TextView
+                    android:id="@+id/signIn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
@@ -68,12 +69,14 @@
                     android:padding="10dp">
 
                     <ImageView
+                        android:id="@+id/avatar"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/addimg" />
+                        android:src="@drawable/my_checked" />
 
                     <TextView
+                        android:id="@+id/username"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -90,6 +93,7 @@
                     android:padding="5dp">
 
                     <LinearLayout
+                        android:id="@+id/attentionLL"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -97,20 +101,23 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/attentionNum"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"
                             android:text="5" />
 
                         <TextView
+                            android:id="@+id/attention"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:textColor="@color/black"
-                            android:text="关注" />
+                            android:text="@string/attention" />
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/fanLL"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -118,20 +125,23 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/fanNum"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"
                             android:text="100" />
 
                         <TextView
+                            android:id="@+id/fan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:textColor="@color/black"
-                            android:text="粉丝" />
+                            android:text="@string/fan" />
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/accessLL"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -139,20 +149,23 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/accessNum"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"
                             android:text="21" />
 
                         <TextView
+                            android:id="@+id/access"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:textColor="@color/black"
-                            android:text="访问" />
+                            android:text="@string/access" />
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/rankLL"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -160,17 +173,19 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/rankNum"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"
                             android:text="5" />
 
                         <TextView
+                            android:id="@+id/rank"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:textColor="@color/black"
-                            android:text="排名" />
+                            android:text="@string/rank" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -182,6 +197,7 @@
 
                         <TextView
                             android:id="@+id/personal"
+                            android:padding="5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
@@ -204,6 +220,7 @@
                 android:padding="10dp">
 
                 <LinearLayout
+                    android:id="@+id/dynamic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -228,6 +245,7 @@
                     android:layout_height="1dp"
                     android:background="@color/grey_200"/>
                 <LinearLayout
+                    android:id="@+id/topic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -253,6 +271,7 @@
                     android:layout_height="1dp"
                     android:background="@color/grey_200"/>
                 <LinearLayout
+                    android:id="@+id/history"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -281,6 +300,7 @@
             android:layout_margin="10dp">
 
             <LinearLayout
+                android:id="@+id/set"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"

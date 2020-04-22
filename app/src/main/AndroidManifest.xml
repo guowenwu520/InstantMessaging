@@ -30,6 +30,7 @@
         <activity android:name=".ui.activity.Publish_Dynamic_Activity" />
         <activity android:name=".ui.activity.Dynamic_Details_Activity" />
         <activity android:name=".ui.activity.LoginActivity"></activity>
+        <activity android:name=".ui.activity.EditProfileActivity"/>
         <activity android:name=".ui.activity.AttentionActivity"/>
         <activity android:name=".ui.activity.ChatActivity"/>
         <activity android:name=".ui.activity.ContextMenuActivity"/>
