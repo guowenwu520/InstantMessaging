@@ -1,6 +1,7 @@
 package com.cd.myluntan.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import com.cd.myluntan.ui.widget.LearnItemView;
 import java.util.ArrayList;
 
 public class LearnListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final String TAG = LearnListAdapter.class.getCanonicalName();
     private Context context;
     private ArrayList<LearnMaterials> materials;
 

@@ -81,4 +81,18 @@ public class User {
     public void setNick(String nick) {
         this.nick = nick;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", pass='" + pass + '\'' +
+                ", sex='" + sex + '\'' +
+                ", age='" + age + '\'' +
+                ", head_url='" + head_url + '\'' +
+                ", nick='" + nick + '\'' +
+                ", signaturnre='" + signaturnre + '\'' +
+                '}';
+    }
 }

@@ -40,4 +40,14 @@ public class LearnGroup {
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
+
+    @Override
+    public String toString() {
+        return "LearnGroup{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", learnMaterials=" + learnMaterials +
+                ", createDate=" + createDate +
+                '}';
+    }
 }

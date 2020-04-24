@@ -9,7 +9,7 @@ public class LearnMaterials {
     public static int TYPE_PRICE = -1;
 
     private String id;
-    private String author;//作者
+    private User author;//作者
     private String title;//标题
     private String image="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1245886665,169279313&fm=26&gp=0.jpg";//图片
     private int classHour;//课时
@@ -25,11 +25,11 @@ public class LearnMaterials {
         this.id = id;
     }
 
-    public String getAuthor() {
+    public User getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(User author) {
         this.author = author;
     }
 
@@ -79,5 +79,19 @@ public class LearnMaterials {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    @Override
+    public String toString() {
+        return "LearnMaterials{" +
+                "id='" + id + '\'' +
+                ", author=" + author +
+                ", title='" + title + '\'' +
+                ", image='" + image + '\'' +
+                ", classHour=" + classHour +
+                ", userNum=" + userNum +
+                ", price=" + price +
+                ", createDate=" + createDate +
+                '}';
     }
 }

@@ -16,12 +16,14 @@ import com.cd.myluntan.R;
 import com.cd.myluntan.adapter.LearnGroupListAdapter;
 import com.cd.myluntan.entrty.LearnGroup;
 import com.cd.myluntan.entrty.LearnMaterials;
+import com.cd.myluntan.entrty.User;
+import com.cd.myluntan.ui.activity.BaseActivity;
 import com.cd.myluntan.utils.WindowUitls;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class LearnFragment extends Fragment {
+public class LearnFragment extends BaseFragment {
     private static final String TAG = LearnFragment.class.getCanonicalName();
     private View view;
     private RecyclerView recyclerView;
@@ -56,6 +58,14 @@ public class LearnFragment extends Fragment {
         learnGroupListAdapter = new LearnGroupListAdapter(view.getContext());
         recyclerView.setAdapter(learnGroupListAdapter);
         learnGroupListAdapter.setData(learnGroups);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                bottomUpdateCallback.bottomBarShow(dy);
+            }
+        });
     }
 
     private void getData() {
@@ -68,7 +78,9 @@ public class LearnFragment extends Fragment {
             for (int j = 0; j < 4; j++) {
                 LearnMaterials learnMaterials1 = new LearnMaterials();
                 learnMaterials1.setId(new Date().getTime() + "");
-                learnMaterials1.setAuthor("作者" + j);
+                User user =new User();
+                user.setName("作者" + j);
+                learnMaterials1.setAuthor(user);
                 learnMaterials1.setClassHour(5);
                 learnMaterials1.setTitle("标题" + j);
                 learnMaterials1.setUserNum(1234);

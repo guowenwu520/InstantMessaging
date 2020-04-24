@@ -41,7 +41,7 @@ public class LearnItemView extends RelativeLayout {
     public void bindData(LearnMaterials learnMaterials) {
         Glide.with(context).load(learnMaterials.getImage()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(img);
         title.setText(learnMaterials.getTitle());
-        author.setText(learnMaterials.getAuthor());
+        author.setText(learnMaterials.getAuthor().getName());
         classHour.setText(String.valueOf(learnMaterials.getClassHour()));
         userNum.setText(String.valueOf(learnMaterials.getUserNum()));
         if (learnMaterials.getPrice()<0){

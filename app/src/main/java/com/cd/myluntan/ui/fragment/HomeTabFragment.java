@@ -1,90 +1,130 @@
 package com.cd.myluntan.ui.fragment;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.cd.myluntan.adapter.LoadMoreWrapper;
 import com.cd.myluntan.R;
-import com.cd.myluntan.ui.activity.MainActivity;
+import com.cd.myluntan.entrty.Home;
+import com.cd.myluntan.entrty.User;
 import com.cd.myluntan.adapter.HomeTabListAdapter;
-import com.cd.myluntan.adapter.RecyclerViewOnScrollListenerAdapter;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class HomeTabFragment extends BaseFragment{
     private final static String TAG = HomeTabFragment.class.getCanonicalName();
-    private Activity activity;
+    private View view;
     private RecyclerView recyclerView;
+    private SmartRefreshLayout smartRefreshLayout;
 
+    private HomeTabListAdapter homeTabListAdapter;
     private String name;
-    private ArrayList<String> homeTabList = new ArrayList<>();
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        activity = (MainActivity)context;//保存Context引用
-    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home_tab, container, false);
+        view = inflater.inflate(R.layout.fragment_home_tab, container, false);
         Bundle bundle = getArguments();
         name = bundle != null ? bundle.getString("name") : null;
         if (name == null) {
             name = "参数非法";
         }
-        initView(view);
-        initRecyclerView(view);
-
+        getData();
+        initView();
+        initSmartRefreshLayout();
         return view;
     }
 
-    private void initRecyclerView(final View view) {
-        for (int i = 0; i < 10; i++) {
-            homeTabList.add("数据"+i);
-        }
-
-        final HomeTabListAdapter homeTabListAdapter = new HomeTabListAdapter(view.getContext());
-        homeTabListAdapter.setData(homeTabList);
-        final LoadMoreWrapper loadMoreWrapper = new LoadMoreWrapper(homeTabListAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerView.setAdapter(loadMoreWrapper);
-        recyclerView.addOnScrollListener(new RecyclerViewOnScrollListenerAdapter() {
+    private void initSmartRefreshLayout() {
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemAnimator(null);
+        //垂直方向的2列
+        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        //防止Item切换
+        layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+        recyclerView.setLayoutManager(layoutManager);
+        final int spanCount = 2;
+        //解决底部滚动到顶部时，顶部item上方偶尔会出现一大片间隔的问题
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onLoadMore() {//加载跟多
-                loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING);
-                if (homeTabList.size() < 100) {
-                    homeTabListAdapter.setData(homeTabList);
-                    Log.d(TAG,"onLoadMore===="+homeTabList.size());
-                    loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_COMPLETE);
-                } else {
-                    // 显示加载到底的提示
-                    loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_END);
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                int[] first = new int[spanCount];
+                layoutManager.findFirstCompletelyVisibleItemPositions(first);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && (first[0] == 1 || first[1] == 1)) {
+                    layoutManager.invalidateSpanAssignments();
                 }
             }
 
             @Override
-            public void onScroll(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
                 bottomUpdateCallback.bottomBarShow(dy);
             }
         });
+        homeTabListAdapter = new HomeTabListAdapter(view.getContext());
+        recyclerView.setAdapter(homeTabListAdapter);
+        homeTabListAdapter.replaceAll(getData());
 
+        //设置下拉刷新和上拉加载监听
+        smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        homeTabListAdapter.replaceAll(getData());
+                        refreshLayout.finishRefresh();
+                    }
+                },2000);
+            }
+        });
+
+        //上拉加载监听
+        smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        homeTabListAdapter.addData(homeTabListAdapter.getItemCount(),getData());
+                        refreshLayout.finishLoadMore();
+                    }
+                },2000);
+            }
+        });
     }
 
-    private void initView(View view) {
+    private ArrayList<Home> getData(){
+        ArrayList<Home> homes=new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            Home home=new Home();
+            User user =new User();
+            user.setName("提花之秀"+i);
+            user.setAge(22+"");
+            user.setNick("飒飒"+i);
+            user.setSex("男");
+            home.setAuthor(user);
+            home.setTitle("标题太长不想写"+i);
+            home.setCreateDate(new Date());
+            homes.add(home);
+        }
+        return homes;
+    }
+
+    private void initView() {
         recyclerView =view.findViewById(R.id.recyclerView);
+        smartRefreshLayout =view.findViewById(R.id.smartRefreshLayout);
     }
-
-
 }

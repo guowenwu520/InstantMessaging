@@ -57,4 +57,6 @@ dependencies {
     compileOnly files('libs/hyphenatechat_3.6.3.jar')
     implementation project(path: ':easeuis')
     //=====环信依赖配置 end=====
+    //Android智能下拉刷新框架-SmartRefreshLayout
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
 }
