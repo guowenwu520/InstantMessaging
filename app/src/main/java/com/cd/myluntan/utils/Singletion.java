@@ -18,8 +18,6 @@ public class Singletion {
     private  int postion=0;
     private  ArrayList<Imgs> imgs;
     private  static   Singletion singletion;
-  //虚拟动态
-    private ArrayList<Dynamic> dynamics=new ArrayList<>();
     private Singletion() {
     }
 
@@ -46,13 +44,6 @@ public class Singletion {
         this.otherUser = otherUser;
     }
 
-    public ArrayList<Dynamic> getDynamics() {
-        return dynamics;
-    }
-
-    public void setDynamics(ArrayList<Dynamic> dynamics) {
-        this.dynamics = dynamics;
-    }
 
     public User getUser() {
         return user;

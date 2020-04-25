@@ -21,7 +21,6 @@ import com.hyphenate.easeui.model.styles.EaseMessageListItemStyle;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseChatMessageList;
 import com.hyphenate.easeui.widget.EaseChatMessageList.MessageListItemClickListener;
-import com.hyphenate.easeui.widget.EaseImageView;
 import com.hyphenate.util.DateUtils;
 
 import java.util.Date;
@@ -177,18 +176,7 @@ public abstract class EaseChatRow extends LinearLayout {
             if (userAvatarView != null) {
                 if (itemStyle.isShowAvatar()) {
                     userAvatarView.setVisibility(View.VISIBLE);
-                    EaseAvatarOptions avatarOptions = EaseUI.getInstance().getAvatarOptions();
-                    if(avatarOptions != null && userAvatarView instanceof EaseImageView){
-                        EaseImageView avatarView = ((EaseImageView)userAvatarView);
-                        if(avatarOptions.getAvatarShape() != 0)
-                            avatarView.setShapeType(avatarOptions.getAvatarShape());
-                        if(avatarOptions.getAvatarBorderWidth() != 0)
-                            avatarView.setBorderWidth(avatarOptions.getAvatarBorderWidth());
-                        if(avatarOptions.getAvatarBorderColor() != 0)
-                            avatarView.setBorderColor(avatarOptions.getAvatarBorderColor());
-                        if(avatarOptions.getAvatarRadius() != 0)
-                            avatarView.setRadius(avatarOptions.getAvatarRadius());
-                    }
+
                 } else {
                     userAvatarView.setVisibility(View.GONE);
                 }

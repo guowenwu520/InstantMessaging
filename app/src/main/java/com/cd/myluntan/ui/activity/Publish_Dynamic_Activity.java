@@ -18,16 +18,29 @@ import android.widget.Toast;
 
 import com.cd.myluntan.R;
 import com.cd.myluntan.adapter.Photograph_Adapater;
+import com.cd.myluntan.data_connection.Data_Access;
 import com.cd.myluntan.entrty.Dynamic;
 import com.cd.myluntan.entrty.Imgs;
+import com.cd.myluntan.interfaceo.NetworkCallback;
 import com.cd.myluntan.interfaceo.OnClicktitem;
 import com.cd.myluntan.utils.Singletion;
 import com.cd.myluntan.utils.TimeUitl;
 import com.cd.myluntan.utils.WindowUitls;
 import com.donkingliang.imageselector.utils.ImageSelector;
+import com.google.gson.Gson;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Response;
+
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.ADDDYNAMIC;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.ADDIMGHS;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 
 public class Publish_Dynamic_Activity extends AppCompatActivity {
     private static final int REQUEST_CODE = 12;
@@ -63,20 +76,41 @@ public class Publish_Dynamic_Activity extends AppCompatActivity {
             public void onClick(View v) {
                 String msg=Dyamic_msg_twxt.getText().toString().trim();
                 if(!msg.equals("")) {
+                    String dynamicid=System.currentTimeMillis()+"";
                     imgs.remove(imgs.size()-1);
-                    ArrayList<Dynamic> dynamics = Singletion.getInstance().getDynamics();
                     Dynamic dynamic = new Dynamic();
-                    dynamic.setImgs(imgs);
-                    dynamic.setUser(Singletion.getInstance().getUser());
+                    dynamic.setUserid(Singletion.getInstance().getUser().getId());
                     dynamic.setPraises(new ArrayList<>());
                     dynamic.setComments(new ArrayList<>());
                     dynamic.setLabels(new ArrayList<>());
                     dynamic.setMag(msg);
-                    dynamic.setId(System.currentTimeMillis()+"");
+                    dynamic.setId(dynamicid);
                     dynamic.setTime(TimeUitl.DataToString(new Date()));
                     dynamic.setType("232");
-                    dynamics.add(0,dynamic);
-                    Singletion.getInstance().setDynamics(dynamics);
+                    Data_Access.AccessJSONDate(URL + ADDDYNAMIC, new Gson().toJson(dynamic), new NetworkCallback() {
+                        @Override
+                        public Object parseNetworkResponse(Response response) {
+                            return null;
+                        }
+
+                        @Override
+                        public void onError(Call call, Exception e) {
+
+                        }
+
+                        @Override
+                        public void onResponse(Object response) {
+
+                        }
+                    });
+                    ArrayList<File>  files=new ArrayList<>();
+                    for (int i=0;i<imgs.size();i++){
+                        Imgs img=imgs.get(i);
+                        files.add(new File(img.imgurl));
+                    }
+                    Map<String,String> map=new HashMap<>();
+                    map.put("id",dynamicid);
+                    Data_Access.sendMultipart(URL+ADDIMGHS,map,"file",files);
                     Toast.makeText(Publish_Dynamic_Activity.this,"发布成功",Toast.LENGTH_LONG).show();
                     finish();
                 }else {
@@ -116,7 +150,7 @@ public class Publish_Dynamic_Activity extends AppCompatActivity {
             }
         });
         Imgs imgss=new Imgs();
-        imgss.setIMGS_COLUMN_NAME_IMGURL("0");
+        imgss.setImgurl("0");
         imgs.add(imgss);
         photograph_adapater=new Photograph_Adapater(imgs,Publish_Dynamic_Activity.this);
         recycle_img.setAdapter(photograph_adapater);
@@ -125,7 +159,7 @@ public class Publish_Dynamic_Activity extends AppCompatActivity {
             @Override
             public void OnClick(View.OnClickListener onClickListener, int k) {
                 Imgs imga=imgs.get(k);
-                if(imga.getIMGS_COLUMN_NAME_IMGURL().equals("0")){
+                if(imga.getImgurl().equals("0")){
                     ImageSelector.builder()
                             .useCamera(true) // 设置是否使用拍照
                             .setSingle(false)  //设置是否单选
@@ -169,11 +203,11 @@ public class Publish_Dynamic_Activity extends AppCompatActivity {
               imgs.clear();
               for (int i=0;i<selectimg.size();i++){
                    Imgs img=new Imgs();
-                   img.setIMGS_COLUMN_NAME_IMGURL(selectimg.get(i));
+                   img.setImgurl(selectimg.get(i));
                    imgs.add(img);
               }
             Imgs img=new Imgs();
-            img.setIMGS_COLUMN_NAME_IMGURL("0");
+            img.setImgurl("0");
             imgs.add(img);
             photograph_adapater.setImgsandfilsh(imgs);
         }

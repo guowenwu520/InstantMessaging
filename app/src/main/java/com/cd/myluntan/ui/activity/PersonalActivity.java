@@ -14,7 +14,6 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.cd.myluntan.R;
 import com.cd.myluntan.entrty.User;
-import com.cd.myluntan.interfaceo.OnClicktitem;
 import com.cd.myluntan.utils.Constant;
 import com.cd.myluntan.utils.Singletion;
 import com.cd.myluntan.utils.WindowUitls;
@@ -36,7 +35,7 @@ public class PersonalActivity extends BaseActivity  implements View.OnClickListe
         setContentView(R.layout.activity_personal);
         WindowUitls.setColorTopBar(this,R.color.white);
         WindowUitls.setColorTextTopBarBlack(this);
-        user= Singletion.getInstance().getUser();
+        user= Singletion.getInstance().getOtherUser();
         myUser=Singletion.getInstance().getUser();
         initView();
         initShow();
@@ -51,7 +50,7 @@ public class PersonalActivity extends BaseActivity  implements View.OnClickListe
         });
         topTitle.setText("我的主页");
         name.setText(user.getNick()!=null?user.getNick():user.getName());
-        Glide.with(this).load(user.getHead_url()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(head_url);
+        Glide.with(this).load(user.getHeadUrl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(head_url);
         myid.setText(user.getId());
         sign.setText(user.getSignaturnre());
         //关注人数
@@ -144,7 +143,7 @@ public class PersonalActivity extends BaseActivity  implements View.OnClickListe
                 break;
             //私信
             case R.id.chat:
-                startActivity(new Intent(this,ChatActivity.class).putExtra("chatType", Constant.CHATTYPE_SINGLE).putExtra("userId", user.getName()));
+                startActivity(new Intent(this,ChatActivity.class).putExtra("chatType", Constant.CHATTYPE_SINGLE).putExtra("userId", user.getName()).putExtra("imgurl",user.getHeadUrl()));
                 break;
         }
     }

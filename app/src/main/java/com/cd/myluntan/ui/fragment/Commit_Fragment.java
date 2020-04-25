@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cd.myluntan.R;
 import com.cd.myluntan.adapter.Commit_Adapter;
 import com.cd.myluntan.adapter.Praise_Adapter;
+import com.cd.myluntan.data_connection.Data_Access;
 import com.cd.myluntan.entrty.Comment;
 import com.cd.myluntan.entrty.Praise;
 import com.cd.myluntan.interfaceo.OnClicktitem;
@@ -27,21 +28,25 @@ import com.cd.myluntan.utils.Singletion;
 import com.cd.myluntan.utils.WindowUitls;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.DELETECOMMENT;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.ISCOMMIT;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.NOCOMMIT;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 
 public class Commit_Fragment extends Fragment {
     RecyclerView recyclerView;
     ArrayList<Comment> comments=new ArrayList<>();
     Commit_Adapter commit_adapter;
-    EditText textView;
+    EditText textView; TextView commitNum;
    public static  Comment publiccomment;
     public  static  int publick;
     public  static   boolean ISCOMMITBACK=false;
-    public Commit_Fragment(ArrayList<Comment> comments, EditText text_mssg) {
+    public Commit_Fragment(ArrayList<Comment> comments, EditText text_mssg, TextView commitNum) {
         this.comments=comments;
-        textView=text_mssg;
+        textView=text_mssg;this.commitNum=commitNum;
     }
 
     @Nullable
@@ -75,7 +80,11 @@ public class Commit_Fragment extends Fragment {
                 alertDialog.setMessage("确认删除？").setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Map<String ,String> map=new HashMap<>();
+                        map.put("id",comments.get(k).getId());
+                        Data_Access.AccessStringDate(URL+DELETECOMMENT,map,null);
                         comments.remove(k);
+                        commitNum.setText(comments.size()+"");
                         setDataAndFinal(comments);
                         dialog.dismiss();
                     }

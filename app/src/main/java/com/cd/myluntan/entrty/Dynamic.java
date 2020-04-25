@@ -25,6 +25,7 @@ public class Dynamic {
    //动态类型
     String type;
 
+    String userid;
     public ArrayList<Imgs> getImgs() {
         return imgs;
     }
@@ -43,6 +44,14 @@ public class Dynamic {
 
     public String getType() {
         return type;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 
     public void setType(String type) {
@@ -95,5 +104,21 @@ public class Dynamic {
 
     public void setPraises(ArrayList<Praise> praises) {
         this.praises = praises;
+    }
+
+    @Override
+    public String toString() {
+        return "Dynamic{" +
+                "id='" + id + '\'' +
+                ", time='" + time + '\'' +
+                ", user=" + user +
+                ", mag='" + mag + '\'' +
+                ", imgs=" + imgs +
+                ", comments=" + comments +
+                ", praises=" + praises +
+                ", labels=" + labels +
+                ", type='" + type + '\'' +
+                ", userid='" + userid + '\'' +
+                '}';
     }
 }

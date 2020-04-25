@@ -14,8 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cd.myluntan.R;
+import com.cd.myluntan.entrty.User;
 import com.cd.myluntan.ui.activity.AttentionActivity;
 import com.cd.myluntan.ui.activity.ChatActivity;
+import com.cd.myluntan.utils.Constant;
+import com.cd.myluntan.utils.Singletion;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
@@ -122,9 +125,9 @@ public class InformationListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, ChatActivity.class);
-                    intent.putExtra("username",tests.get(getLayoutPosition()).conversationId());
-                    context.startActivity(intent);
+                    User user= Singletion.getInstance().getUser();Singletion.getInstance().setOtherUser(user);
+                    Intent intent = new Intent(context, ChatActivity.class).putExtra("chatType", Constant.CHATTYPE_SINGLE).putExtra("userId", user.getName()).putExtra("imgurl",user.getHeadUrl());
+                     context.startActivity(intent);
                 }
             });
         }

@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 public class Comment {
    String id;
-   String Dynamic_id;
-    String commit_mag;
-    String commit_time;
+   String dynamicid;
+    String commitmag;
+    String committime;
    //评论者
    User user;
    //被评论者
@@ -19,6 +19,8 @@ public class Comment {
    String type;
    //评论的回复
     ArrayList<Comment> comments;
+    String userid;
+    String useredid;
 
     public ArrayList<Comment> getComments() {
         return comments;
@@ -26,6 +28,46 @@ public class Comment {
 
     public void setComments(ArrayList<Comment> comments) {
         this.comments = comments;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public String getDynamicid() {
+        return dynamicid;
+    }
+
+    public void setDynamicid(String dynamicid) {
+        this.dynamicid = dynamicid;
+    }
+
+    public String getCommitmag() {
+        return commitmag;
+    }
+
+    public void setCommitmag(String commitmag) {
+        this.commitmag = commitmag;
+    }
+
+    public String getCommittime() {
+        return committime;
+    }
+
+    public void setCommittime(String committime) {
+        this.committime = committime;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    public String getUseredid() {
+        return useredid;
+    }
+
+    public void setUseredid(String useredid) {
+        this.useredid = useredid;
     }
 
     public String getId() {
@@ -36,29 +78,6 @@ public class Comment {
         this.id = id;
     }
 
-    public String getDynamic_id() {
-        return Dynamic_id;
-    }
-
-    public void setDynamic_id(String dynamic_id) {
-        Dynamic_id = dynamic_id;
-    }
-
-    public String getCommit_mag() {
-        return commit_mag;
-    }
-
-    public void setCommit_mag(String commit_mag) {
-        this.commit_mag = commit_mag;
-    }
-
-    public String getCommit_time() {
-        return commit_time;
-    }
-
-    public void setCommit_time(String commit_time) {
-        this.commit_time = commit_time;
-    }
 
     public User getUser() {
         return user;
@@ -82,5 +101,21 @@ public class Comment {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id='" + id + '\'' +
+                ", dynamicid='" + dynamicid + '\'' +
+                ", commitmag='" + commitmag + '\'' +
+                ", committime='" + committime + '\'' +
+                ", user=" + user +
+                ", usered=" + usered +
+                ", type='" + type + '\'' +
+                ", comments=" + comments +
+                ", userid='" + userid + '\'' +
+                ", useredid='" + useredid + '\'' +
+                '}';
     }
 }

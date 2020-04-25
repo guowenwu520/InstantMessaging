@@ -6,12 +6,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,27 +21,33 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.cd.myluntan.R;
 import com.cd.myluntan.adapter.Dynamic_Top_FragmentAdapter;
-import com.cd.myluntan.adapter.Dynamic_show_Adapter;
 import com.cd.myluntan.adapter.Photograph_Adapater;
+import com.cd.myluntan.data_connection.Data_Access;
 import com.cd.myluntan.entrty.Comment;
 import com.cd.myluntan.entrty.Dynamic;
 import com.cd.myluntan.entrty.Praise;
 import com.cd.myluntan.entrty.User;
 import com.cd.myluntan.interfaceo.OnClicktitem;
-import com.cd.myluntan.ui.customui.Picker;
 import com.cd.myluntan.ui.fragment.Commit_Fragment;
-import com.cd.myluntan.ui.fragment.Dynamic_New_Fragment;
-import com.cd.myluntan.ui.fragment.Dynsmic_Hot_Fragment;
 import com.cd.myluntan.ui.fragment.Praise_Fragment;
 import com.cd.myluntan.utils.DisplayUtils;
 import com.cd.myluntan.utils.Singletion;
+import com.cd.myluntan.utils.TimeUitl;
 import com.cd.myluntan.utils.WindowUitls;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.ADDCOMMENT;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.ADDPRAISE;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.DELETEPRAISE;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.ISCOMMIT;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.NOCOMMIT;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 import static com.cd.myluntan.ui.fragment.Commit_Fragment.ISCOMMITBACK;
 import static com.cd.myluntan.ui.fragment.Commit_Fragment.publiccomment;
 import static com.cd.myluntan.ui.fragment.Commit_Fragment.publick;
@@ -125,14 +128,18 @@ public class Dynamic_Details_Activity extends AppCompatActivity {
         Comment comment=new Comment();
         comment.setUsered(myUser);
         comment.setUser(dynamic.getUser());
+        comment.setUseredid(myUser.getId());
+        comment.setUserid(dynamic.getUser().getId());
         comment.setType(NOCOMMIT);
-        comment.setCommit_time("2323:34");
-        comment.setDynamic_id(dynamic.getId());
-        comment.setCommit_mag(inputtext);
-        comment.setId("23232");
+        comment.setCommittime(TimeUitl.DataToString(new Date()));
+        comment.setDynamicid(dynamic.getId());
+        comment.setCommitmag(inputtext);
+        comment.setId(System.currentTimeMillis()+"");
         dynamic.getComments().add(0,comment);
          commit_fragment.setDataAndFinal(dynamic.getComments());
         text_mssg.setText("");
+        Data_Access.AccessJSONDate(URL+ADDCOMMENT,new Gson().toJson(comment),null);
+
         updateList();
         // Contract_input();
     }
@@ -142,9 +149,9 @@ public class Dynamic_Details_Activity extends AppCompatActivity {
         comment.setUsered(Singletion.getInstance().getUser());
         comment.setUser(comments2.getUsered());
         comment.setType(ISCOMMIT);
-        comment.setCommit_time("2323:34");
-        comment.setDynamic_id(comments2.getDynamic_id());
-        comment.setCommit_mag(inputtext);
+        comment.setCommittime("2323:34");
+        comment.setDynamicid(comments2.getDynamicid());
+        comment.setCommitmag(inputtext);
         comment.setId("23232");
         comments2.setType(ISCOMMIT);
         //如果还没有回复则直接添加
@@ -189,7 +196,7 @@ public class Dynamic_Details_Activity extends AppCompatActivity {
     private void updateCommit_Praise() {
         ArrayList<Fragment> list=new ArrayList<>();
         praise_fragment=new Praise_Fragment(dynamic.getPraises());
-        commit_fragment=new Commit_Fragment(dynamic.getComments(),text_mssg);
+        commit_fragment=new Commit_Fragment(dynamic.getComments(),text_mssg,commitNum);
         list.add(praise_fragment);
         list.add(commit_fragment);
         ArrayList<String> names=new ArrayList<>();
@@ -233,7 +240,7 @@ public class Dynamic_Details_Activity extends AppCompatActivity {
         //用户消息
         User user=dynamic.getUser();
         name.setText(user.getName());
-        Glide.with(Dynamic_Details_Activity.this).load(user.getHead_url()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(imghead);
+        Glide.with(Dynamic_Details_Activity.this).load(user.getHeadUrl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(imghead);
         //评论
         time.setText(dynamic.getTime());
         content.setText(dynamic.getMag());
@@ -336,6 +343,9 @@ public class Dynamic_Details_Activity extends AppCompatActivity {
         ArrayList<Praise> praises=dynamic.getPraises();
         for (int i=0;i<praises.size();i++){
             if(myUser.getId().equals(praises.get(i).getUser().getId())){
+                Map<String,String> map=new HashMap<>();
+                map.put("id",praises.get(i).getId());
+                Data_Access.AccessStringDate(URL+DELETEPRAISE,map,null);
                 praises.remove(i);
                 break;
             }
@@ -348,9 +358,11 @@ public class Dynamic_Details_Activity extends AppCompatActivity {
     private void addPraise(Dynamic dynamic) {
         Praise praise=new Praise();
         praise.setUser(myUser);
-        praise.setDynamic_id(dynamic.getId());
-        praise.setId("1231231");
+        praise.setDynamicid(dynamic.getId());
+        praise.setId(System.currentTimeMillis()+"");
+        praise.setUserid(myUser.getId());
         dynamic.getPraises().add(0,praise);
+        Data_Access.AccessJSONDate(URL+ADDPRAISE,new Gson().toJson(praise),null);
         praise_fragment.setPraisesAndFlsh(dynamic.getPraises());
         updateList();
     }

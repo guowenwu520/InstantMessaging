@@ -42,7 +42,7 @@ public class Show_Sing_images_Activity extends AppCompatActivity {
         ArrayList<Fragment> fragments=new ArrayList<>();
 
         for (int i=0;i<imgs.size();i++){
-            if(!imgs.get(i).getIMGS_COLUMN_NAME_IMGURL().equals("0")) {
+            if(!imgs.get(i).getImgurl().equals("0")) {
                 maxnumber++;
                 fragments.add(new Show_Sing_Image_Fragment(imgs.get(i)));
             }

@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
@@ -92,6 +93,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
     protected static final int TYPING_SHOW_TIME = 5000;
 
+    public  static   String IMGURL;
     /**
      * params to fragment
      */
@@ -157,6 +159,9 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         chatType = fragmentArgs.getInt(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
         // userId you are chat with or group id
         toChatUsername = fragmentArgs.getString(EaseConstant.EXTRA_USER_ID);
+//        EaseUser user=EaseUserUtils.getUserInfo(toChatUsername);
+//        IMGURL= fragmentArgs.getString("imgurl");
+//        user.setAvatar(IMGURL);
 
         this.turnOnTyping = turnOnTyping();
 

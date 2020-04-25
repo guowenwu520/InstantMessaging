@@ -42,13 +42,13 @@ public class DynamicFragment extends BaseFragment {
         WindowUitls.setColorTextTopBarBlack(getActivity());
         view = inflater.inflate(R.layout.fragment_dynamic, container, false);
          initView();
+        initRelease();
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        initRelease();
     }
 
     private void initRelease() {

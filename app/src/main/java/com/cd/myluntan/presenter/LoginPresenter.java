@@ -6,9 +6,27 @@ import android.util.Log;
 
 import com.cd.myluntan.adapter.EMCallBackAdapter;
 import com.cd.myluntan.contract.LoginContract;
+import com.cd.myluntan.data_connection.Data_Access;
+import com.cd.myluntan.entrty.Dynamic;
 import com.cd.myluntan.entrty.User;
+import com.cd.myluntan.interfaceo.NetworkCallback;
 import com.cd.myluntan.utils.Singletion;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hyphenate.chat.EMClient;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Response;
+
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.ADDUSER;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.DELETEPRAISE;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.GETUSERBYNAME;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 
 public class LoginPresenter extends BasePresenter implements LoginContract.Presenter {
     private static final String TAG = LoginPresenter.class.getCanonicalName();
@@ -40,7 +58,6 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
                 //记录本地账号
                 savePass_Name(username, password);
                 Log.d(TAG, "登录聊天服务器成功！");
-                view.onLoginSuccess();
             }
 
             @Override
@@ -57,10 +74,35 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
         editor.putString("name",username);
         editor.putString("pass",password);
         editor.commit();
-        User user=new User();
-        user.setName(username);
-        user.setPass(password);
-        user.setId(System.currentTimeMillis()+"");
-        Singletion.getInstance().setUser(user);
+        Map<String,String> map=new HashMap<>();
+        map.put("pass",password);
+        map.put("name",username);
+        Data_Access.AccessStringDate(URL + GETUSERBYNAME, map, new NetworkCallback() {
+            @Override
+            public Object parseNetworkResponse(Response response) {
+                TypeToken<User> userTypeToken=new TypeToken<User>(){};
+                Gson gson=new Gson();
+                User user= null;
+                try {
+                    user = gson.fromJson(response.body().string(),userTypeToken.getType());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                ;
+                Singletion.getInstance().setUser(user);
+                view.onLoginSuccess();
+                return null;
+            }
+
+            @Override
+            public void onError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        });
     }
 }

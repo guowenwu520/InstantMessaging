@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,10 +19,8 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.cd.myluntan.R;
 import com.cd.myluntan.entrty.Comment;
-import com.cd.myluntan.entrty.Praise;
 import com.cd.myluntan.entrty.User;
 import com.cd.myluntan.interfaceo.OnClicktitem;
-import com.cd.myluntan.ui.activity.Dynamic_Details_Activity;
 import com.cd.myluntan.ui.activity.PersonalActivity;
 import com.cd.myluntan.utils.Singletion;
 
@@ -111,8 +108,8 @@ public class Commit_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         //用户消息
         User user=comment.getUsered();
         myViewHolderClass.name.setText(user.getName());
-        myViewHolderClass.time.setText(comment.getCommit_time());
-        Glide.with(context).load(user.getHead_url()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(myViewHolderClass.imghead);
+        myViewHolderClass.time.setText(comment.getCommittime());
+        Glide.with(context).load(user.getHeadUrl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(myViewHolderClass.imghead);
         //判断是否关注
         if(isFollow(user)) {
             myViewHolderClass.follow.setText("已关注");
@@ -148,7 +145,7 @@ public class Commit_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         });
         //评论内容
-        myViewHolderClass.conternt.setText(comment.getCommit_mag());
+        myViewHolderClass.conternt.setText(comment.getCommitmag());
         //是否有回复
         if(comment.getType().equals(NOCOMMIT)){
             myViewHolderClass.back_commit_rl.setVisibility(View.GONE);
@@ -156,7 +153,7 @@ public class Commit_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             myViewHolderClass.back_commit_rl.setVisibility(View.VISIBLE);
             ArrayList<Comment> comments=comment.getComments();
             myViewHolderClass.commit_name.setText(comments.get(comments.size()-1).getUsered().getName());
-            myViewHolderClass.commit_nr.setText(comments.get(comments.size()-1).getCommit_mag());
+            myViewHolderClass.commit_nr.setText(comments.get(comments.size()-1).getCommitmag());
             myViewHolderClass.commit_name.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -23,26 +23,37 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.cd.myluntan.R;
 import com.cd.myluntan.adapter.Dynamic_show_Adapter;
 import com.cd.myluntan.adapter.RecyclerViewOnScrollListenerAdapter;
+import com.cd.myluntan.data_connection.Data_Access;
 import com.cd.myluntan.entrty.Dynamic;
 import com.cd.myluntan.entrty.Imgs;
 import com.cd.myluntan.entrty.Comment;
 import com.cd.myluntan.entrty.Label;
 import com.cd.myluntan.entrty.User;
 import com.cd.myluntan.entrty.Praise;
+import com.cd.myluntan.interfaceo.NetworkCallback;
 import com.cd.myluntan.ui.activity.Publish_Dynamic_Activity;
+import com.cd.myluntan.utils.JsonUitl;
 import com.cd.myluntan.utils.Singletion;
 import com.cd.myluntan.utils.ToolAnimation;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.Call;
+import okhttp3.Response;
+
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.GETALLDYNAMIC;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.ISCOMMIT;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.NOCOMMIT;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 
 public class Dynamic_New_Fragment extends BaseFragment{
     private final static String TAG = Dynamic_New_Fragment.class.getCanonicalName();
-
+    Dynamic_show_Adapter myRecycleViewClassAdapter;
     private RecyclerView recyclerView;
     private CardView releaseCardView;
     private ImageView release;
@@ -61,6 +72,7 @@ public class Dynamic_New_Fragment extends BaseFragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_new_dynamic, container, false);
         initView(view);
+        setDataDynamic(new ArrayList<>());
         initRelease();
         return view;
     }
@@ -68,13 +80,14 @@ public class Dynamic_New_Fragment extends BaseFragment{
     @Override
     public void onStart() {
         super.onStart();
-        if(Singletion.getInstance().getDynamic()!=null) {
-            dynamics.set(Singletion.getInstance().getPostion(), Singletion.getInstance().getDynamic());
-            setDataDynamic(dynamics);
-            Singletion.getInstance().setDynamic(null);
-        }
+
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        showList();
+    }
 
     private void initRelease() {
         //
@@ -108,9 +121,6 @@ public class Dynamic_New_Fragment extends BaseFragment{
     private void showLiuList(boolean isRefresh) {
         isLoading = true;
         dynamics=new ArrayList<>();
-        dynamics=Singletion.getInstance().getDynamics();
-        setDataDynamic(dynamics);
-
         if(isRefresh){
             pageNum = 1;
             swipeRefreshLayout.setRefreshing(true);
@@ -124,38 +134,45 @@ public class Dynamic_New_Fragment extends BaseFragment{
     private void showList() {
         Map<String,String> map=new HashMap<>();
         map.put("pagenum",pageNum+"");
-        map.put("pagesize",pageSize+""); swipeRefreshLayout.setRefreshing(false);
-//        Data_Access.AccessStringDate("sd", map, new NetworkCallback() {
-//            @Override
-//            public Object parseNetworkResponse(Response response) {
-////                try {
-//                    if(response!=null) {
-////                        TypeToken<ArrayList<Dynamic>> dynamicTypeToken=new TypeToken<>();
-////                      dynamics= (ArrayList<Dynamic>) JsonUitl.jsonToObgect(response.body().string(),dynamicTypeToken);
-//                    }else  return null;
-////                } catch (IOException e) {
-////                    e.printStackTrace();
-////                }
-//                swipeRefreshLayout.setRefreshing(false);
-//                setDataDynamic(dynamics);
-//
-//                return null;
-//            }
-//
-//            @Override
-//            public void onError(Call call, Exception e) {
-//
-//            }
-//
-//            @Override
-//            public void onResponse(Object response) {
-//
-//            }
-//        });
+        map.put("pagesize",pageSize+"");
+        Data_Access.AccessStringDate(URL+GETALLDYNAMIC, map, new NetworkCallback() {
+            @Override
+            public Object parseNetworkResponse(Response response) {
+                try {
+                    if(response!=null) {
+                        TypeToken<ArrayList<Dynamic>> dynamicTypeToken=new TypeToken<ArrayList<Dynamic>>(){};
+                        Gson gson=new Gson();
+                      dynamics= gson.fromJson(response.body().string(),dynamicTypeToken.getType());
+                        swipeRefreshLayout.setRefreshing(false);
+                        setDataDynamicandFinsh(dynamics);
+                    }else  return null;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return null;
+            }
+
+            @Override
+            public void onError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        });
+    }
+
+    private void setDataDynamicandFinsh(ArrayList<Dynamic> dynamics) {
+        if(myRecycleViewClassAdapter!=null){
+            myRecycleViewClassAdapter.setDataDynamicandFinsh(dynamics);
+        }
     }
 
     private void setDataDynamic(ArrayList<Dynamic> dynamics) {
-        Dynamic_show_Adapter myRecycleViewClassAdapter=new Dynamic_show_Adapter(getActivity(),dynamics, 1, mian_lay);
+          myRecycleViewClassAdapter=new Dynamic_show_Adapter(getActivity(),dynamics, 1, mian_lay);
         recyclerView.setAdapter(myRecycleViewClassAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addOnScrollListener(new RecyclerViewOnScrollListenerAdapter() {

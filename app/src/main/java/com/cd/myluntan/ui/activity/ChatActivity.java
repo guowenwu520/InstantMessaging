@@ -25,7 +25,7 @@ public class ChatActivity extends BaseActivity {
         setContentView(R.layout.activity_chat);
         WindowUitls.setColorTopBar(this,R.color.white);
         WindowUitls.setColorTextTopBarBlack(this);
-        user= Singletion.getInstance().getUser();
+        user= Singletion.getInstance().getOtherUser();
         myUser=Singletion.getInstance().getUser();
         activityInstance = this;
         //get user id or group id

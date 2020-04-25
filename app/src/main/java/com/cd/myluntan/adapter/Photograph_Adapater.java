@@ -1,6 +1,7 @@
 package com.cd.myluntan.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,11 @@ import com.cd.myluntan.R;
 import com.cd.myluntan.entrty.Imgs;
 import com.cd.myluntan.interfaceo.OnClicktitem;
 
+import java.net.URI;
 import java.util.ArrayList;
+
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.SHOWIMGS;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 
 public class Photograph_Adapater extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     ArrayList<Imgs> imgs=new ArrayList<>();
@@ -46,11 +51,15 @@ public class Photograph_Adapater extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Imgs devices=imgs.get(position);
       myViewHolderClassImg myViewHolderClass= (myViewHolderClassImg) holder;
-      if(devices.getIMGS_COLUMN_NAME_IMGURL().equals("0")){
+      if(devices.getImgurl().equals("0")){
           Glide.with(context).load(R.drawable.addimg).apply(RequestOptions.bitmapTransform(new RoundedCorners(20))).into(myViewHolderClass.imgss);
       }else {
           //显示缩略图
-          Glide.with(context).load(devices.getIMGS_COLUMN_NAME_IMGURL()).apply(RequestOptions.bitmapTransform(new RoundedCorners(20))).thumbnail(0.1f).into(myViewHolderClass.imgss);
+          if (devices.getImgurl().length()<24) {
+              Glide.with(context).load(URL + SHOWIMGS+"?name=" + devices.getImgurl()).apply(RequestOptions.bitmapTransform(new RoundedCorners(20))).thumbnail(0.1f).into(myViewHolderClass.imgss);
+          } else {
+              Glide.with(context).load(devices.getImgurl()).apply(RequestOptions.bitmapTransform(new RoundedCorners(20))).thumbnail(0.1f).into(myViewHolderClass.imgss);
+          }
       }
     }
 

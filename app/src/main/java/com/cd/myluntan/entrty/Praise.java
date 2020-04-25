@@ -6,8 +6,17 @@ package com.cd.myluntan.entrty;
 
 public class Praise {
    String id;
-   String Dynamic_id;
+   String dynamicid;
    User user;
+  String userid;
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
 
     public String getId() {
         return id;
@@ -17,12 +26,12 @@ public class Praise {
         this.id = id;
     }
 
-    public String getDynamic_id() {
-        return Dynamic_id;
+    public String getDynamicid() {
+        return dynamicid;
     }
 
-    public void setDynamic_id(String dynamic_id) {
-        Dynamic_id = dynamic_id;
+    public void setDynamicid(String dynamicid) {
+        this.dynamicid = dynamicid;
     }
 
     public User getUser() {
@@ -31,5 +40,15 @@ public class Praise {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Praise{" +
+                "id='" + id + '\'' +
+                ", dynamicid='" + dynamicid + '\'' +
+                ", user=" + user +
+                ", userid='" + userid + '\'' +
+                '}';
     }
 }

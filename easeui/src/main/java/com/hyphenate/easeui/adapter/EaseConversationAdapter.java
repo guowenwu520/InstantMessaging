@@ -28,7 +28,6 @@ import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseSmileUtils;
 import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseConversationList.EaseConversationListHelper;
-import com.hyphenate.easeui.widget.EaseImageView;
 import com.hyphenate.util.DateUtils;
 
 import java.util.ArrayList;
@@ -127,17 +126,17 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
         }
 
         EaseAvatarOptions avatarOptions = EaseUI.getInstance().getAvatarOptions();
-        if(avatarOptions != null && holder.avatar instanceof EaseImageView) {
-            EaseImageView avatarView = ((EaseImageView) holder.avatar);
-            if (avatarOptions.getAvatarShape() != 0)
-                avatarView.setShapeType(avatarOptions.getAvatarShape());
-            if (avatarOptions.getAvatarBorderWidth() != 0)
-                avatarView.setBorderWidth(avatarOptions.getAvatarBorderWidth());
-            if (avatarOptions.getAvatarBorderColor() != 0)
-                avatarView.setBorderColor(avatarOptions.getAvatarBorderColor());
-            if (avatarOptions.getAvatarRadius() != 0)
-                avatarView.setRadius(avatarOptions.getAvatarRadius());
-        }
+//        if(avatarOptions != null && holder.avatar instanceof EaseImageView) {
+//            EaseImageView avatarView = ((EaseImageView) holder.avatar);
+//            if (avatarOptions.getAvatarShape() != 0)
+//                avatarView.setShapeType(avatarOptions.getAvatarShape());
+//            if (avatarOptions.getAvatarBorderWidth() != 0)
+//                avatarView.setBorderWidth(avatarOptions.getAvatarBorderWidth());
+//            if (avatarOptions.getAvatarBorderColor() != 0)
+//                avatarView.setBorderColor(avatarOptions.getAvatarBorderColor());
+//            if (avatarOptions.getAvatarRadius() != 0)
+//                avatarView.setRadius(avatarOptions.getAvatarRadius());
+//        }
         if (conversation.getUnreadMsgCount() > 0) {
             // show unread message count
             holder.unreadLabel.setText(String.valueOf(conversation.getUnreadMsgCount()));

@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.cd.myluntan.R;
 import com.cd.myluntan.adapter.HomeTabFragmentAdapter;
 import com.cd.myluntan.entrty.Imgs;
@@ -20,6 +22,9 @@ import com.cd.myluntan.utils.WindowUitls;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
+
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.SHOWIMGS;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 
 public class Show_Sing_Image_Fragment extends Fragment {
    Imgs imgs;
@@ -35,7 +40,11 @@ public class Show_Sing_Image_Fragment extends Fragment {
         WindowUitls.setColorTextTopBarWriter(getActivity());
         View view = inflater.inflate(R.layout.show_sing_images_fragment, container, false);
         initView(view);
-        Glide.with(getActivity()).load(imgs.getIMGS_COLUMN_NAME_IMGURL()).into(imageView);
+        if (imgs.getImgurl().length()<24) {
+            Glide.with(getActivity()).load(URL + SHOWIMGS+"?name=" + imgs.getImgurl()).apply(RequestOptions.bitmapTransform(new RoundedCorners(20))).thumbnail(0.1f).into(imageView);
+        } else {
+            Glide.with(getActivity()).load(imgs.getImgurl()).apply(RequestOptions.bitmapTransform(new RoundedCorners(20))).thumbnail(0.1f).into(imageView);
+        }
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

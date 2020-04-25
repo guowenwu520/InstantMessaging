@@ -7,22 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.cd.myluntan.R;
-import com.cd.myluntan.entrty.Dynamic;
 import com.cd.myluntan.entrty.Praise;
 import com.cd.myluntan.entrty.User;
-import com.cd.myluntan.ui.activity.Dynamic_Details_Activity;
 import com.cd.myluntan.ui.activity.PersonalActivity;
 import com.cd.myluntan.utils.Singletion;
 
@@ -83,7 +78,7 @@ public class Praise_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         User user=praise.getUser();
         myViewHolderClass.name.setText(user.getName());
         myViewHolderClass.time.setText(user.getSignaturnre());
-        Glide.with(context).load(user.getHead_url()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(myViewHolderClass.imghead);
+        Glide.with(context).load(user.getHeadUrl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(myViewHolderClass.imghead);
         //判断是否关注
         if(isFollow(user)) {
             myViewHolderClass.follow.setText("已关注");

@@ -12,7 +12,7 @@ public class User {
      //年纪
      String age="18";
      //头像
-     String head_url="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1245886665,169279313&fm=26&gp=0.jpg";
+     String headUrl ="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1245886665,169279313&fm=26&gp=0.jpg";
      //昵称
      String nick="diandian";
      //签名
@@ -66,12 +66,12 @@ public class User {
         this.age = age;
     }
 
-    public String getHead_url() {
-        return head_url;
+    public String getHeadUrl() {
+        return headUrl;
     }
 
-    public void setHead_url(String head_url) {
-        this.head_url = head_url;
+    public void setHeadUrl(String headUrl) {
+        this.headUrl = headUrl;
     }
 
     public String getNick() {
@@ -90,7 +90,7 @@ public class User {
                 ", pass='" + pass + '\'' +
                 ", sex='" + sex + '\'' +
                 ", age='" + age + '\'' +
-                ", head_url='" + head_url + '\'' +
+                ", headUrl='" + headUrl + '\'' +
                 ", nick='" + nick + '\'' +
                 ", signaturnre='" + signaturnre + '\'' +
                 '}';

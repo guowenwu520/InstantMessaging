@@ -1,7 +1,6 @@
 package com.cd.myluntan.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.cd.myluntan.R;
+import com.cd.myluntan.data_connection.Data_Access;
 import com.cd.myluntan.entrty.Dynamic;
 import com.cd.myluntan.entrty.Praise;
 import com.cd.myluntan.entrty.User;
@@ -28,11 +27,17 @@ import com.cd.myluntan.interfaceo.OnClicktitem;
 import com.cd.myluntan.ui.activity.Dynamic_Details_Activity;
 import com.cd.myluntan.ui.activity.PersonalActivity;
 import com.cd.myluntan.ui.activity.Show_Sing_images_Activity;
-import com.cd.myluntan.ui.customui.Picker;
 import com.cd.myluntan.utils.Singletion;
 import com.cd.myluntan.utils.WindowUitls;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.ADDPRAISE;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.DELETEPRAISE;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 
 public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Activity context;
@@ -68,6 +73,11 @@ public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.View
         return dynamics.size();
     }
 
+    public void setDataDynamicandFinsh(ArrayList<Dynamic> dynamics) {
+        this.dynamics=dynamics;
+        notifyDataSetChanged();
+    }
+
     class  myViewHolderClass extends RecyclerView.ViewHolder{
         ImageView imghead,praise,more;
         TextView commitNum,praisenNum,name,time,content,follow,fans;
@@ -97,7 +107,7 @@ public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.View
         //用户消息
         User user=dynamic.getUser();
         myViewHolderClass.name.setText(user.getName());
-        Glide.with(context).load(user.getHead_url()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(myViewHolderClass.imghead);
+        Glide.with(context).load(user.getHeadUrl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(myViewHolderClass.imghead);
         //评论
         myViewHolderClass.time.setText(dynamic.getTime());
         myViewHolderClass.content.setText(dynamic.getMag());
@@ -129,10 +139,10 @@ public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.View
             @Override
             public void onClick(View v) {
                 if(isPraise(dynamic.getPraises())) {
-                    rmPraise(dynamic);
+                    rmPraise(dynamic,position);
                     myViewHolderClass.praise.setImageResource(R.drawable.praise_normal);
                 }else {
-                    addPraise(dynamic);
+                    addPraise(dynamic,position);
                     myViewHolderClass.praise.setImageResource(R.drawable.praise_checked);
                 }
             }
@@ -205,27 +215,34 @@ public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.View
 //        myViewHolderClass.label_recycle.setLayoutManager(new GridLayoutManager(context,3));
     }
 
-    private void rmPraise(Dynamic dynamic) {
+    private void rmPraise(Dynamic dynamic,int pstin) {
         ArrayList<Praise> praises=dynamic.getPraises();
         for (int i=0;i<praises.size();i++){
             if(myUser.getId().equals(praises.get(i).getUser().getId())){
+                Map<String,String> map=new HashMap<>();
+                map.put("id",praises.get(i).getId());
+                 Data_Access.AccessStringDate(URL+DELETEPRAISE,map,null);
                 praises.remove(i);
                 break;
             }
         }
-        dynamic.setPraises(praises);
-        Singletion.getInstance().setDynamic(dynamic);
+        //dynamic.setPraises(praises);
+       // Singletion.getInstance().setDynamic(dynamic);
+        dynamics.get(pstin).setPraises(praises);
         notifyDataSetChanged();
     }
 
-    private void addPraise(Dynamic dynamic) {
+    private void addPraise(Dynamic dynamic,int psin) {
         Praise praise=new Praise();
         praise.setUser(myUser);
-        praise.setDynamic_id(dynamic.getId());
-        praise.setId("1231231");
-        dynamic.getPraises().add(0,praise);
-        Singletion.getInstance().setDynamic(dynamic);
-        notifyDataSetChanged();
+        praise.setDynamicid(dynamic.getId());
+        praise.setId(System.currentTimeMillis()+"");
+        praise.setUserid(myUser.getId());
+       // dynamic.getPraises().add(0,praise);
+       // Singletion.getInstance().setDynamic(dynamic);
+        Data_Access.AccessJSONDate(URL+ADDPRAISE,new Gson().toJson(praise),null);
+        dynamics.get(psin).getPraises().add(0,praise);
+         notifyDataSetChanged();
     }
 
     private boolean isFollow(User user) {

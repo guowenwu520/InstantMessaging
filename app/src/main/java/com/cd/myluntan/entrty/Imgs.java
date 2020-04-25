@@ -5,30 +5,33 @@ package com.cd.myluntan.entrty;
  */
 
 public class Imgs {
-    public String IMGS_COLUMN_NAME_OUTID = "outid";
-    public String IMGS_COLUMN_NAME_IMGURL = "imgurl";
+    public String waiid;
+    public String imgurl;
 
     public Imgs() {
     }
 
-    public Imgs(String IMGS_COLUMN_NAME_OUTID, String IMGS_COLUMN_NAME_IMGURL) {
-        this.IMGS_COLUMN_NAME_OUTID = IMGS_COLUMN_NAME_OUTID;
-        this.IMGS_COLUMN_NAME_IMGURL = IMGS_COLUMN_NAME_IMGURL;
+    public String getWaiid() {
+        return waiid;
     }
 
-    public String getIMGS_COLUMN_NAME_OUTID() {
-        return IMGS_COLUMN_NAME_OUTID;
+    public void setWaiid(String waiid) {
+        this.waiid = waiid;
     }
 
-    public void setIMGS_COLUMN_NAME_OUTID(String IMGS_COLUMN_NAME_OUTID) {
-        this.IMGS_COLUMN_NAME_OUTID = IMGS_COLUMN_NAME_OUTID;
+    public String getImgurl() {
+        return imgurl;
     }
 
-    public String getIMGS_COLUMN_NAME_IMGURL() {
-        return IMGS_COLUMN_NAME_IMGURL;
+    public void setImgurl(String imgurl) {
+        this.imgurl = imgurl;
     }
 
-    public void setIMGS_COLUMN_NAME_IMGURL(String IMGS_COLUMN_NAME_IMGURL) {
-        this.IMGS_COLUMN_NAME_IMGURL = IMGS_COLUMN_NAME_IMGURL;
+    @Override
+    public String toString() {
+        return "Imgs{" +
+                "waiid='" + waiid + '\'' +
+                ", imgurl='" + imgurl + '\'' +
+                '}';
     }
 }
