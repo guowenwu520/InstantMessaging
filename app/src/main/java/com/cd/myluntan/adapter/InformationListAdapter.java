@@ -126,7 +126,7 @@ public class InformationListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 @Override
                 public void onClick(View v) {
                     User user= Singletion.getInstance().getUser();Singletion.getInstance().setOtherUser(user);
-                    Intent intent = new Intent(context, ChatActivity.class).putExtra("chatType", Constant.CHATTYPE_SINGLE).putExtra("userId", user.getName()).putExtra("imgurl",user.getHeadUrl());
+                    Intent intent = new Intent(context, ChatActivity.class).putExtra("chatType", Constant.CHATTYPE_SINGLE).putExtra("userId", user.getName()).putExtra("imgurl",user.getHeadurl());
                      context.startActivity(intent);
                 }
             });

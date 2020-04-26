@@ -18,6 +18,9 @@ import com.cd.myluntan.utils.Constant;
 import com.cd.myluntan.utils.Singletion;
 import com.cd.myluntan.utils.WindowUitls;
 
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.SHOWIMGS;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
+
 public class PersonalActivity extends BaseActivity  implements View.OnClickListener {
     ImageView back;
     TextView topTitle;
@@ -48,9 +51,13 @@ public class PersonalActivity extends BaseActivity  implements View.OnClickListe
                 finish();
             }
         });
-        topTitle.setText("我的主页");
+        topTitle.setText("主页");
         name.setText(user.getNick()!=null?user.getNick():user.getName());
-        Glide.with(this).load(user.getHeadUrl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(head_url);
+        if(user.getHeadurl().length()<24){
+            Glide.with(this).load(URL + SHOWIMGS+"?name=" +user.getHeadurl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(head_url);
+        }else {
+            Glide.with(this).load(user.getHeadurl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(head_url);
+        }
         myid.setText(user.getId());
         sign.setText(user.getSignaturnre());
         //关注人数
@@ -76,6 +83,14 @@ public class PersonalActivity extends BaseActivity  implements View.OnClickListe
         record_rl.setOnClickListener(this);
         chat.setOnClickListener(this);
         follor.setOnClickListener(this);
+        //是否是自己
+        if(myUser.getId().equals(user.getId())){
+            chat.setVisibility(View.GONE);
+            follor.setVisibility(View.GONE);
+        }else {
+            chat.setVisibility(View.VISIBLE);
+            follor.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initView() {
@@ -143,7 +158,7 @@ public class PersonalActivity extends BaseActivity  implements View.OnClickListe
                 break;
             //私信
             case R.id.chat:
-                startActivity(new Intent(this,ChatActivity.class).putExtra("chatType", Constant.CHATTYPE_SINGLE).putExtra("userId", user.getName()).putExtra("imgurl",user.getHeadUrl()));
+                startActivity(new Intent(this,ChatActivity.class).putExtra("chatType", Constant.CHATTYPE_SINGLE).putExtra("userId", user.getName()).putExtra("imgurl",user.getHeadurl()));
                 break;
         }
     }

@@ -12,4 +12,20 @@
         <item>转发</item>
         <item>分享图片</item>
     </array>
+    <array name="toplan_string">
+       <item>编程语言</item>
+        <item>计算机</item>
+        <item>算法</item>
+        <item>运动健身</item>
+        <item>宠物</item>
+        <item>娱乐</item>
+        <item>科技</item>
+        <item>音乐</item>
+        <item>游戏</item>
+    </array>
+    <array name="sex_string">
+        <item>男</item>
+        <item>女</item>
+        <item>保密</item>
+    </array>
 </resources>

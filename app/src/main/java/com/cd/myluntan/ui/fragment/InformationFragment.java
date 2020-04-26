@@ -37,8 +37,8 @@ public class InformationFragment extends BaseFragment implements InformationCont
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        WindowUitls.setColorTopBar(getActivity(), R.color.colorPrimary);
-        WindowUitls.setColorTextTopBarWriter(getActivity());
+        WindowUitls.setColorTopBar(getActivity(),R.color.white);
+        WindowUitls.setColorTextTopBarBlack(getActivity());
         view = inflater.inflate(R.layout.fragment_information, container, false);
         informationPresenter = new InformationPresenter(this);
         initView();

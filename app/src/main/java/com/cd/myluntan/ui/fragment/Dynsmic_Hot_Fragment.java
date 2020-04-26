@@ -50,6 +50,7 @@ import okhttp3.Response;
 
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.GETALLDYNAMIC;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.ISCOMMIT;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.NEW;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.NOCOMMIT;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 import static com.cd.myluntan.ui.customui.Picker.menuWindow;
@@ -142,6 +143,7 @@ public class Dynsmic_Hot_Fragment extends BaseFragment {
         Map<String,String> map=new HashMap<>();
         map.put("pagenum",pageNum+"");
         map.put("pagesize",pageSize+"");
+        map.put("type",NEW);
         Data_Access.AccessStringDate(URL+GETALLDYNAMIC, map, new NetworkCallback() {
             @Override
             public Object parseNetworkResponse(Response response) {
@@ -155,7 +157,12 @@ public class Dynsmic_Hot_Fragment extends BaseFragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                setDataDynamicandFinsh(dynamics);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setDataDynamicandFinsh(dynamics);
+                    }
+                });
 
                 return null;
             }

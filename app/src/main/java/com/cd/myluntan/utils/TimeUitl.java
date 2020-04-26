@@ -8,4 +8,8 @@ public class TimeUitl {
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return  simpleDateFormat.format(date);
     }
+    public static String  DataToStringyear(Date date){
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        return  simpleDateFormat.format(date);
+    }
 }

@@ -28,6 +28,8 @@ import java.util.ArrayList;
 
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.ISCOMMIT;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.NOCOMMIT;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.SHOWIMGS;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 
 public class Commit_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     OnClicktitem onClisterItem;
@@ -107,9 +109,13 @@ public class Commit_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private void updateList(myViewHolderClass myViewHolderClass, final Comment comment) {
         //用户消息
         User user=comment.getUsered();
-        myViewHolderClass.name.setText(user.getName());
+        myViewHolderClass.name.setText(user.getNick()!=null?user.getNick():user.getName());
         myViewHolderClass.time.setText(comment.getCommittime());
-        Glide.with(context).load(user.getHeadUrl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(myViewHolderClass.imghead);
+        if(user.getHeadurl().length()<24){
+            Glide.with(context).load(URL + SHOWIMGS+"?name=" +user.getHeadurl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(myViewHolderClass.imghead);
+        }else {
+            Glide.with(context).load(user.getHeadurl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(myViewHolderClass.imghead);
+        }
         //判断是否关注
         if(isFollow(user)) {
             myViewHolderClass.follow.setText("已关注");

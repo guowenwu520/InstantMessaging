@@ -53,6 +53,7 @@ public class Show_Sing_images_Activity extends AppCompatActivity {
         }else {
             showpage.setVisibility(View.VISIBLE);
             showpage.setText((index+1)+"/"+maxnumber);
+            viewPager.setCurrentItem(index);
             viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

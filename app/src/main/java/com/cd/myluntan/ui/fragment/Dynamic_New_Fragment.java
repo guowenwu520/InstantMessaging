@@ -48,6 +48,7 @@ import okhttp3.Response;
 
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.GETALLDYNAMIC;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.ISCOMMIT;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.NEW;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.NOCOMMIT;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 
@@ -135,16 +136,23 @@ public class Dynamic_New_Fragment extends BaseFragment{
         Map<String,String> map=new HashMap<>();
         map.put("pagenum",pageNum+"");
         map.put("pagesize",pageSize+"");
+        map.put("type",NEW);
         Data_Access.AccessStringDate(URL+GETALLDYNAMIC, map, new NetworkCallback() {
             @Override
             public Object parseNetworkResponse(Response response) {
+
                 try {
                     if(response!=null) {
                         TypeToken<ArrayList<Dynamic>> dynamicTypeToken=new TypeToken<ArrayList<Dynamic>>(){};
                         Gson gson=new Gson();
                       dynamics= gson.fromJson(response.body().string(),dynamicTypeToken.getType());
                         swipeRefreshLayout.setRefreshing(false);
-                        setDataDynamicandFinsh(dynamics);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                setDataDynamicandFinsh(dynamics);
+                            }
+                        });
                     }else  return null;
                 } catch (IOException e) {
                     e.printStackTrace();

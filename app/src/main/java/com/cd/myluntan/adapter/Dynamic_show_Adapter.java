@@ -23,6 +23,7 @@ import com.cd.myluntan.data_connection.Data_Access;
 import com.cd.myluntan.entrty.Dynamic;
 import com.cd.myluntan.entrty.Praise;
 import com.cd.myluntan.entrty.User;
+import com.cd.myluntan.interfaceo.BottomUpdateCallback;
 import com.cd.myluntan.interfaceo.OnClicktitem;
 import com.cd.myluntan.ui.activity.Dynamic_Details_Activity;
 import com.cd.myluntan.ui.activity.PersonalActivity;
@@ -37,6 +38,7 @@ import java.util.Map;
 
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.ADDPRAISE;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.DELETEPRAISE;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.SHOWIMGS;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 
 public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -106,8 +108,12 @@ public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.View
     private void updateList(final myViewHolderClass myViewHolderClass, final Dynamic dynamic, int position) {
         //用户消息
         User user=dynamic.getUser();
-        myViewHolderClass.name.setText(user.getName());
-        Glide.with(context).load(user.getHeadUrl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(myViewHolderClass.imghead);
+        myViewHolderClass.name.setText(user.getNick()!=null?user.getNick():user.getName());
+        if(user.getHeadurl().length()<24){
+            Glide.with(context).load(URL + SHOWIMGS+"?name=" +user.getHeadurl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(myViewHolderClass.imghead);
+        }else {
+            Glide.with(context).load(user.getHeadurl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(myViewHolderClass.imghead);
+        }
         //评论
         myViewHolderClass.time.setText(dynamic.getTime());
         myViewHolderClass.content.setText(dynamic.getMag());
@@ -165,8 +171,27 @@ public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.View
                 }else {
                     wuran_headers=  context.getResources().getStringArray(R.array.out_more_string);;
                 }
+                String id=dynamic.getId();
+                WindowUitls.ShowBottomBarSelect(context, wuran_headers, myViewHolderClass.rl_share, dynamic, new BottomUpdateCallback() {
+                    @Override
+                    public void bottomBarShow(int dy) {
+                            context.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (dy == 0) {
+                                        Toast.makeText(context, "删除成功", Toast.LENGTH_LONG).show();
+                                        for (int i = 0; i < dynamics.size(); i++) {
+                                            if (id.equals(dynamics.get(i).getId())) {
+                                                dynamics.remove(i);
+                                            }
+                                        }
+                                        setDataDynamicandFinsh(dynamics);
+                                    }
+                                }
+                            });
 
-                WindowUitls.ShowBottomBarSelect(context,wuran_headers,myViewHolderClass.rl_share);
+                    }
+                });
             }
         });
         //点击分享
@@ -174,7 +199,27 @@ public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.View
             @Override
             public void onClick(View v) {
                 final String []wuran_headers =context.getResources().getStringArray(R.array.share_string);
-                WindowUitls.ShowBottomBarSelect(context,wuran_headers,myViewHolderClass.rl_share);
+                String id=dynamic.getId();
+                WindowUitls.ShowBottomBarSelect(context, wuran_headers, myViewHolderClass.rl_share, dynamic, new BottomUpdateCallback() {
+                    @Override
+                    public void bottomBarShow(int dy) {
+                        context.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(dy==0){
+                                    Toast.makeText(context,"删除成功",Toast.LENGTH_LONG).show();
+                                    for (int i=0;i<dynamics.size();i++){
+                                        if(id.equals(dynamics.get(i).getId())){
+                                            dynamics.remove(i);
+                                        }
+                                    }
+                                    setDataDynamicandFinsh(dynamics);
+                                }
+                            }
+                        });
+
+                    }
+                });
             }
         });
         //点击内容

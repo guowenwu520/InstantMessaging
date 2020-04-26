@@ -56,12 +56,6 @@
                 app:tabPaddingStart="5dp"
                 app:tabSelectedTextColor="@color/design_default_color_on_secondary"
                 app:tabTextColor="@android:color/darker_gray" />
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="5dp"
-                android:background="#8a8a8a8a" />
         </LinearLayout>
     </LinearLayout>
 

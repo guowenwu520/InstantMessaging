@@ -27,6 +27,7 @@ import com.cd.myluntan.entrty.Comment;
 import com.cd.myluntan.entrty.Dynamic;
 import com.cd.myluntan.entrty.Praise;
 import com.cd.myluntan.entrty.User;
+import com.cd.myluntan.interfaceo.BottomUpdateCallback;
 import com.cd.myluntan.interfaceo.OnClicktitem;
 import com.cd.myluntan.ui.fragment.Commit_Fragment;
 import com.cd.myluntan.ui.fragment.Praise_Fragment;
@@ -47,6 +48,7 @@ import static com.cd.myluntan.data_connection.Global_Url_Parameters.ADDPRAISE;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.DELETEPRAISE;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.ISCOMMIT;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.NOCOMMIT;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.SHOWIMGS;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 import static com.cd.myluntan.ui.fragment.Commit_Fragment.ISCOMMITBACK;
 import static com.cd.myluntan.ui.fragment.Commit_Fragment.publiccomment;
@@ -239,8 +241,12 @@ public class Dynamic_Details_Activity extends AppCompatActivity {
     private void updateList() {
         //用户消息
         User user=dynamic.getUser();
-        name.setText(user.getName());
-        Glide.with(Dynamic_Details_Activity.this).load(user.getHeadUrl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(imghead);
+        name.setText(user.getNick()!=null?user.getNick():user.getName());
+        if(user.getHeadurl().length()<24){
+            Glide.with(Dynamic_Details_Activity.this).load(URL + SHOWIMGS+"?name=" +user.getHeadurl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(imghead);
+        }else {
+            Glide.with(Dynamic_Details_Activity.this).load(user.getHeadurl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(imghead);
+        }
         //评论
         time.setText(dynamic.getTime());
         content.setText(dynamic.getMag());
@@ -298,7 +304,21 @@ public class Dynamic_Details_Activity extends AppCompatActivity {
                     wuran_headers= getResources().getStringArray(R.array.out_more_string);;
                 }
 
-                WindowUitls.ShowBottomBarSelect(Dynamic_Details_Activity.this,wuran_headers,rl_share);
+                WindowUitls.ShowBottomBarSelect(Dynamic_Details_Activity.this, wuran_headers, rl_share, dynamic, new BottomUpdateCallback() {
+                    @Override
+                    public void bottomBarShow(int dy) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(dy==0){
+                                    Toast.makeText(Dynamic_Details_Activity.this,"删除成功",Toast.LENGTH_LONG).show();
+                                    finish();
+                                }
+                            }
+                        });
+
+                    }
+                });
             }
         });
         //点击分享
@@ -306,7 +326,20 @@ public class Dynamic_Details_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final String []wuran_headers = getResources().getStringArray(R.array.share_string);
-                WindowUitls.ShowBottomBarSelect(Dynamic_Details_Activity.this,wuran_headers,rl_share);
+                WindowUitls.ShowBottomBarSelect(Dynamic_Details_Activity.this, wuran_headers, rl_share, dynamic, new BottomUpdateCallback() {
+                    @Override
+                    public void bottomBarShow(int dy) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(dy==0){
+                                    Toast.makeText(Dynamic_Details_Activity.this,"删除成功",Toast.LENGTH_LONG).show();
+                                    finish();
+                                }
+                            }
+                        });
+                    }
+                });
             }
         });
         //点击头像

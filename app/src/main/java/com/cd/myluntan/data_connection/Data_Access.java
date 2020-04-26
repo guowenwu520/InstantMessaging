@@ -88,7 +88,7 @@ public class Data_Access {
      * @param params 参数
      * @param pic_key 上传图片的关键字
      */
-    public static void sendMultipart(String reqUrl, Map<String, String> params, String pic_key, List<File> files){
+    public static void sendMultipart(String reqUrl, Map<String, String> params, String pic_key, List<File> files,final NetworkCallback networkCallback){
         OkHttpClient okHttpClient=new OkHttpClient();
                 MultipartBody.Builder multipartBodyBuilder = new MultipartBody.Builder();
                 multipartBodyBuilder.setType(MultipartBody.FORM);
@@ -114,13 +114,14 @@ public class Data_Access {
                 okHttpClient.newCall(request).enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {e.printStackTrace();
-                        call.cancel();
+                        if(networkCallback!=null)
+                            networkCallback.onError(call,e);
                     }
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
-                        String str = response.body().string();request.body().toString();
-                        call.cancel();
+                        if(networkCallback!=null)
+                            networkCallback.onResponse(response);
                     }
                 });
     }

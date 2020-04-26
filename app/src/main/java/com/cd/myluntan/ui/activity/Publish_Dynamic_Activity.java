@@ -40,6 +40,7 @@ import okhttp3.Response;
 
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.ADDDYNAMIC;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.ADDIMGHS;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.NEW;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 
 public class Publish_Dynamic_Activity extends AppCompatActivity {
@@ -86,7 +87,7 @@ public class Publish_Dynamic_Activity extends AppCompatActivity {
                     dynamic.setMag(msg);
                     dynamic.setId(dynamicid);
                     dynamic.setTime(TimeUitl.DataToString(new Date()));
-                    dynamic.setType("232");
+                    dynamic.setType(NEW);
                     Data_Access.AccessJSONDate(URL + ADDDYNAMIC, new Gson().toJson(dynamic), new NetworkCallback() {
                         @Override
                         public Object parseNetworkResponse(Response response) {
@@ -110,7 +111,7 @@ public class Publish_Dynamic_Activity extends AppCompatActivity {
                     }
                     Map<String,String> map=new HashMap<>();
                     map.put("id",dynamicid);
-                    Data_Access.sendMultipart(URL+ADDIMGHS,map,"file",files);
+                    Data_Access.sendMultipart(URL+ADDIMGHS,map,"file",files,null);
                     Toast.makeText(Publish_Dynamic_Activity.this,"发布成功",Toast.LENGTH_LONG).show();
                     finish();
                 }else {

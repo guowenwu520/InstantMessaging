@@ -15,7 +15,10 @@
             android:padding="5dp">
 
             <ImageView
+                android:scaleType="centerCrop"
+                android:src="@drawable/logo"
                 android:id="@+id/videoThumbnail"
+                android:maxHeight="400dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -39,7 +42,11 @@
                 android:layout_marginBottom="5dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
-
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/avatarImg"
                     android:layout_width="30dp"
@@ -53,7 +60,7 @@
                     android:layout_marginLeft="5dp"
                     android:text="啊倒萨收到" />
 
-
+                </LinearLayout>
                 <ImageView
                     android:id="@+id/like"
                     android:layout_width="20dp"

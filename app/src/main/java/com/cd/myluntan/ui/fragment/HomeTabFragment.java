@@ -12,22 +12,39 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.cd.myluntan.R;
+import com.cd.myluntan.data_connection.Data_Access;
+import com.cd.myluntan.entrty.Dynamic;
 import com.cd.myluntan.entrty.Home;
 import com.cd.myluntan.entrty.User;
 import com.cd.myluntan.adapter.HomeTabListAdapter;
+import com.cd.myluntan.interfaceo.NetworkCallback;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Response;
+
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.GETALLDYNAMIC;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.NEW;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.SHIPING;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 
 public class HomeTabFragment extends BaseFragment{
     private final static String TAG = HomeTabFragment.class.getCanonicalName();
     private View view;
     private RecyclerView recyclerView;
     private SmartRefreshLayout smartRefreshLayout;
+    ArrayList<Dynamic> dynamics=new ArrayList<>();
 
     private HomeTabListAdapter homeTabListAdapter;
     private String name;
@@ -41,7 +58,7 @@ public class HomeTabFragment extends BaseFragment{
         if (name == null) {
             name = "参数非法";
         }
-        getData();
+        getData(1);
         initView();
         initSmartRefreshLayout();
         return view;
@@ -75,7 +92,7 @@ public class HomeTabFragment extends BaseFragment{
         });
         homeTabListAdapter = new HomeTabListAdapter(view.getContext());
         recyclerView.setAdapter(homeTabListAdapter);
-        homeTabListAdapter.replaceAll(getData());
+       getData(1);
 
         //设置下拉刷新和上拉加载监听
         smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -84,7 +101,7 @@ public class HomeTabFragment extends BaseFragment{
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        homeTabListAdapter.replaceAll(getData());
+                       getData(1);
                         refreshLayout.finishRefresh();
                     }
                 },2000);
@@ -98,7 +115,7 @@ public class HomeTabFragment extends BaseFragment{
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        homeTabListAdapter.addData(homeTabListAdapter.getItemCount(),getData());
+                      getData(2);
                         refreshLayout.finishLoadMore();
                     }
                 },2000);
@@ -106,21 +123,48 @@ public class HomeTabFragment extends BaseFragment{
         });
     }
 
-    private ArrayList<Home> getData(){
-        ArrayList<Home> homes=new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            Home home=new Home();
-            User user =new User();
-            user.setName("提花之秀"+i);
-            user.setAge(22+"");
-            user.setNick("飒飒"+i);
-            user.setSex("男");
-            home.setAuthor(user);
-            home.setTitle("标题太长不想写"+i);
-            home.setCreateDate(new Date());
-            homes.add(home);
-        }
-        return homes;
+    private void getData(int k){
+        Map<String,String> map=new HashMap<>();
+        map.put("pagenum",1+"");
+        map.put("pagesize",10+"");
+        map.put("type",SHIPING);
+        Data_Access.AccessStringDate(URL+GETALLDYNAMIC, map, new NetworkCallback() {
+            @Override
+            public Object parseNetworkResponse(Response response) {
+                try {
+                   // swipeRefreshLayout.setRefreshing(false);
+                    if(response!=null) {
+                        TypeToken<ArrayList<Dynamic>> dynamicTypeToken=new TypeToken<ArrayList<Dynamic>>(){};
+                        Gson gson=new Gson();
+                        dynamics= gson.fromJson(response.body().string(),dynamicTypeToken.getType());;
+                    }else  return null;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(k==2){
+                            homeTabListAdapter.addData(homeTabListAdapter.getItemCount(),dynamics);
+                        }else {
+                            homeTabListAdapter.replaceAll(dynamics);
+                        }
+                    }
+                });
+
+                return null;
+            }
+
+            @Override
+            public void onError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        });
     }
 
     private void initView() {

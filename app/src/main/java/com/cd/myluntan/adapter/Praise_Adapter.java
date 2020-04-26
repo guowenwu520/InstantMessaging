@@ -23,6 +23,9 @@ import com.cd.myluntan.utils.Singletion;
 
 import java.util.ArrayList;
 
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.SHOWIMGS;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
+
 public class Praise_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
     ArrayList<Praise> praises=new ArrayList<>();
@@ -76,9 +79,13 @@ public class Praise_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private void updateList(myViewHolderClass myViewHolderClass, final Praise praise) {
         //用户消息
         User user=praise.getUser();
-        myViewHolderClass.name.setText(user.getName());
+        myViewHolderClass.name.setText(user.getNick()!=null?user.getNick():user.getName());
         myViewHolderClass.time.setText(user.getSignaturnre());
-        Glide.with(context).load(user.getHeadUrl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(myViewHolderClass.imghead);
+        if(user.getHeadurl().length()<24){
+            Glide.with(context).load(URL + SHOWIMGS+"?name=" +user.getHeadurl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(myViewHolderClass.imghead);
+        }else {
+            Glide.with(context).load(user.getHeadurl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(myViewHolderClass.imghead);
+        }
         //判断是否关注
         if(isFollow(user)) {
             myViewHolderClass.follow.setText("已关注");
