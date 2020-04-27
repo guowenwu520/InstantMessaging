@@ -26,6 +26,16 @@ public class Dynamic {
     String type;
 
     String userid;
+    String classs;
+
+    public String getClasss() {
+        return classs;
+    }
+
+    public void setClasss(String classs) {
+        this.classs = classs;
+    }
+
     public ArrayList<Imgs> getImgs() {
         return imgs;
     }

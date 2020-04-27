@@ -46,7 +46,8 @@ public class Commit_Fragment extends Fragment {
     public  static   boolean ISCOMMITBACK=false;
     public Commit_Fragment(ArrayList<Comment> comments, EditText text_mssg, TextView commitNum) {
         this.comments=comments;
-        textView=text_mssg;this.commitNum=commitNum;
+        textView=text_mssg;
+        this.commitNum=commitNum;
     }
 
     @Nullable
@@ -65,7 +66,7 @@ public class Commit_Fragment extends Fragment {
             @Override
             public void OnClick(View.OnClickListener onClickListener, int k) {
                   Comment comment=comments.get(k);
-                  textView.setHint("回复 "+comment.getUsered().getName());
+                  textView.setHint("回复 :"+(comment.getUsered().getNick()!=null?comment.getUsered().getNick():comment.getUsered().getName()));
                UpDataSTATUS();
                  publick=k;
                   publiccomment=comment;

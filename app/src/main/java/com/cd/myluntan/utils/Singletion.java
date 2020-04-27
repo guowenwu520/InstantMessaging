@@ -14,6 +14,7 @@ public class Singletion {
     private Dynamic dynamic;
     //粉丝
     private ArrayList<User> follow;
+    private ArrayList<Dynamic> dynamics;
     //top指示
     private int index=0;
     //数据位置
@@ -36,6 +37,14 @@ public class Singletion {
             singletion=new Singletion();
         }
         return  singletion;
+    }
+
+    public ArrayList<Dynamic> getDynamics() {
+        return dynamics;
+    }
+
+    public void setDynamics(ArrayList<Dynamic> dynamics) {
+        this.dynamics = dynamics;
     }
 
     public User getOtherUser() {

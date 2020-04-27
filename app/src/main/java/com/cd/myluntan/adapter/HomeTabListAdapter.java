@@ -1,6 +1,7 @@
 package com.cd.myluntan.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.cd.myluntan.entrty.Praise;
 import com.cd.myluntan.entrty.User;
 import com.cd.myluntan.interfaceo.BottomUpdateCallback;
 import com.cd.myluntan.interfaceo.OnClicktitem;
+import com.cd.myluntan.ui.activity.PlayMp4_Activity;
 import com.cd.myluntan.ui.widget.HomeItemView;
 import com.cd.myluntan.utils.Singletion;
 import com.google.gson.Gson;
@@ -77,7 +79,10 @@ public class HomeTabListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context,homes.get(getLayoutPosition()).getMag(),Toast.LENGTH_SHORT).show();
+                    Singletion.getInstance().setIndex(getLayoutPosition());
+                    Singletion.getInstance().setDynamics(homes);
+                    Intent intent=new Intent(context, PlayMp4_Activity.class);
+                    context.startActivity(intent);
                 }
             });
         }

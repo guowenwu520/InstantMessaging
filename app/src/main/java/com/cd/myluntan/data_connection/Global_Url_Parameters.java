@@ -24,6 +24,7 @@ public class Global_Url_Parameters {
     public  static  final  String  PLAYMPO="/dynamic/playMp4";//视频播放路径
    public  static final  String GETUSERBYNAME="/dynamic/getUserByNameAndPass";//获得用户消息
     public  static final  String GETUSERBYID="/dynamic/getUserByID";//获得用户消息通过id
+    public  static final  String GETUSERBYdNAME="/dynamic/getUserByName";//获得用户消息通过name
 
     public  static  final String  HOT="het";//最热
     public  static  final String  NEW="new";//最新

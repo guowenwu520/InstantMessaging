@@ -88,6 +88,7 @@ public class Publish_Dynamic_Activity extends AppCompatActivity {
                     dynamic.setId(dynamicid);
                     dynamic.setTime(TimeUitl.DataToString(new Date()));
                     dynamic.setType(NEW);
+                    dynamic.setClasss("无");
                     Data_Access.AccessJSONDate(URL + ADDDYNAMIC, new Gson().toJson(dynamic), new NetworkCallback() {
                         @Override
                         public Object parseNetworkResponse(Response response) {
