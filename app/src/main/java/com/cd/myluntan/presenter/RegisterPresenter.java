@@ -58,7 +58,7 @@ public class RegisterPresenter extends BasePresenter implements RegisterContract
 
                     @Override
                     public void onError(Call call, Exception e) {
-                          e.printStackTrace();
+                        view.onRegisterFailed(R.string.register_failed);
                     }
 
                     @Override

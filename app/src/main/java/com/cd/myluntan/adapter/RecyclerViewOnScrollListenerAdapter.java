@@ -14,6 +14,7 @@ public abstract class RecyclerViewOnScrollListenerAdapter extends RecyclerView.O
         // 当不滑动时
         if (newState == RecyclerView.SCROLL_STATE_IDLE) {
             //获取最后一个完全显示的itemPosition
+            int firstItemPosition = manager.findFirstCompletelyVisibleItemPosition();
             int lastItemPosition = manager.findLastCompletelyVisibleItemPosition();
             int itemCount = manager.getItemCount();
             // 判断是否滑动到了最后一个item，并且是向上滑动

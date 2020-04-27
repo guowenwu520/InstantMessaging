@@ -13,7 +13,7 @@ import com.cd.myluntan.contract.SplashContract;
 import com.cd.myluntan.presenter.SplashPresenter;
 
 public class SplashActivity extends BaseActivity implements SplashContract.View {
-    private static final String TAG =SplashActivity.class.getCanonicalName();
+    private static final String TAG = SplashActivity.class.getCanonicalName();
     private TextView jumpOver;
 
     private SplashPresenter splashPresenter;
@@ -22,9 +22,10 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
     Runnable runnable = () -> {
 //        Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
 //        startActivity(intent);
-        splashPresenter=new SplashPresenter(this,SplashActivity.this);
+        splashPresenter = new SplashPresenter(this, SplashActivity.this);
         splashPresenter.checkLoginStatus();
     };
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +38,7 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
     private void initJumpOver() {
         jumpOver.setOnClickListener(v -> {
             handler.removeCallbacks(runnable);
-            Intent intent=new Intent(SplashActivity.this, LoginActivity.class);
+            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
         });
@@ -48,8 +49,8 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Log.d(TAG,"onNotLogin");
-                Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
+                Log.d(TAG, "onNotLogin");
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -59,13 +60,13 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
 
     @Override
     public void onLogin() {
-        Log.d(TAG,"onLogin");
+        Log.d(TAG, "onLogin");
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-        Intent intent=new Intent(SplashActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }

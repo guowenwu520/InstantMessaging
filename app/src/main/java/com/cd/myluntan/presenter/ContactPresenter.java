@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.cd.myluntan.Model.ContactModel;
 import com.cd.myluntan.contract.ContactContract;
+import com.cd.myluntan.entrty.User;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
 
@@ -12,10 +13,8 @@ import java.util.List;
 
 public class ContactPresenter implements ContactContract.Presenter {
     private static final String TAG = ContactPresenter.class.getCanonicalName();
-    public static final int PULL_DOWN_TO_REFRESH = 0;
-    public static final int PULL_TO_REFRESH = 1;
 
-    public List<String> contacts = new ArrayList<>();
+    public ArrayList<User> contacts = new ArrayList<>();
     private ContactContract.View view;
     private ContactModel contactModel = new ContactModel();
 
@@ -29,9 +28,13 @@ public class ContactPresenter implements ContactContract.Presenter {
             @Override
             public void onSuccess(List<String> value) {
                 Log.d(TAG, "======" + value + "======" + value.size());
-                contacts.clear();
-                contacts.addAll(value);
-                view.onLoadContactSuccess(PULL_TO_REFRESH);
+                ArrayList<String> arrayList = new ArrayList<>(value);
+                for (String s : arrayList) {
+                    User user = new User();
+                    user.setName(s);
+                    contacts.add(user);
+                }
+                view.onLoadContactSuccess(value.size());
             }
 
             @Override
@@ -44,6 +47,7 @@ public class ContactPresenter implements ContactContract.Presenter {
 
     @Override
     public void loadFan() {
+
     }
 
     @Override
@@ -51,9 +55,15 @@ public class ContactPresenter implements ContactContract.Presenter {
         EMClient.getInstance().contactManager().aysncGetAllContactsFromServer(new EMValueCallBack<List<String>>() {
             @Override
             public void onSuccess(List<String> value) {
+                Log.d(TAG, "onSuccess=========="+value);
                 contacts.clear();
-                contacts.addAll(value);
-                view.onLoadContactSuccess(PULL_DOWN_TO_REFRESH);
+                ArrayList<String> arrayList = new ArrayList<>(value);
+                for (String s : arrayList) {
+                    User user = new User();
+                    user.setName(s);
+                    contacts.add(user);
+                }
+                view.onRefreshSuccess(value.size());
             }
 
             @Override

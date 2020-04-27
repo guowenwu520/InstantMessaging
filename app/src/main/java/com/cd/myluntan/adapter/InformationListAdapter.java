@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cd.myluntan.R;
+import com.cd.myluntan.entrty.Home;
 import com.cd.myluntan.entrty.User;
 import com.cd.myluntan.ui.activity.AttentionActivity;
 import com.cd.myluntan.ui.activity.ChatActivity;
@@ -34,7 +35,7 @@ public class InformationListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private static final int TYPE_INFORMATION_CHAT = 1;
 
     private Context context;
-    private ArrayList<EMConversation> tests = new ArrayList<>();
+    private ArrayList<EMConversation> conversations = new ArrayList<>();
 
     public InformationListAdapter(Context context) {
         this.context = context;
@@ -62,22 +63,40 @@ public class InformationListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         return null;
     }
 
-    public void setData(ArrayList<EMConversation> tests) {
-        this.tests.addAll(tests);
-    }
-
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof InformationChatViewHolder){
-//            ((InformationChatViewHolder) holder).onBindData(tests.get(position));
-        }else if (holder instanceof InformationFunctionViewHolder){
+        if (holder instanceof InformationChatViewHolder) {
+            ((InformationChatViewHolder) holder).onBindData(conversations.get(position));
+        } else if (holder instanceof InformationFunctionViewHolder) {
 
         }
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return conversations.size();
+    }
+
+    public void replaceAll(ArrayList<EMConversation> data) {
+        if (data!=null&&data.size()>0){
+            this.conversations.clear();
+            this.conversations.add(null);
+            this.conversations.addAll(data);
+        }else if (this.conversations.size()==0){
+            this.conversations.add(null);
+        }
+        notifyDataSetChanged();
+    }
+
+    //添加数据
+    public void addData(int position, ArrayList<EMConversation> data) {
+        this.conversations.addAll(position, data);
+        notifyItemInserted(position);
+    }
+
+    public void removeData(int position) {
+        this.conversations.remove(position);
+        notifyItemRemoved(position);
     }
 
     class InformationFunctionViewHolder extends RecyclerView.ViewHolder {
@@ -125,9 +144,11 @@ public class InformationListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    User user= Singletion.getInstance().getUser();Singletion.getInstance().setOtherUser(user);
-                    Intent intent = new Intent(context, ChatActivity.class).putExtra("chatType", Constant.CHATTYPE_SINGLE).putExtra("userId", user.getName()).putExtra("imgurl",user.getHeadurl());
-                     context.startActivity(intent);
+                    User user = new User();
+                    user.setName(conversations.get(getLayoutPosition()).conversationId());
+                    Singletion.getInstance().setOtherUser(user);
+                    Intent intent = new Intent(context, ChatActivity.class).putExtra("chatType", Constant.CHATTYPE_SINGLE).putExtra("userId", user.getName()).putExtra("imgurl", user.getHeadurl());
+                    context.startActivity(intent);
                 }
             });
         }
@@ -137,14 +158,18 @@ public class InformationListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             if (emConversation.getLastMessage().getType() == EMMessage.Type.TXT) {
                 EMTextMessageBody body = (EMTextMessageBody) emConversation.getLastMessage().getBody();
                 lastMessage.setText(body.getMessage());
-            } else {
+            }else if (emConversation.getLastMessage().getType() == EMMessage.Type.VOICE){
+                lastMessage.setText(context.getString(R.string.voice));
+            }else if (emConversation.getLastMessage().getType() == EMMessage.Type.VIDEO){
+                lastMessage.setText(context.getString(R.string.video));
+            }else{
                 lastMessage.setText(context.getString(R.string.not_see_message));
             }
             String timestampString = DateUtils.getTimestampString(new Date(emConversation.getLastMessage().getMsgTime()));
             timestamp.setText(timestampString);
             if (emConversation.getUnreadMsgCount() > 0) {
                 unreadCount.setVisibility(View.VISIBLE);
-                unreadCount.setText(emConversation.getUnreadMsgCount());
+                unreadCount.setText(String.valueOf(emConversation.getUnreadMsgCount()));
             } else {
                 unreadCount.setVisibility(View.GONE);
             }

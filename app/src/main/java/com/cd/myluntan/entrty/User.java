@@ -1,22 +1,26 @@
 package com.cd.myluntan.entrty;
 
 public class User {
+    public static final int TYPE_NOT_IS_FOLLOW=0;
+    public static final int TYPE_IS_FOLLOW=1;
     //id
     String id;
     //账号
-     String name;
-     //密码
-     String pass;
-     //性别
-     String sex="男";
-     //年纪
-     String age="18";
-     //头像
-     String headurl ="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1245886665,169279313&fm=26&gp=0.jpg";
-     //昵称
-     String nick="diandian";
-     //签名
-    String signaturnre="天天开心";
+    String name;
+    //密码
+    String pass;
+    //性别
+    String sex = "男";
+    //年纪
+    String age = "18";
+    //头像
+    String headurl = "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1245886665,169279313&fm=26&gp=0.jpg";
+    //昵称
+    String nick = "diandian";
+    //签名
+    String signaturnre = "天天开心";
+    //是否关注
+    Integer isFollow = TYPE_NOT_IS_FOLLOW;
 
     public String getSignaturnre() {
         return signaturnre;
@@ -82,6 +86,14 @@ public class User {
         this.nick = nick;
     }
 
+    public Integer getIsFollow() {
+        return isFollow;
+    }
+
+    public void setIsFollow(Integer isFollow) {
+        this.isFollow = isFollow;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -93,6 +105,7 @@ public class User {
                 ", headurl='" + headurl + '\'' +
                 ", nick='" + nick + '\'' +
                 ", signaturnre='" + signaturnre + '\'' +
+                ", isFollow=" + isFollow +
                 '}';
     }
 }

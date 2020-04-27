@@ -12,6 +12,8 @@ public class Singletion {
      //英语跳转
     private  User otherUser;
     private Dynamic dynamic;
+    //粉丝
+    private ArrayList<User> follow;
     //top指示
     private int index=0;
     //数据位置
@@ -75,5 +77,13 @@ public class Singletion {
 
     public void setPostion(int postion) {
         this.postion = postion;
+    }
+
+    public ArrayList<User> getFollow() {
+        return follow;
+    }
+
+    public void setFollow(ArrayList<User> follow) {
+        this.follow = follow;
     }
 }

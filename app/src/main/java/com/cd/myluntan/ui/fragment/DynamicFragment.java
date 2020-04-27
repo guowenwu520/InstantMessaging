@@ -62,8 +62,8 @@ public class DynamicFragment extends BaseFragment {
         toolbar=view.findViewById(R.id.dynamic_topbar);
         viewPager=view.findViewById(R.id.dynamic_viewpage);
         ArrayList<Fragment> list=new ArrayList<>();
-        list.add(new Dynsmic_Hot_Fragment());
-        list.add(new Dynamic_New_Fragment());
+        list.add(new Dynsmic_Hot_Fragment(getActivity()));
+        list.add(new Dynamic_New_Fragment(getActivity()));
         ArrayList<String> names=new ArrayList<>();
         names.add("热门");
         names.add("最新");

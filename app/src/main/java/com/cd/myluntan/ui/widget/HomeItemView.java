@@ -25,14 +25,9 @@ import com.cd.myluntan.interfaceo.BottomUpdateCallback;
 import com.cd.myluntan.interfaceo.OnClicktitem;
 import com.cd.myluntan.ui.activity.PersonalActivity;
 import com.cd.myluntan.utils.Singletion;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-import static com.cd.myluntan.data_connection.Global_Url_Parameters.ADDPRAISE;
-import static com.cd.myluntan.data_connection.Global_Url_Parameters.DELETEPRAISE;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.PLAYMPO;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.SHOWIMGS;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;

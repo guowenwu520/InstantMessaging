@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -39,10 +41,13 @@ import com.cd.myluntan.utils.Singletion;
 import com.cd.myluntan.utils.ToolAnimation;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hyphenate.EMValueCallBack;
+import com.hyphenate.chat.EMClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -67,10 +72,15 @@ public class Dynsmic_Hot_Fragment extends BaseFragment {
     private boolean isLoading;
     private ProgressBar loadmorePB;
     private SwipeRefreshLayout swipeRefreshLayout;
-    ArrayList<Dynamic> dynamics=new ArrayList<>();
+    ArrayList<Dynamic> dynamics = new ArrayList<>();
     private boolean isReleaseShow = true;
     private boolean isAnimationEnd = true;
     Dynamic_show_Adapter myRecycleViewClassAdapter;
+   private Activity activity;
+    public Dynsmic_Hot_Fragment(FragmentActivity activity) {
+       this.activity=activity;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -87,6 +97,7 @@ public class Dynsmic_Hot_Fragment extends BaseFragment {
         super.onResume();
         showList();
     }
+
     private void initRelease() {
         //
         release.setOnClickListener(new View.OnClickListener() {
@@ -120,50 +131,75 @@ public class Dynsmic_Hot_Fragment extends BaseFragment {
         release = view.findViewById(R.id.release);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
         releaseCardView = view.findViewById(R.id.releaseCardView);
-        recyclerView=view.findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.recyclerView);
         loadmorePB = (ProgressBar) view.findViewById(R.id.pb_load_more);
-        mian_lay=view.findViewById(R.id.mian_lay);
+        mian_lay = view.findViewById(R.id.mian_lay);
         showLiuList(true);
     }
 
     private void showLiuList(boolean isRefresh) {
         isLoading = true;
-        dynamics=new ArrayList<>();
-        if(isRefresh){
+        dynamics = new ArrayList<>();
+        if (isRefresh) {
             pageNum = 1;
             swipeRefreshLayout.setRefreshing(true);
             showList();
-        }else{
+        } else {
             pageNum++;
             loadmorePB.setVisibility(View.VISIBLE);
         }
     }
-    @SuppressLint("StaticFieldLeak")
-    private void showList() {
-        Map<String,String> map=new HashMap<>();
-        map.put("pagenum",pageNum+"");
-        map.put("pagesize",pageSize+"");
-        map.put("type",NEW);
-        Data_Access.AccessStringDate(URL+GETALLDYNAMIC, map, new NetworkCallback() {
+    //获取所有用户
+    private void getUserNames() {
+        EMClient.getInstance().contactManager().aysncGetAllContactsFromServer(new EMValueCallBack<List<String>>() {
             @Override
-            public Object parseNetworkResponse(Response response) {
-                try {
-                    swipeRefreshLayout.setRefreshing(false);
-                    if(response!=null) {
-                        TypeToken<ArrayList<Dynamic>> dynamicTypeToken=new TypeToken<ArrayList<Dynamic>>(){};
-                        Gson gson=new Gson();
-                        dynamics= gson.fromJson(response.body().string(),dynamicTypeToken.getType());;
-                    }else  return null;
-                } catch (IOException e) {
-                    e.printStackTrace();
+            public void onSuccess(List<String> value) {
+                ArrayList<String> arrayList = new ArrayList<>(value);
+                for (String s : arrayList) {
+                    User user = new User();
+                    user.setName(s);
+                    user.setIsFollow(User.TYPE_IS_FOLLOW);
+                    for (int i = 0; i < dynamics.size(); i++) {
+                        if (dynamics.get(i).getUser().getName().equals(user.getName())) {
+                            dynamics.get(i).getUser().setIsFollow(User.TYPE_IS_FOLLOW);
+                        }
+                    }
                 }
-                getActivity().runOnUiThread(new Runnable() {
+                activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         setDataDynamicandFinsh(dynamics);
                     }
                 });
+            }
 
+            @Override
+            public void onError(int error, String errorMsg) {
+
+            }
+        });
+    }
+    @SuppressLint("StaticFieldLeak")
+    private void showList() {
+        Map<String, String> map = new HashMap<>();
+        map.put("pagenum", pageNum + "");
+        map.put("pagesize", pageSize + "");
+        map.put("type", NEW);
+        Data_Access.AccessStringDate(URL + GETALLDYNAMIC, map, new NetworkCallback() {
+            @Override
+            public Object parseNetworkResponse(Response response) {
+                try {
+                    swipeRefreshLayout.setRefreshing(false);
+                    if (response != null) {
+                        TypeToken<ArrayList<Dynamic>> dynamicTypeToken = new TypeToken<ArrayList<Dynamic>>() {
+                        };
+                        Gson gson = new Gson();
+                        dynamics = gson.fromJson(response.body().string(), dynamicTypeToken.getType());
+                        getUserNames();
+                    } else return null;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 return null;
             }
 
@@ -178,13 +214,15 @@ public class Dynsmic_Hot_Fragment extends BaseFragment {
             }
         });
     }
+
     private void setDataDynamicandFinsh(ArrayList<Dynamic> dynamics) {
-        if(myRecycleViewClassAdapter!=null){
+        if (myRecycleViewClassAdapter != null) {
             myRecycleViewClassAdapter.setDataDynamicandFinsh(dynamics);
         }
     }
+
     private void setDataDynamic(ArrayList<Dynamic> dynamics) {
-        myRecycleViewClassAdapter =new Dynamic_show_Adapter(getActivity(),dynamics,0,mian_lay);
+        myRecycleViewClassAdapter = new Dynamic_show_Adapter(getActivity(), dynamics, 0, mian_lay);
         recyclerView.setAdapter(myRecycleViewClassAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addOnScrollListener(new RecyclerViewOnScrollListenerAdapter() {
@@ -209,6 +247,7 @@ public class Dynsmic_Hot_Fragment extends BaseFragment {
                             super.onAnimationStart(animation);
                             isAnimationEnd = false;
                         }
+
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             super.onAnimationEnd(animation);
@@ -227,6 +266,7 @@ public class Dynsmic_Hot_Fragment extends BaseFragment {
                             releaseCardView.setVisibility(View.VISIBLE);
                             isAnimationEnd = false;
                         }
+
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             super.onAnimationEnd(animation);

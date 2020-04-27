@@ -41,4 +41,6 @@
      <string name="sex">性别</string>
      <string name="birthday">生日</string>
      <string name="signature">签名</string>
+    <string name="logOut">退出</string>
+    <string name="register_failed">注册失败</string>
 </resources>

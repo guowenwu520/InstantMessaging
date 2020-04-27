@@ -47,9 +47,13 @@ public class SplashPresenter implements SplashContract.Presenter {
      */
     private void isLoggedIn() {
         SharedPreferences sharedPreferences=context.getSharedPreferences("user", Context.MODE_PRIVATE);
-         String name=sharedPreferences.getString("name","12");
-         String pass=sharedPreferences.getString("pass","12");
-         loginModel(name,pass);
+         String name=sharedPreferences.getString("name","");
+         String pass=sharedPreferences.getString("pass","");
+         if (!name.isEmpty()&&!pass.isEmpty()){
+             loginModel(name,pass);
+         }else {
+             view.onNotLogin();
+         }
      //   return EMClient.getInstance().isConnected() && EMClient.getInstance().isLoggedInBefore();
     }
 

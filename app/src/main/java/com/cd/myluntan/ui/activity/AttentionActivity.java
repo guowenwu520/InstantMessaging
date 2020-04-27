@@ -11,6 +11,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.cd.myluntan.R;
 import com.cd.myluntan.adapter.ContactListAdapter;
 import com.cd.myluntan.adapter.LoadMoreWrapper;
+import com.cd.myluntan.adapter.RecyclerViewOnScrollListenerAdapter;
 import com.cd.myluntan.contract.ContactContract;
 import com.cd.myluntan.presenter.ContactPresenter;
 
@@ -44,6 +45,7 @@ public class AttentionActivity extends BaseActivity implements ContactContract.V
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Log.d(TAG, "initSwipeRefreshLayout=====onRefresh=====");
                 contactPresenter.onRefresh();
             }
         });
@@ -54,6 +56,18 @@ public class AttentionActivity extends BaseActivity implements ContactContract.V
         loadMoreWrapper = new LoadMoreWrapper(contactListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(loadMoreWrapper);
+        recyclerView.addOnScrollListener(new RecyclerViewOnScrollListenerAdapter() {
+            @Override
+            public void onLoadMore() {
+                loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING);
+                contactPresenter.loadAttention();
+            }
+
+            @Override
+            public void onScroll(RecyclerView recyclerView, int dx, int dy) {
+
+            }
+        });
     }
 
     private void initView() {
@@ -62,21 +76,38 @@ public class AttentionActivity extends BaseActivity implements ContactContract.V
     }
 
     @Override
-    public void onLoadContactSuccess(int type) {
-        Log.d(TAG, contactPresenter.contacts.size() + "");
+    public void onLoadContactSuccess(int size) {
+        Log.d(TAG, "onLoadContactSuccess=========="+contactPresenter.contacts.size());
         runOnUiThread(() -> {
             swipeRefreshLayout.setRefreshing(false);
-            ArrayList<String> arrayList = new ArrayList<>(contactPresenter.contacts);
-            if (type == ContactPresenter.PULL_DOWN_TO_REFRESH) {
-                contactListAdapter.onRefreshData();
+            contactListAdapter.addData(contactListAdapter.getItemCount(), contactPresenter.contacts);
+            if (size < 15) {
+                loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_END);
+            } else {
+                loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_COMPLETE);
             }
-            contactListAdapter.onBindData(arrayList);
+            loadMoreWrapper.notifyDataSetChanged();
+        });
+    }
+
+    @Override
+    public void onRefreshSuccess(int size) {
+        Log.d(TAG, "onRefreshSuccess=========="+contactPresenter.contacts.size());
+        runOnUiThread(() -> {
+            swipeRefreshLayout.setRefreshing(false);
+            contactListAdapter.replaceAll(contactPresenter.contacts);
+            if (size < 15) {
+                loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_END);
+            } else {
+                loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_COMPLETE);
+            }
             loadMoreWrapper.notifyDataSetChanged();
         });
     }
 
     @Override
     public void onLoadContactFailed(String err) {
+        Log.d(TAG, "onLoadContactFailed=========="+err);
         swipeRefreshLayout.setRefreshing(false);
     }
 }

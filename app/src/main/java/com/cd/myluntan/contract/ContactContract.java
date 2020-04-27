@@ -6,16 +6,23 @@ import java.util.ArrayList;
  * 粉丝和关注MVP协议
  */
 public interface ContactContract {
-    interface Model{
+    interface Model {
         ArrayList<String> getAttention();
+
         ArrayList<String> getFan();
     }
-    interface View{
-        void onLoadContactSuccess(int type);
+
+    interface View {
+        void onLoadContactSuccess(int size);
+
+        void onRefreshSuccess(int size);
+
         void onLoadContactFailed(String err);
     }
-    interface Presenter{
+
+    interface Presenter {
         void loadAttention();
+
         void loadFan();
 
         void onRefresh();

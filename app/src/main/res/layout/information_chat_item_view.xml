@@ -47,6 +47,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -66,10 +67,11 @@
             <TextView
                 android:id="@+id/unreadCount"
                 style="@style/content_text_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/bg_unread_count"
                 android:minLines="1"
-                android:padding="5dp"
+                android:gravity="center"
                 android:text="消息数"
                 android:textIsSelectable="false" />
         </LinearLayout>
