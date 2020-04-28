@@ -54,7 +54,8 @@ public class Commit_Fragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.commit_fragment, container, false);
-        initView(view);initData();
+        initView(view);
+        initData();
         return view;
     }
 
@@ -110,6 +111,16 @@ public class Commit_Fragment extends Fragment {
 
     public void setDataAndFinal(ArrayList<Comment> comments) {
         this.comments=comments;
-        commit_adapter.setDataAndFinal(comments);
+        initData();
+//        if(commit_adapter!=null)
+//        commit_adapter.setDataAndFinal(comments);
+    }
+    public void setDataAndFinalAndView(ArrayList<Comment> comments,EditText msg,TextView count) {
+        this.comments=comments;
+        this.textView=msg;
+        this.commitNum=count;
+        initData();
+//        if(commit_adapter!=null)
+//            commit_adapter.setDataAndFinal(comments);
     }
 }

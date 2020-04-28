@@ -83,7 +83,24 @@ public class WindowUitls {
         });
         picker_wuran_Picker.show();
     }
-
+    //弹出d底部系统框
+    public static void ShowBottomBarSelect(Activity context, String[] wuran_headers, View view,  BottomUpdateCallback key) {
+        Picker picker_wuran_Picker = new Picker(context,view, wuran_headers);
+        picker_wuran_Picker.setOnSelectDoneListener(new Picker.OnSelectDoneListener() {
+            @Override
+            public void onSelectDone(int i) {
+                switch (wuran_headers[i]){
+                    case "录制":
+                      key.bottomBarShow(333);
+                        break;
+                    case "本地视频":
+                        key.bottomBarShow(222);
+                        break;
+                }
+            }
+        });
+        picker_wuran_Picker.show();
+    }
     private static void deleteDyniamic(Dynamic dynamic, BottomUpdateCallback key) {
         Map<String,String> map=new HashMap<>();
         map.put("id",dynamic.getId());

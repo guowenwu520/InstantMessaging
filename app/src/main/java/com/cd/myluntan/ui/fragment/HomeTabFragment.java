@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.cd.myluntan.R;
 import com.cd.myluntan.data_connection.Data_Access;
 import com.cd.myluntan.entrty.Dynamic;
-import com.cd.myluntan.entrty.Home;
-import com.cd.myluntan.entrty.User;
 import com.cd.myluntan.adapter.HomeTabListAdapter;
 import com.cd.myluntan.interfaceo.NetworkCallback;
 import com.google.gson.Gson;
@@ -27,7 +25,6 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +32,6 @@ import okhttp3.Call;
 import okhttp3.Response;
 
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.GETALLDYNAMIC;
-import static com.cd.myluntan.data_connection.Global_Url_Parameters.NEW;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.SHIPING;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 
@@ -58,7 +54,7 @@ public class HomeTabFragment extends BaseFragment{
         if (name == null) {
             name = "参数非法";
         }
-        getData(1);
+        getData(1,name);
         initView();
         initSmartRefreshLayout();
         return view;
@@ -92,7 +88,7 @@ public class HomeTabFragment extends BaseFragment{
         });
         homeTabListAdapter = new HomeTabListAdapter(view.getContext());
         recyclerView.setAdapter(homeTabListAdapter);
-       getData(1);
+       getData(1, name);
 
         //设置下拉刷新和上拉加载监听
         smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -101,7 +97,7 @@ public class HomeTabFragment extends BaseFragment{
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                       getData(1);
+                       getData(1, name);
                         refreshLayout.finishRefresh();
                     }
                 },2000);
@@ -115,7 +111,7 @@ public class HomeTabFragment extends BaseFragment{
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                      getData(2);
+                      getData(2, name);
                         refreshLayout.finishLoadMore();
                     }
                 },2000);
@@ -123,11 +119,12 @@ public class HomeTabFragment extends BaseFragment{
         });
     }
 
-    private void getData(int k){
+    private void getData(int k, String name){
         Map<String,String> map=new HashMap<>();
         map.put("pagenum",1+"");
         map.put("pagesize",10+"");
         map.put("type",SHIPING);
+        map.put("classs",name);
         Data_Access.AccessStringDate(URL+GETALLDYNAMIC, map, new NetworkCallback() {
             @Override
             public Object parseNetworkResponse(Response response) {

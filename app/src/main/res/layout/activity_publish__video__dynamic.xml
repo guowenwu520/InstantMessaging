@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.Publish_Video_Dynamic_Activity">
+    <include
+        android:id="@+id/top"
+        layout="@layout/base_topbar_view"/>
+    <EditText
+        android:hint="说点什么..."
+        android:background="@drawable/button_bg"
+        android:gravity="left"
+        android:padding="10dp"
+        android:layout_below="@id/top"
+        android:id="@+id/Dyamic_msg_twxt"
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
+    <TextView
+        android:id="@+id/textnumber"
+        android:text="12/1024"
+        android:layout_margin="5dp"
+        android:layout_alignBottom="@id/Dyamic_msg_twxt"
+        android:layout_alignRight="@id/Dyamic_msg_twxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/label_select"
+        android:text="#选择话题#"
+        android:textColor="@color/black"
+        android:layout_margin="5dp"
+        android:padding="3dp"
+        android:background="@drawable/edit_view"
+        android:layout_alignBottom="@id/Dyamic_msg_twxt"
+        android:layout_alignLeft="@id/Dyamic_msg_twxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle_img"
+        android:layout_below="@id/Dyamic_msg_twxt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+</RelativeLayout>

@@ -28,4 +28,8 @@
         <item>女</item>
         <item>保密</item>
     </array>
+    <array name="shiping_bidi_array">
+        <item>录制</item>
+        <item>本地视频</item>
+    </array>
 </resources>

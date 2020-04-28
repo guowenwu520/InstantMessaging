@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.cd.myluntan.adapter.HomeTabFragmentAdapter;
 import com.cd.myluntan.R;
+import com.cd.myluntan.ui.activity.Publish_Video_Dynamic_Activity;
 import com.cd.myluntan.ui.activity.SearchActivity;
 import com.cd.myluntan.utils.WindowUitls;
 import com.google.android.material.tabs.TabLayout;
@@ -27,7 +29,7 @@ public class HomeFragment extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private LinearLayout search;
-
+   private ImageView fabuhuatu;
     private HomeTabFragmentAdapter homeTabFragmentAdapter;
 
 
@@ -47,6 +49,13 @@ public class HomeFragment extends Fragment {
         }
         initTabFragment();
         initSearch();
+        fabuhuatu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(), Publish_Video_Dynamic_Activity.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
@@ -73,5 +82,6 @@ public class HomeFragment extends Fragment {
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
         search=view.findViewById(R.id.search);
+        fabuhuatu=view.findViewById(R.id.fabuhuatu);
     }
 }

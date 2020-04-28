@@ -34,13 +34,13 @@
     <string name="msg_recall_by_self">您撤回了一条消息</string>
     <string name="msg_recall_by_user">%1$s 撤回了一条消息</string>
     <string name="attention">关注</string>
-     <string name="fan">粉丝</string>
-     <string name="access">访问</string>
-     <string name="rank">排名</string>
-     <string name="nickname">昵称</string>
-     <string name="sex">性别</string>
-     <string name="birthday">生日</string>
-     <string name="signature">签名</string>
+    <string name="fan">粉丝</string>
+    <string name="access">访问</string>
+    <string name="rank">排名</string>
+    <string name="nickname">昵称</string>
+    <string name="sex">性别</string>
+    <string name="birthday">生日</string>
+    <string name="signature">签名</string>
     <string name="logOut">退出</string>
     <string name="register_failed">注册失败</string>
 </resources>

@@ -25,8 +25,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.activity.PlayMp4_Activity" android:windowSoftInputMode="adjustResize|stateHidden"
-            android:theme="@style/FixSystemWindowTheme"></activity>
+        <activity android:name=".ui.activity.Publish_Video_Dynamic_Activity"></activity>
+        <activity
+            android:name=".ui.activity.PlayMp4_Activity"
+            android:theme="@style/FixSystemWindowTheme"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".ui.activity.Show_Sing_images_Activity" />
         <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".ui.activity.Publish_Dynamic_Activity" />
