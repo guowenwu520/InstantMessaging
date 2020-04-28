@@ -32,6 +32,7 @@ public class ContactPresenter implements ContactContract.Presenter {
                 for (String s : arrayList) {
                     User user = new User();
                     user.setName(s);
+                    user.setIsFollow(User.TYPE_IS_FOLLOW);
                     contacts.add(user);
                 }
                 view.onLoadContactSuccess(value.size());
@@ -61,6 +62,7 @@ public class ContactPresenter implements ContactContract.Presenter {
                 for (String s : arrayList) {
                     User user = new User();
                     user.setName(s);
+                    user.setIsFollow(User.TYPE_IS_FOLLOW);
                     contacts.add(user);
                 }
                 view.onRefreshSuccess(value.size());

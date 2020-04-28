@@ -78,7 +78,7 @@ public class Dynamic_New_Fragment extends BaseFragment {
     private Activity context;
 
     public Dynamic_New_Fragment(FragmentActivity activity) {
-        context=activity;
+        context = activity;
     }
 
     @Nullable
@@ -147,31 +147,18 @@ public class Dynamic_New_Fragment extends BaseFragment {
 
     //获取所有用户
     private void getUserNames() {
-        EMClient.getInstance().contactManager().aysncGetAllContactsFromServer(new EMValueCallBack<List<String>>() {
-            @Override
-            public void onSuccess(List<String> value) {
-                ArrayList<String> arrayList = new ArrayList<>(value);
-                for (String s : arrayList) {
-                    User user = new User();
-                    user.setName(s);
-                    user.setIsFollow(User.TYPE_IS_FOLLOW);
-                    for (int i = 0; i < dynamics.size(); i++) {
-                        if (dynamics.get(i).getUser().getName().equals(user.getName())) {
-                            dynamics.get(i).getUser().setIsFollow(User.TYPE_IS_FOLLOW);
-                        }
-                    }
+        ArrayList<User> follows = Singletion.getInstance().getFollow();
+        for (int i = 0; i < follows.size(); i++) {
+            for (int j = 0; j < dynamics.size(); j++) {
+                if (dynamics.get(j).getUser().getName().equals(follows.get(i).getName())) {
+                    dynamics.get(j).getUser().setIsFollow(User.TYPE_IS_FOLLOW);
                 }
-                context.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        setDataDynamicandFinsh(dynamics);
-                    }
-                });
             }
-
+        }
+        context.runOnUiThread(new Runnable() {
             @Override
-            public void onError(int error, String errorMsg) {
-
+            public void run() {
+                setDataDynamicandFinsh(dynamics);
             }
         });
     }

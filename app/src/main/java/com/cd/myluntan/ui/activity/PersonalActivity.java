@@ -18,6 +18,8 @@ import com.cd.myluntan.utils.Constant;
 import com.cd.myluntan.utils.Singletion;
 import com.cd.myluntan.utils.WindowUitls;
 
+import java.util.ArrayList;
+
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.SHOWIMGS;
 import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 
@@ -88,6 +90,13 @@ public class PersonalActivity extends BaseActivity  implements View.OnClickListe
             chat.setVisibility(View.GONE);
             follor.setVisibility(View.GONE);
         }else {
+            ArrayList<User> follows = Singletion.getInstance().getFollow();
+            for (int i = 0; i < follows.size(); i++) {
+                if (follows.get(i).getName().equals(user.getName())){
+                    follor.setText("已关注");
+                    follor.setTextColor(getResources().getColor(R.color.content_grey));
+                }
+            }
             chat.setVisibility(View.VISIBLE);
             follor.setVisibility(View.VISIBLE);
         }
@@ -145,7 +154,7 @@ public class PersonalActivity extends BaseActivity  implements View.OnClickListe
                 break;
             //关注
             case R.id.follor:
-                if(!isFollow(myUser)){
+                if(!isFollow(user)){
                    follor.setText("已关注");
                    follor.setTextColor(getResources().getColor(R.color.content_grey));
                    follor.setBackgroundResource(R.drawable.is_follow_button_bg);
@@ -165,7 +174,12 @@ public class PersonalActivity extends BaseActivity  implements View.OnClickListe
 
     private boolean isFollow(User myUser) {
         //关注逻辑
-        fign=!fign;
-        return fign;
+        ArrayList<User> follows = Singletion.getInstance().getFollow();
+        for (int i = 0; i < follows.size(); i++) {
+            if (follows.get(i).getName().equals(user.getName())){
+                return true;
+            }
+        }
+        return false;
     }
 }

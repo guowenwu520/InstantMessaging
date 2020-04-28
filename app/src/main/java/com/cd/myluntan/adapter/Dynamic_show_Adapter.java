@@ -128,7 +128,7 @@ public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.View
         myViewHolderClass.praisenNum.setText(dynamic.getPraises().size() + "");
         myViewHolderClass.commitNum.setText(dynamic.getComments().size() + "");
         //判断是否为自己
-        if (user.getId().equals(myUser.getId())) {
+        if (user.getName().equals(myUser.getName())) {
             myViewHolderClass.follow.setVisibility(View.GONE);
         }
         //判断是否点过赞
@@ -162,12 +162,15 @@ public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.View
                         myViewHolderClass.follow.setText("已关注");
                         myViewHolderClass.follow.setTextColor(context.getResources().getColor(R.color.content_grey));
                         EMClient.getInstance().contactManager().addContact(user.getName(), null);
+                        ArrayList<User> follows =Singletion.getInstance().getFollow();
+                        follows.add(user);
+                        Singletion.getInstance().setFollow(follows);
                         for (int i = 0; i < dynamics.size(); i++) {
                             if (dynamics.get(i).getUser().getName().equals(user.getName())){
                                 dynamics.get(i).getUser().setIsFollow(User.TYPE_IS_FOLLOW);
-                                notifyItemChanged(i);
                             }
                         }
+                        notifyDataSetChanged();
 //                        dynamics.get(position).getUser().setIsFollow(User.TYPE_IS_FOLLOW);
                         Toast.makeText(context, "关注成功", Toast.LENGTH_SHORT).show();
                     } catch (HyphenateException e) {
@@ -183,6 +186,14 @@ public class Dynamic_show_Adapter extends RecyclerView.Adapter<RecyclerView.View
                         myViewHolderClass.follow.setText("关注");
                         myViewHolderClass.follow.setTextColor(context.getResources().getColor(R.color.colorPrimary));
                         EMClient.getInstance().contactManager().deleteContact(user.getName());
+                        ArrayList<User> follows =Singletion.getInstance().getFollow();
+                        for (int i = 0; i < follows.size(); i++) {
+                            if (follows.get(i).getName().equals(user.getName())) {
+                                follows.remove(i);
+                                i--;
+                            }
+                        }
+                        Singletion.getInstance().setFollow(follows);
                         for (int i = 0; i < dynamics.size(); i++) {
                             if (dynamics.get(i).getUser().getName().equals(user.getName())){
                                 dynamics.get(i).getUser().setIsFollow(User.TYPE_NOT_IS_FOLLOW);

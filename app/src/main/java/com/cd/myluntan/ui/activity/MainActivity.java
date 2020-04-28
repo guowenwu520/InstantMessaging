@@ -19,17 +19,23 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
 import com.cd.myluntan.contract.MainContract;
+import com.cd.myluntan.entrty.User;
 import com.cd.myluntan.ui.fragment.BaseFragment;
 import com.cd.myluntan.utils.DisplayUtils;
 import com.cd.myluntan.FragmentFactory;
 import com.cd.myluntan.R;
+import com.cd.myluntan.utils.Singletion;
 import com.cd.myluntan.utils.ToolAnimation;
 import com.cd.myluntan.interfaceo.BottomUpdateCallback;
 import com.cd.myluntan.ui.fragment.HomeTabFragment;
 import com.cd.myluntan.utils.WindowUitls;
 import com.hyphenate.EMCallBack;
+import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
 import com.jaeger.library.StatusBarUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getName();
@@ -54,6 +60,33 @@ public class MainActivity extends AppCompatActivity {
         initBottomBarAnimation();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserNames();
+    }
+    //获取所有用户
+    private void getUserNames() {
+        EMClient.getInstance().contactManager().aysncGetAllContactsFromServer(new EMValueCallBack<List<String>>() {
+            @Override
+            public void onSuccess(List<String> value) {
+                ArrayList<String> arrayList = new ArrayList<>(value);
+                ArrayList<User> follow = new ArrayList<>();
+                for (int i = 0; i < arrayList.size(); i++) {
+                    User user = new User();
+                    user.setName(arrayList.get(i));
+                    user.setIsFollow(User.TYPE_IS_FOLLOW);
+                    follow.add(user);
+                }
+                Singletion.getInstance().setFollow(follow);
+            }
+
+            @Override
+            public void onError(int error, String errorMsg) {
+
+            }
+        });
+    }
     /**
      * 动态图标初始化
      */
