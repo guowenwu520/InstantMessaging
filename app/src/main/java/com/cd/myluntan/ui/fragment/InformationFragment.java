@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,7 +38,8 @@ public class InformationFragment extends BaseFragment implements InformationCont
     private View view;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
-
+   private ImageView backimg;
+   private TextView textView;
     private InformationPresenter informationPresenter;
     private InformationListAdapter informationListAdapter;
     private LoadMoreWrapper loadMoreWrapper;
@@ -44,8 +47,8 @@ public class InformationFragment extends BaseFragment implements InformationCont
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        WindowUitls.setColorTopBar(getActivity(), R.color.colorPrimary);
-        WindowUitls.setColorTextTopBarWriter(getActivity());
+        WindowUitls.setColorTopBar(getActivity(), R.color.white);
+        WindowUitls.setColorTextTopBarBlack(getActivity());
         view = inflater.inflate(R.layout.fragment_information, container, false);
         informationPresenter = new InformationPresenter(this);
         initView();
@@ -63,6 +66,10 @@ public class InformationFragment extends BaseFragment implements InformationCont
     private void initView() {
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         recyclerView = view.findViewById(R.id.recyclerView);
+        backimg=view.findViewById(R.id.backimg);
+        backimg.setVisibility(View.GONE);
+        textView=view.findViewById(R.id.toptitle);
+        textView.setText("消息");
     }
 
     private void initRecyclerView() {

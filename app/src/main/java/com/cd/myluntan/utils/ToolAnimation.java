@@ -171,8 +171,8 @@ public class ToolAnimation {
      * @param view
      */
     public static AnimatorSet scaleEnlargeView(View view) {
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 0f, 1f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 0f, 1f);
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 1.3f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 1.3f);
         //组合动画
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(scaleX, scaleY);
@@ -190,6 +190,18 @@ public class ToolAnimation {
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(scaleX, scaleY);
         animatorSet.setDuration(400);
+        return animatorSet;
+    }
+    /**
+     * 扩大
+     */
+    public static AnimatorSet scaleEnlargeViewSplasAct(ViewGroup viewGroup) {
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(viewGroup, "scaleX", 1f, 1.3f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(viewGroup, "scaleY", 1f, 1.3f);
+        //组合动画
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(scaleX, scaleY);
+        animatorSet.setDuration(2000);
         return animatorSet;
     }
 

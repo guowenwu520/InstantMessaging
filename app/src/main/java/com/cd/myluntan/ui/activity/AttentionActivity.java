@@ -2,6 +2,9 @@ package com.cd.myluntan.ui.activity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,6 +17,7 @@ import com.cd.myluntan.adapter.LoadMoreWrapper;
 import com.cd.myluntan.adapter.RecyclerViewOnScrollListenerAdapter;
 import com.cd.myluntan.contract.ContactContract;
 import com.cd.myluntan.presenter.ContactPresenter;
+import com.cd.myluntan.utils.WindowUitls;
 
 import java.util.ArrayList;
 
@@ -21,7 +25,8 @@ public class AttentionActivity extends BaseActivity implements ContactContract.V
     private static final String TAG = AttentionActivity.class.getCanonicalName();
     private static final String TYPE_ATTENTION = "attention";
     private static final String TYPE_FAN = "fan";
-
+    private ImageView backimg;
+    private TextView textView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
 
@@ -33,6 +38,8 @@ public class AttentionActivity extends BaseActivity implements ContactContract.V
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attention);
+        WindowUitls.setColorTopBar(this, R.color.white);
+        WindowUitls.setColorTextTopBarBlack(this);
         contactPresenter = new ContactPresenter(this);
         initView();
         initRecyclerView();
@@ -73,6 +80,15 @@ public class AttentionActivity extends BaseActivity implements ContactContract.V
     private void initView() {
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView = findViewById(R.id.recyclerView);
+        backimg=findViewById(R.id.backimg);
+        backimg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        textView=findViewById(R.id.toptitle);
+        textView.setText("关注");
     }
 
     @Override

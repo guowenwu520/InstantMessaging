@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -11,11 +12,12 @@ import androidx.annotation.Nullable;
 import com.cd.myluntan.R;
 import com.cd.myluntan.contract.SplashContract;
 import com.cd.myluntan.presenter.SplashPresenter;
+import com.cd.myluntan.utils.ToolAnimation;
 
 public class SplashActivity extends BaseActivity implements SplashContract.View {
     private static final String TAG = SplashActivity.class.getCanonicalName();
     private TextView jumpOver;
-
+   private RelativeLayout mainil;
     private SplashPresenter splashPresenter;
 
     Handler handler = new Handler();
@@ -31,7 +33,9 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         jumpOver = findViewById(R.id.jumpOver);
-        handler.postDelayed(runnable, 100);//3秒后执行Runnable中的run方法
+        mainil=findViewById(R.id.maini);
+        ToolAnimation.scaleEnlargeViewSplasAct(mainil).start();
+        handler.postDelayed(runnable, 2000);//3秒后执行Runnable中的run方法
         initJumpOver();
     }
 
