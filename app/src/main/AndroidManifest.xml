@@ -34,6 +34,8 @@
         <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".ui.activity.Publish_Dynamic_Activity" />
         <activity android:name=".ui.activity.Dynamic_Details_Activity" />
+        <activity android:name=".ui.activity.Receive_Comment_Activity"/>
+        <activity android:name=".ui.activity.Receive_PraiseAndCollomet_Activity"/>
         <activity
             android:name=".ui.activity.LoginActivity"
             android:theme="@style/FixSystemWindowTheme" />

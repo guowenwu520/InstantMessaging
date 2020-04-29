@@ -4,6 +4,7 @@ import android.database.Observable;
 import android.util.Log;
 
 import com.cd.myluntan.interfaceo.NetworkCallback;
+import com.cd.myluntan.interfaceo.NetworkCallbackInt;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.io.File;
@@ -50,6 +51,33 @@ public class Data_Access {
                     public void onResponse(Object response) {
                         if(networkCallback!=null)
                             networkCallback.onResponse(response);
+                    }
+                });
+    }
+    public  static  void AccessStringDateInt(String url, Map<String,String> data, int key,final NetworkCallbackInt networkCallback){
+        OkHttpUtils.post()
+                .addHeader("Content-Type",STRINGTYPE)
+                .url(url)
+                .params(data)
+                .build()
+                .execute(new com.zhy.http.okhttp.callback.Callback() {
+                    @Override
+                    public Object parseNetworkResponse(Response response) throws Exception {
+                        if(networkCallback!=null)
+                            return networkCallback.parseNetworkResponse(response,key);
+                        else return  null;
+                    }
+
+                    @Override
+                    public void onError(Call call, Exception e) {
+                        if(networkCallback!=null)
+                            networkCallback.onError(call,e,key);
+                    }
+
+                    @Override
+                    public void onResponse(Object response) {
+                        if(networkCallback!=null)
+                            networkCallback.onResponse(response,key);
                     }
                 });
     }

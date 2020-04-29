@@ -18,6 +18,8 @@ import com.cd.myluntan.entrty.Home;
 import com.cd.myluntan.entrty.User;
 import com.cd.myluntan.ui.activity.AttentionActivity;
 import com.cd.myluntan.ui.activity.ChatActivity;
+import com.cd.myluntan.ui.activity.Receive_Comment_Activity;
+import com.cd.myluntan.ui.activity.Receive_PraiseAndCollomet_Activity;
 import com.cd.myluntan.utils.Constant;
 import com.cd.myluntan.utils.Singletion;
 import com.hyphenate.chat.EMConversation;
@@ -110,8 +112,8 @@ public class InformationListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             likeFavorite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Intent intent = new Intent(context,);
-//                    context.startActivity();
+                    Intent intent = new Intent(context, Receive_PraiseAndCollomet_Activity.class);
+                    context.startActivity(intent);
                 }
             });
             addAttention.setOnClickListener(new View.OnClickListener() {
@@ -124,7 +126,8 @@ public class InformationListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             comments.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent intent = new Intent(context, Receive_Comment_Activity.class);
+                    context.startActivity(intent);
                 }
             });
         }

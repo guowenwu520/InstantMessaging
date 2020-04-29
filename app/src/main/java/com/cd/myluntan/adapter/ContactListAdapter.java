@@ -18,13 +18,18 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.cd.myluntan.R;
 import com.cd.myluntan.entrty.User;
+import com.cd.myluntan.ui.activity.ChatActivity;
 import com.cd.myluntan.ui.activity.PersonalActivity;
+import com.cd.myluntan.utils.Constant;
 import com.cd.myluntan.utils.Singletion;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.exceptions.HyphenateException;
 
 import java.util.ArrayList;
+
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.SHOWIMGS;
+import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 
 public class ContactListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = ContactListAdapter.class.getCanonicalName();
@@ -88,6 +93,15 @@ public class ContactListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     int position = getAdapterPosition();
                     Log.d(TAG, "itemView======onClick=======contacts  " + contacts.size() + "===" + position);
                     Singletion.getInstance().setOtherUser(contacts.get(position));
+                    context.startActivity(new Intent(context, ChatActivity.class).putExtra("chatType", Constant.CHATTYPE_SINGLE).putExtra("userId", contacts.get(position).getName()).putExtra("imgurl", contacts.get(position).getHeadurl()));
+                }
+            });
+            avatarImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    Log.d(TAG, "itemView======onClick=======contacts  " + contacts.size() + "===" + position);
+                    Singletion.getInstance().setOtherUser(contacts.get(position));
                     context.startActivity(new Intent(context, PersonalActivity.class));
                 }
             });
@@ -121,8 +135,13 @@ public class ContactListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public void onBindDate(User user) {
             Log.d(TAG,"onBindDate==="+user.toString());
-            Glide.with(context).load(user.getHeadurl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(this.avatarImg);
-            this.username.setText(user.getName());
+            if (user.getHeadurl().length() < 24) {
+                Glide.with(context).load(URL + SHOWIMGS + "?name=" + user.getHeadurl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(this.avatarImg);
+            } else {
+                Glide.with(context).load(user.getHeadurl()).apply(RequestOptions.bitmapTransform(new CircleCrop())).into(this.avatarImg);
+            }
+
+              this.username.setText(user.getName());
             this.signature.setText(user.getSignaturnre());
             if (user.getIsFollow()== User.TYPE_IS_FOLLOW){
                 attention.setText("已关注");
