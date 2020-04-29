@@ -1,10 +1,14 @@
 package com.cd.myluntan.ui.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,9 +18,12 @@ import com.cd.myluntan.R;
 import com.cd.myluntan.adapter.TextWatcherAdapter;
 import com.cd.myluntan.contract.LoginContract;
 import com.cd.myluntan.presenter.LoginPresenter;
+import com.cd.myluntan.utils.DisplayUtils;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, LoginContract.View {
+    private static final String TAG=LoginActivity.class.getCanonicalName();
+    private LinearLayout outOfRange;
     private EditText username, password;
     private TextInputLayout inputUsername, inputPassword;
     private TextView login, register, recoverPassword;
@@ -31,6 +38,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void initView() {
+        outOfRange = findViewById(R.id.outOfRange);
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         inputUsername = findViewById(R.id.inputUsername);
@@ -38,13 +46,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         login = findViewById(R.id.login);
         register = findViewById(R.id.register);
         recoverPassword = findViewById(R.id.recoverPassword);
+        outOfRange.setOnClickListener(this);
         login.setOnClickListener(this);
         register.setOnClickListener(this);
         recoverPassword.setOnClickListener(this);
+        editTextDrawable(username,0,20,20);
+        editTextDrawable(password,0,20,20);
         initUsername();
         initPassword();
     }
-
     private void initPassword() {
         password.addTextChangedListener(new TextWatcherAdapter() {
             @Override
@@ -74,6 +84,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.outOfRange:
+                Log.d(TAG,"outOfRange");
+                hidSoftKeyboard();
+            break;
             case R.id.login:
                 hidSoftKeyboard();
                 login.setText(R.string.logging_in);

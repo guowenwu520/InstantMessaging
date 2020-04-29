@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import com.cd.myluntan.presenter.RegisterPresenter;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class RegisterActivity extends BaseActivity implements View.OnClickListener, RegisterContract.View {
+    private LinearLayout outOfRange;
     private EditText username, password, rePassword;
     private TextInputLayout inputUsername, inputPassword, inputRePassword;
     private TextView login, register;
@@ -32,6 +34,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initView() {
+        outOfRange = findViewById(R.id.outOfRange);
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         rePassword = findViewById(R.id.rePassword);
@@ -40,13 +43,20 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         inputRePassword = findViewById(R.id.inputRePassword);
         login = findViewById(R.id.login);
         register = findViewById(R.id.register);
+        outOfRange.setOnClickListener(this);
         login.setOnClickListener(this);
         register.setOnClickListener(this);
+        editTextDrawable(username,0,20,20);
+        editTextDrawable(password,0,20,20);
+        editTextDrawable(rePassword,0,20,20);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.outOfRange:
+                hidSoftKeyboard();
+                break;
             case R.id.login:
                 hidSoftKeyboard();
                 finish();

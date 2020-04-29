@@ -34,13 +34,16 @@
         <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".ui.activity.Publish_Dynamic_Activity" />
         <activity android:name=".ui.activity.Dynamic_Details_Activity" />
-        <activity android:name=".ui.activity.LoginActivity" />
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:theme="@style/FixSystemWindowTheme" />
         <activity android:name=".ui.activity.EditProfileActivity" />
         <activity android:name=".ui.activity.AttentionActivity" />
         <activity android:name=".ui.activity.ChatActivity" />
         <activity android:name=".ui.activity.ContextMenuActivity" />
         <activity
             android:name=".ui.activity.RegisterActivity"
+            android:theme="@style/FixSystemWindowTheme"
             android:parentActivityName=".ui.activity.LoginActivity" />
         <activity
             android:name=".ui.activity.SplashActivity"

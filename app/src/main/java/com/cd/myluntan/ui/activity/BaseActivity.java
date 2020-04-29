@@ -3,13 +3,17 @@ package com.cd.myluntan.ui.activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
+import com.cd.myluntan.utils.DisplayUtils;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -134,5 +138,34 @@ public class BaseActivity extends AppCompatActivity {
             result = ActivityCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED;
         }
         return result;
+    }
+
+    /**
+     * 重新绘制 EditText  Drawables
+     * @param v EditText
+     * @param position 0:drawableStart  1:drawableTop  2:drawableEnd 3:drawableBottom
+     * @param width 宽 dp
+     * @param height 高 dp
+     */
+    public void editTextDrawable(EditText v, int position, float width, float height) {
+        if (position<4&&position>=0){
+            Drawable drawable = v.getCompoundDrawablesRelative()[position];
+            drawable.setBounds(0, 0, DisplayUtils.dp2px(this, width), DisplayUtils.dp2px(this, height));
+            switch (position){
+                case 0:
+                    v.setCompoundDrawablesRelative(drawable, null, null, null);
+                    break;
+                case 1:
+                    v.setCompoundDrawablesRelative(null, drawable, null, null);
+                    break;
+                case 2:
+                    v.setCompoundDrawablesRelative(null, null, drawable, null);
+                    break;
+                case 3:
+                    v.setCompoundDrawablesRelative(null, null, null, drawable);
+                    break;
+            }
+
+        }
     }
 }
