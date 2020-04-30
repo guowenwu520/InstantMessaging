@@ -59,7 +59,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        WindowUitls.setColorTopBar(getActivity(), R.color.white);
+        WindowUitls.setColorTopBar(getActivity(), R.color.grey_700);
         WindowUitls.setColorTextTopBarBlack(getActivity());
         view = inflater.inflate(R.layout.fragment_mine, container, false);
         myUser = Singletion.getInstance().getUser();

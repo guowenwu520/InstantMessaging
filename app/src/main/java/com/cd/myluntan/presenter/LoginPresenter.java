@@ -88,7 +88,6 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                ;
                 Singletion.getInstance().setUser(user);
                 view.onLoginSuccess();
                 return null;
@@ -96,7 +95,7 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
 
             @Override
             public void onError(Call call, Exception e) {
-
+                view.onLoginFailed(error(e.hashCode()));
             }
 
             @Override

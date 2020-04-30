@@ -16,11 +16,13 @@ import com.cd.myluntan.ui.activity.SplashActivity;
 import com.cd.myluntan.utils.Singletion;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Response;
@@ -30,31 +32,33 @@ import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 
 public class SplashPresenter implements SplashContract.Presenter {
     private SplashContract.View view;
-   private  Context context;
+    private Context context;
+
     public SplashPresenter(Context splashActivity, SplashContract.View view) {
         this.view = view;
-        context=splashActivity;
+        context = splashActivity;
     }
 
     @Override
     public void checkLoginStatus() {
-       isLoggedIn();
+        isLoggedIn();
     }
 
     /**
      * 检查是否一登陆设备
+     *
      * @return
      */
     private void isLoggedIn() {
-        SharedPreferences sharedPreferences=context.getSharedPreferences("user", Context.MODE_PRIVATE);
-         String name=sharedPreferences.getString("name","");
-         String pass=sharedPreferences.getString("pass","");
-         if (!name.isEmpty()&&!pass.isEmpty()){
-             loginModel(name,pass);
-         }else {
-             view.onNotLogin();
-         }
-     //   return EMClient.getInstance().isConnected() && EMClient.getInstance().isLoggedInBefore();
+        SharedPreferences sharedPreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+        String name = sharedPreferences.getString("name", "");
+        String pass = sharedPreferences.getString("pass", "");
+        if (!name.isEmpty() && !pass.isEmpty()) {
+            loginModel(name, pass);
+        } else {
+            view.onNotLogin();
+        }
+        //   return EMClient.getInstance().isConnected() && EMClient.getInstance().isLoggedInBefore();
     }
 
     private void loginModel(String username, String password) {
@@ -75,24 +79,26 @@ public class SplashPresenter implements SplashContract.Presenter {
             }
         });
     }
+
     //用户
     private void savePass_Name(String username, String password) {
-        SharedPreferences sharedPreferences=context.getSharedPreferences("user", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor=sharedPreferences.edit();
-        editor.putString("name",username);
-        editor.putString("pass",password);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("name", username);
+        editor.putString("pass", password);
         editor.commit();
-        Map<String,String> map=new HashMap<>();
-        map.put("pass",password);
-        map.put("name",username);
+        Map<String, String> map = new HashMap<>();
+        map.put("pass", password);
+        map.put("name", username);
         Data_Access.AccessStringDate(URL + GETUSERBYNAME, map, new NetworkCallback() {
             @Override
             public Object parseNetworkResponse(Response response) {
-                TypeToken<User> userTypeToken=new TypeToken<User>(){};
-                Gson gson=new Gson();
-                User user= null;
+                TypeToken<User> userTypeToken = new TypeToken<User>() {
+                };
+                Gson gson = new Gson();
+                User user = null;
                 try {
-                    user = gson.fromJson(response.body().string(),userTypeToken.getType());
+                    user = gson.fromJson(response.body().string(), userTypeToken.getType());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -103,7 +109,23 @@ public class SplashPresenter implements SplashContract.Presenter {
 
             @Override
             public void onError(Call call, Exception e) {
+                EMClient.getInstance().logout(true, new EMCallBackAdapter(){
+                    @Override
+                    public void onSuccess() {
+                        SharedPreferences sharedPreferences=context.getSharedPreferences("user", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor=sharedPreferences.edit();
+                        editor.putString("name","");
+                        editor.putString("pass","");
+                        editor.commit();
+                        view.onNotLogin();
+                    }
 
+                    @Override
+                    public void onError(int code, String message) {
+                        isLoggedIn();
+                    }
+
+                });
             }
 
             @Override
