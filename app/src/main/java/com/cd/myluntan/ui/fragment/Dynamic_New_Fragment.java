@@ -43,6 +43,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,6 +66,7 @@ import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 public class Dynamic_New_Fragment extends BaseFragment {
     private final static String TAG = Dynamic_New_Fragment.class.getCanonicalName();
     Dynamic_show_Adapter myRecycleViewClassAdapter;
+    private SmartRefreshLayout smartRefreshLayout;
     private RecyclerView recyclerView;
     private CardView releaseCardView;
     private ImageView release;
@@ -70,8 +75,6 @@ public class Dynamic_New_Fragment extends BaseFragment {
     private int pageSize = 10;
     private int pageNum = 1;
     private boolean isLoading;
-    private ProgressBar loadmorePB;
-    private SwipeRefreshLayout swipeRefreshLayout;
     ArrayList<Dynamic> dynamics = new ArrayList<>();
     private boolean isReleaseShow = true;
     private boolean isAnimationEnd = true;
@@ -88,7 +91,33 @@ public class Dynamic_New_Fragment extends BaseFragment {
         initView(view);
         setDataDynamic(new ArrayList<>());
         initRelease();
+        initSmartRefreshLayout();
         return view;
+    }
+
+    private void initSmartRefreshLayout() {
+        //设置下拉刷新和上拉加载监听
+        smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
+                smartRefreshLayout.setEnableRefresh(true);
+                showLiuList(true);
+                refreshLayout.finishRefresh();
+            }
+        });
+
+        //上拉加载监听
+        smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
+//                if (informationPresenter.getCurrentPage() >= informationPresenter.getPages()) {
+//                } else {
+//                    informationPresenter.loadConversations();
+//                }
+                refreshLayout.finishLoadMoreWithNoMoreData();  //全部加载完成,没有数据了调用此方法
+                refreshLayout.finishLoadMore(2000);
+            }
+        });
     }
 
     @Override
@@ -112,22 +141,13 @@ public class Dynamic_New_Fragment extends BaseFragment {
             }
         });
         showLiuList(true);
-
-
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                showLiuList(true);
-            }
-        });
     }
 
     private void initView(View view) {
         release = view.findViewById(R.id.release);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
+        smartRefreshLayout = view.findViewById(R.id.smartRefreshLayout);
         releaseCardView = view.findViewById(R.id.releaseCardView);
         recyclerView = view.findViewById(R.id.recyclerView);
-        loadmorePB = (ProgressBar) view.findViewById(R.id.pb_load_more);
         mian_lay = view.findViewById(R.id.mian_lay);
         showLiuList(true);
     }
@@ -137,11 +157,9 @@ public class Dynamic_New_Fragment extends BaseFragment {
         dynamics = new ArrayList<>();
         if (isRefresh) {
             pageNum = 1;
-            swipeRefreshLayout.setRefreshing(true);
             showList();
         } else {
             pageNum++;
-            loadmorePB.setVisibility(View.VISIBLE);
         }
     }
 
@@ -179,7 +197,6 @@ public class Dynamic_New_Fragment extends BaseFragment {
                         };
                         Gson gson = new Gson();
                         dynamics = gson.fromJson(response.body().string(), dynamicTypeToken.getType());
-                        swipeRefreshLayout.setRefreshing(false);
                         getUserNames();
 
                     } else return null;

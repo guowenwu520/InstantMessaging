@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         getUserNames();
     }
+
     //获取所有用户
     private void getUserNames() {
         EMClient.getInstance().contactManager().aysncGetAllContactsFromServer(new EMValueCallBack<List<String>>() {
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     /**
      * 动态图标初始化
      */
@@ -220,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 重新计算 RadioButton背景大小
+     *
      * @param v
      */
     public void initDrawable(RadioButton v) {

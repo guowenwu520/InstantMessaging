@@ -13,9 +13,9 @@ public interface ContactContract {
     }
 
     interface View {
-        void onLoadContactSuccess(int size);
+        void onLoadContactSuccess();
 
-        void onRefreshSuccess(int size);
+        void onRefreshSuccess();
 
         void onLoadContactFailed(String err);
     }

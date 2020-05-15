@@ -69,10 +69,10 @@ public class LearnFragment extends BaseFragment {
     }
 
     private void getData() {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 2; i++) {
             LearnGroup learnGroup = new LearnGroup();
             learnGroup.setId(new Date().getTime() + "");
-            learnGroup.setTitle("标题" + i);
+            learnGroup.setTitle("本周优质好课" + i);
             learnGroup.setCreateDate(new Date());
             ArrayList<LearnMaterials> learnMaterials = new ArrayList<>();
             for (int j = 0; j < 4; j++) {

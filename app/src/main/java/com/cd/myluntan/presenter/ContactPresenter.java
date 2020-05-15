@@ -29,9 +29,15 @@ import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 public class ContactPresenter implements ContactContract.Presenter {
     private static final String TAG = ContactPresenter.class.getCanonicalName();
 
-    public ArrayList<User> contacts = new ArrayList<>();
     private ContactContract.View view;
     private ContactModel contactModel = new ContactModel();
+
+    private ArrayList<User> contacts = new ArrayList<>();
+    private int currentPage = 1;//当前页，默认第一页
+    private int pages = 1;//总页数，获取服务端数据
+    private int rows = 20;//每页显示行数
+    private int satrt = 0;//当前下标
+    private int end = 20;//结束下标
 
     public ContactPresenter(ContactContract.View view) {
         this.view = view;
@@ -67,7 +73,7 @@ public class ContactPresenter implements ContactContract.Presenter {
                             user2.setIsFollow(User.TYPE_IS_FOLLOW);
                               contacts.add(user2);
                             if(key ==arrayList.size()-1){
-                                view.onLoadContactSuccess(value.size());
+                                view.onLoadContactSuccess();
                             }
                             return null;
                         }
@@ -129,7 +135,7 @@ public class ContactPresenter implements ContactContract.Presenter {
                             user2.setIsFollow(User.TYPE_IS_FOLLOW);
                             contacts.add(user2);
                             if (key == arrayList.size() - 1) {
-                                view.onRefreshSuccess(value.size());
+                                view.onRefreshSuccess();
                             }
                             return null;
                         }
@@ -153,5 +159,31 @@ public class ContactPresenter implements ContactContract.Presenter {
                 view.onLoadContactFailed(errorMsg);
             }
         });
+    }
+
+    public ArrayList<User> getContacts() {
+        return contacts;
+    }
+
+    public int getCurrentPage() {
+        if (currentPage <= 1) {
+            currentPage = 1;
+        }
+        if (currentPage >= pages) {
+            currentPage = pages;
+        }
+        return currentPage;
+    }
+
+    public int getPages() {
+        return pages;
+    }
+
+    public int getSatrt() {
+        return (currentPage - 1) * rows;
+    }
+
+    public int getEnd() {
+        return currentPage * rows;
     }
 }

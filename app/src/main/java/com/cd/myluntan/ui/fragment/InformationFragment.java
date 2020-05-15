@@ -29,6 +29,10 @@ import com.cd.myluntan.utils.WindowUitls;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
 
@@ -37,12 +41,11 @@ public class InformationFragment extends BaseFragment implements InformationCont
     private static final int MaxSize = 15;
     private View view;
     private RecyclerView recyclerView;
-    private SwipeRefreshLayout swipeRefreshLayout;
-   private ImageView backimg;
-   private TextView textView;
+    private ImageView backimg;
+    private TextView textView;
+    private SmartRefreshLayout smartRefreshLayout;
     private InformationPresenter informationPresenter;
     private InformationListAdapter informationListAdapter;
-    private LoadMoreWrapper loadMoreWrapper;
 
     @Nullable
     @Override
@@ -53,40 +56,54 @@ public class InformationFragment extends BaseFragment implements InformationCont
         informationPresenter = new InformationPresenter(this);
         initView();
         initRecyclerView();
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                informationPresenter.refreshConversations();
-            }
-        });
+        initSmartRefreshLayout();
         EMClient.getInstance().chatManager().addMessageListener(messageListener);
         return view;
     }
 
+    private void initSmartRefreshLayout() {
+        //设置下拉刷新和上拉加载监听
+        smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
+                smartRefreshLayout.setEnableRefresh(true);
+                informationPresenter.refreshConversations();
+                refreshLayout.finishRefresh();
+            }
+        });
+
+        //上拉加载监听
+        smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
+                if (informationPresenter.getCurrentPage() >= informationPresenter.getPages()) {
+                    refreshLayout.finishLoadMoreWithNoMoreData();  //全部加载完成,没有数据了调用此方法
+                } else {
+                    informationPresenter.loadConversations();
+                }
+                refreshLayout.finishLoadMore(2000);
+            }
+        });
+    }
+
     private void initView() {
-        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        smartRefreshLayout = view.findViewById(R.id.smartRefreshLayout);
         recyclerView = view.findViewById(R.id.recyclerView);
-        backimg=view.findViewById(R.id.backimg);
+        backimg = view.findViewById(R.id.backimg);
         backimg.setVisibility(View.GONE);
-        textView=view.findViewById(R.id.toptitle);
+        textView = view.findViewById(R.id.toptitle);
         textView.setText("消息");
     }
 
     private void initRecyclerView() {
         informationListAdapter = new InformationListAdapter(view.getContext());
-        informationListAdapter.replaceAll(informationPresenter.conversations);
-        loadMoreWrapper = new LoadMoreWrapper(informationListAdapter);
+        informationListAdapter.replaceAll(informationPresenter.getConversations());
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerView.setAdapter(loadMoreWrapper);
-        recyclerView.addOnScrollListener(new RecyclerViewOnScrollListenerAdapter() {
+        recyclerView.setAdapter(informationListAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onLoadMore() {
-                loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING);
-                informationPresenter.loadConversations();
-            }
-
-            @Override
-            public void onScroll(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
                 bottomUpdateCallback.bottomBarShow(dy);
             }
         });
@@ -118,15 +135,8 @@ public class InformationFragment extends BaseFragment implements InformationCont
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                swipeRefreshLayout.setRefreshing(false);
-                Log.d(TAG, "loadConversationSuccess====" + informationPresenter.conversations.size() + "========" + informationPresenter.conversations.toString());
-                informationListAdapter.addData(informationListAdapter.getItemCount(), informationPresenter.conversations);
-                if (size < MaxSize) {
-                    loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_END);
-                } else {
-                    loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_COMPLETE);
-                }
-                loadMoreWrapper.notifyDataSetChanged();
+                Log.d(TAG, "loadConversationSuccess====" + informationPresenter.getConversations().size() + "========" + informationPresenter.getConversations().toString());
+                informationListAdapter.addData(informationListAdapter.getItemCount(), informationPresenter.getConversations());
             }
         });
     }
@@ -141,15 +151,8 @@ public class InformationFragment extends BaseFragment implements InformationCont
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                swipeRefreshLayout.setRefreshing(false);
-                Log.d(TAG, "refreshConversationsSuccess====" + informationPresenter.conversations.size() + "========" + informationPresenter.conversations.toString());
-                informationListAdapter.replaceAll(informationPresenter.conversations);
-                if (size < MaxSize) {
-                    loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_END);
-                } else {
-                    loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_COMPLETE);
-                }
-                loadMoreWrapper.notifyDataSetChanged();
+                Log.d(TAG, "refreshConversationsSuccess====" + informationPresenter.getConversations().size() + "========" + informationPresenter.getConversations().toString());
+                informationListAdapter.replaceAll(informationPresenter.getConversations());
             }
         });
     }

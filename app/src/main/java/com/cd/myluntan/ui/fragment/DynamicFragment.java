@@ -33,15 +33,15 @@ public class DynamicFragment extends BaseFragment {
     private View view;
     private ViewPager viewPager;
     private TabLayout toolbar;
-   private Dynamic_Top_FragmentAdapter dynamic_top_fragmentAdapter;
+    private Dynamic_Top_FragmentAdapter dynamic_top_fragmentAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        WindowUitls.setColorTopBar(getActivity(),R.color.white);
+        WindowUitls.setColorTopBar(getActivity(), R.color.white);
         WindowUitls.setColorTextTopBarBlack(getActivity());
         view = inflater.inflate(R.layout.fragment_dynamic, container, false);
-         initView();
+        initView();
         initRelease();
         return view;
     }
@@ -59,15 +59,15 @@ public class DynamicFragment extends BaseFragment {
 
 
     private void initView() {
-        toolbar=view.findViewById(R.id.dynamic_topbar);
-        viewPager=view.findViewById(R.id.dynamic_viewpage);
-        ArrayList<Fragment> list=new ArrayList<>();
+        toolbar = view.findViewById(R.id.dynamic_topbar);
+        viewPager = view.findViewById(R.id.dynamic_viewpage);
+        ArrayList<Fragment> list = new ArrayList<>();
         list.add(new Dynsmic_Hot_Fragment(getActivity()));
         list.add(new Dynamic_New_Fragment(getActivity()));
-        ArrayList<String> names=new ArrayList<>();
+        ArrayList<String> names = new ArrayList<>();
         names.add("热门");
         names.add("最新");
-        dynamic_top_fragmentAdapter=new Dynamic_Top_FragmentAdapter(getChildFragmentManager(),list,names);
+        dynamic_top_fragmentAdapter = new Dynamic_Top_FragmentAdapter(getChildFragmentManager(), list, names);
     }
 
 }

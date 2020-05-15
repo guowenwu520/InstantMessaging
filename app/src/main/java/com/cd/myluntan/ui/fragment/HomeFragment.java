@@ -29,7 +29,7 @@ public class HomeFragment extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private LinearLayout search;
-   private ImageView fabuhuatu;
+    private ImageView fabuhuatu;
     private HomeTabFragmentAdapter homeTabFragmentAdapter;
 
 
@@ -38,12 +38,12 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        WindowUitls.setColorTopBar(getActivity(),R.color.white);
+        WindowUitls.setColorTopBar(getActivity(), R.color.white);
         WindowUitls.setColorTextTopBarBlack(getActivity());
         view = inflater.inflate(R.layout.fragment_home, container, false);
         initView();
         tabList.clear();
-        String strp[]=getActivity().getResources().getStringArray(R.array.toplan_string);
+        String strp[] = getActivity().getResources().getStringArray(R.array.toplan_string);
         for (int i = 0; i < strp.length; i++) {
             tabList.add(strp[i]);
         }
@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
         fabuhuatu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getContext(), Publish_Video_Dynamic_Activity.class);
+                Intent intent = new Intent(getContext(), Publish_Video_Dynamic_Activity.class);
                 startActivity(intent);
             }
         });
@@ -73,15 +73,15 @@ public class HomeFragment extends Fragment {
         viewPager.setAdapter(homeTabFragmentAdapter);
         tabLayout.setupWithViewPager(viewPager);
         // 更新适配器数据
-        Log.d(TAG,"initTabFragment==tabList"+tabList.size());
+        Log.d(TAG, "initTabFragment==tabList" + tabList.size());
         homeTabFragmentAdapter.setList(tabList);
-        Log.d(TAG,"initTabFragment==tabList"+tabList.size());
+        Log.d(TAG, "initTabFragment==tabList" + tabList.size());
     }
 
     private void initView() {
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
-        search=view.findViewById(R.id.search);
-        fabuhuatu=view.findViewById(R.id.fabuhuatu);
+        search = view.findViewById(R.id.search);
+        fabuhuatu = view.findViewById(R.id.fabuhuatu);
     }
 }

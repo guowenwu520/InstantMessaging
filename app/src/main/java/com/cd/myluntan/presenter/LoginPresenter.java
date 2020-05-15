@@ -57,34 +57,34 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
                 EMClient.getInstance().chatManager().loadAllConversations();
                 //记录本地账号
                 savePass_Name(username, password);
-                Log.d(TAG, "登录聊天服务器成功！");
             }
 
             @Override
             public void onError(int code, String message) {
-                Log.d(TAG, "登录失败==>code:" + code + "===>message:" + message + "=======" + context.getString(error(code)));
                 view.onLoginFailed(error(code));
             }
         });
     }
-//用户
+
+    //用户
     private void savePass_Name(String username, String password) {
-        SharedPreferences sharedPreferences=context.getSharedPreferences("user", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor=sharedPreferences.edit();
-        editor.putString("name",username);
-        editor.putString("pass",password);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("name", username);
+        editor.putString("pass", password);
         editor.commit();
-        Map<String,String> map=new HashMap<>();
-        map.put("pass",password);
-        map.put("name",username);
+        Map<String, String> map = new HashMap<>();
+        map.put("pass", password);
+        map.put("name", username);
         Data_Access.AccessStringDate(URL + GETUSERBYNAME, map, new NetworkCallback() {
             @Override
             public Object parseNetworkResponse(Response response) {
-                TypeToken<User> userTypeToken=new TypeToken<User>(){};
-                Gson gson=new Gson();
-                User user= null;
+                TypeToken<User> userTypeToken = new TypeToken<User>() {
+                };
+                Gson gson = new Gson();
+                User user = null;
                 try {
-                    user = gson.fromJson(response.body().string(),userTypeToken.getType());
+                    user = gson.fromJson(response.body().string(), userTypeToken.getType());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

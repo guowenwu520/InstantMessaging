@@ -15,15 +15,15 @@
             android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/grey_200"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:background="@color/grey_200"
             android:padding="5dp">
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="搜索博文/帖子/用户" />
 
@@ -38,12 +38,14 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal">
-         <ImageView
-             android:id="@+id/fabuhuatu"
-             android:src="@drawable/fabusd"
-             android:layout_margin="5dp"
-             android:layout_width="30dp"
-             android:layout_height="30dp" />
+
+            <ImageView
+                android:id="@+id/fabuhuatu"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:src="@drawable/fabusd" />
+
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="0dp"
@@ -65,33 +67,33 @@
     </LinearLayout>
 
     <!--<androidx.cardview.widget.CardView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:cardCornerRadius="5dp"-->
-        <!--app:cardElevation="5dp">-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:cardCornerRadius="5dp"-->
+    <!--app:cardElevation="5dp">-->
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal">-->
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal">-->
 
-            <!--<TextView-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="10dp"-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:text="asdasdasdasdasdasdasdasdsadasdadadasdasdasdasdasdasdasdasdasdasd" />-->
+    <!--<TextView-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:layout_marginRight="10dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:text="asdasdasdasdasdasdasdasdsadasdadadasdasdasdasdasdasdasdasdasdasd" />-->
 
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:text="账号登录" />-->
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center_vertical"-->
+    <!--android:layout_marginRight="10dp"-->
+    <!--android:text="账号登录" />-->
 
-        <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
     <!--</androidx.cardview.widget.CardView>-->
 
     <androidx.viewpager.widget.ViewPager

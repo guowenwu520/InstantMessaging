@@ -2,44 +2,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/smartRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#444444"
+        app:srlAccentColor="@android:color/white"
+        app:srlEnableFooterFollowWhenLoadFinished="true"
+        app:srlEnableScrollContentWhenLoaded="true"
+        app:srlPrimaryColor="#444444">
         <!--下拉刷新用的Header-->
-        <RelativeLayout
-            android:id="@+id/rl_header_refresh"
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
             android:layout_width="match_parent"
             android:layout_height="60dp">
-            <ProgressBar
-                android:id="@+id/progress_loading_dialog"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@null"
-                android:indeterminateBehavior="repeat"
-                android:layout_centerInParent="true"
-                />
-        </RelativeLayout>
+
+        </com.scwang.smartrefresh.layout.header.ClassicsHeader>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="@android:color/white" />
 
         <!--上拉加载用的Footer-->
-        <RelativeLayout
-            android:id="@+id/rl_footer_refresh"
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
             android:layout_width="match_parent"
-            android:layout_height="60dp">
-            <ProgressBar
-                android:id="@+id/progress_loading_dialog2"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@null"
-                android:indeterminateBehavior="repeat"
-                android:layout_centerInParent="true"
-                />
-        </RelativeLayout>
+            android:layout_height="40dp">
+
+        </com.scwang.smartrefresh.layout.footer.ClassicsFooter>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

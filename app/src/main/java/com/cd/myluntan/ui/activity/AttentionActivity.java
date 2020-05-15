@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,10 @@ import com.cd.myluntan.adapter.RecyclerViewOnScrollListenerAdapter;
 import com.cd.myluntan.contract.ContactContract;
 import com.cd.myluntan.presenter.ContactPresenter;
 import com.cd.myluntan.utils.WindowUitls;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 
@@ -27,10 +32,9 @@ public class AttentionActivity extends BaseActivity implements ContactContract.V
     private static final String TYPE_FAN = "fan";
     private ImageView backimg;
     private TextView textView;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private SmartRefreshLayout smartRefreshLayout;
     private RecyclerView recyclerView;
 
-    private LoadMoreWrapper loadMoreWrapper;
     private ContactListAdapter contactListAdapter;
     private ContactPresenter contactPresenter;
 
@@ -43,42 +47,43 @@ public class AttentionActivity extends BaseActivity implements ContactContract.V
         contactPresenter = new ContactPresenter(this);
         initView();
         initRecyclerView();
-        initSwipeRefreshLayout();
+        initSmartRefreshLayout();
         contactPresenter.loadAttention();
     }
 
-    //下拉刷新
-    private void initSwipeRefreshLayout() {
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+    private void initSmartRefreshLayout() {
+        //设置下拉刷新和上拉加载监听
+        smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh() {
-                Log.d(TAG, "initSwipeRefreshLayout=====onRefresh=====");
+            public void onRefresh(@NonNull final RefreshLayout refreshLayout) {
+                smartRefreshLayout.setEnableRefresh(true);
                 contactPresenter.onRefresh();
+                refreshLayout.finishRefresh();
+            }
+        });
+
+        //上拉加载监听
+        smartRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull final RefreshLayout refreshLayout) {
+                if (contactPresenter.getCurrentPage() >= contactPresenter.getPages()) {
+                    refreshLayout.finishLoadMoreWithNoMoreData();  //全部加载完成,没有数据了调用此方法
+                } else {
+                    contactPresenter.loadAttention();
+                }
+                refreshLayout.finishLoadMore(2000);
             }
         });
     }
 
     private void initRecyclerView() {
         contactListAdapter = new ContactListAdapter(this);
-        loadMoreWrapper = new LoadMoreWrapper(contactListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(loadMoreWrapper);
-        recyclerView.addOnScrollListener(new RecyclerViewOnScrollListenerAdapter() {
-            @Override
-            public void onLoadMore() {
-                loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING);
-                contactPresenter.loadAttention();
-            }
-
-            @Override
-            public void onScroll(RecyclerView recyclerView, int dx, int dy) {
-
-            }
-        });
+        recyclerView.setAdapter(contactListAdapter);
     }
 
     private void initView() {
-        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        smartRefreshLayout = findViewById(R.id.smartRefreshLayout);
         recyclerView = findViewById(R.id.recyclerView);
         backimg=findViewById(R.id.backimg);
         backimg.setOnClickListener(new View.OnClickListener() {
@@ -92,38 +97,23 @@ public class AttentionActivity extends BaseActivity implements ContactContract.V
     }
 
     @Override
-    public void onLoadContactSuccess(int size) {
-        Log.d(TAG, "onLoadContactSuccess=========="+contactPresenter.contacts.size());
+    public void onLoadContactSuccess() {
+        Log.d(TAG, "onLoadContactSuccess=========="+contactPresenter.getContacts().size());
         runOnUiThread(() -> {
-            swipeRefreshLayout.setRefreshing(false);
-            contactListAdapter.addData(contactListAdapter.getItemCount(), contactPresenter.contacts);
-            if (size < 15) {
-                loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_END);
-            } else {
-                loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_COMPLETE);
-            }
-            loadMoreWrapper.notifyDataSetChanged();
+            contactListAdapter.addData(contactListAdapter.getItemCount(), contactPresenter.getContacts());
         });
     }
 
     @Override
-    public void onRefreshSuccess(int size) {
-        Log.d(TAG, "onRefreshSuccess=========="+contactPresenter.contacts.size());
+    public void onRefreshSuccess() {
+        Log.d(TAG, "onRefreshSuccess=========="+contactPresenter.getContacts().size());
         runOnUiThread(() -> {
-            swipeRefreshLayout.setRefreshing(false);
-            contactListAdapter.replaceAll(contactPresenter.contacts);
-            if (size < 15) {
-                loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_END);
-            } else {
-                loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_COMPLETE);
-            }
-            loadMoreWrapper.notifyDataSetChanged();
+            contactListAdapter.replaceAll(contactPresenter.getContacts());
         });
     }
 
     @Override
     public void onLoadContactFailed(String err) {
         Log.d(TAG, "onLoadContactFailed=========="+err);
-        swipeRefreshLayout.setRefreshing(false);
     }
 }

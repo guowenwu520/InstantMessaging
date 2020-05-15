@@ -20,7 +20,7 @@ import static com.cd.myluntan.data_connection.Global_Url_Parameters.URL;
 
 
 public class RegisterPresenter extends BasePresenter implements RegisterContract.Presenter {
-    private static final String TAG =RegisterPresenter.class.getCanonicalName();
+    private static final String TAG = RegisterPresenter.class.getCanonicalName();
     private Context context;
     private RegisterContract.View view;
 
@@ -30,14 +30,14 @@ public class RegisterPresenter extends BasePresenter implements RegisterContract
     }
 
     @Override
-    public void onRegister(String username, String password,String rePassword) {
-        if (!username.isEmpty()&&!password.isEmpty()){
-            if (password.equals(rePassword)){
+    public void onRegister(String username, String password, String rePassword) {
+        if (!username.isEmpty() && !password.isEmpty()) {
+            if (password.equals(rePassword)) {
                 registerModel(username, password);
-            }else {
+            } else {
                 view.onRegisterFailed(R.string.password_are_different);
             }
-        }else view.onRegisterFailed(R.string.username_or_password_is_null);
+        } else view.onRegisterFailed(R.string.username_or_password_is_null);
     }
 
     private void registerModel(String username, String password) {
@@ -45,29 +45,27 @@ public class RegisterPresenter extends BasePresenter implements RegisterContract
             //注册失败会抛出HyphenateException
             try {
                 EMClient.getInstance().createAccount(username, password);//同步方法
-                User user=new User();
+                User user = new User();
                 user.setName(username);
                 user.setPass(password);
-                user.setId(System.currentTimeMillis()+"");
+                user.setId(System.currentTimeMillis() + "");
                 Data_Access.AccessJSONDate(URL + ADDUSER, new Gson().toJson(user), new NetworkCallback() {
                     @Override
                     public Object parseNetworkResponse(Response response) {
                         view.onRegisterSuccess();
                         return null;
                     }
-
                     @Override
                     public void onError(Call call, Exception e) {
                         view.onRegisterFailed(R.string.register_failed);
                     }
-
                     @Override
                     public void onResponse(Object response) {
 
                     }
                 });
             } catch (HyphenateException e) {
-                Log.d(TAG,"registerModel==="+e.toString()+"===="+e.getErrorCode());
+                Log.d(TAG, "registerModel===" + e.toString() + "====" + e.getErrorCode());
                 view.onRegisterFailed(error(e.getErrorCode()));
             }
         }).start();
